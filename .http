@@ -1,0 +1,14 @@
+POST http://localhost:3000/authentication/login
+content-type: application/json
+
+{
+   "nickname" : "diegovazquezny111",
+   "email" : "diego@aol.com",
+   "given_name" : "Diego",
+   "family_name" : "Cera" 
+}
+
+###
+
+GET http://localhost:3000/technology/fetch
+content-type: application/json
