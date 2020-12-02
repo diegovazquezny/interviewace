@@ -1,12 +1,15 @@
 
-import React, { useState, useReducer } from "react";
+import React from "react";
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import { hot } from 'react-hot-loader/root';
-import MainContainer from './Components/Main/MainContainer';
-import UserContext from './Context/UserContext';
-import reducer from './Reducers/reducers';
-import initialState from './Context/initialState';
-
+import LandingPage from './Components/LandingPage/LandingPage';
+import AddTechnology from './Components/AddTechnology/AddTechnology';
+import {
+  HashRouter as Router,
+  Route,
+  Redirect,
+  Switch,
+} from 'react-router-dom';
 
 const mainTheme = createMuiTheme({
   palette: {
@@ -21,16 +24,22 @@ const mainTheme = createMuiTheme({
 
 
 function App() {
-  const [state, dispatch] = useReducer(reducer, initialState);
-  console.log('initial state', state);
-  const [userId, setUserId] = useState(NaN);
   return (
     <>
-      
-        <ThemeProvider theme={mainTheme}>
-          <MainContainer/>
-        </ThemeProvider>
-      
+      <ThemeProvider theme={mainTheme}>
+          <Router>
+            <Switch>
+              <Route 
+                exact path="/"
+                component={LandingPage} 
+              />
+              <Route 
+                exact path="/add-tech"
+                component={AddTechnology} 
+              />
+            </Switch>
+          </Router>
+      </ThemeProvider>
     </>
   );
 }

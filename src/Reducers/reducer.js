@@ -1,5 +1,5 @@
 import * as types from './actionTypes';
-import initialState from '../Context/initialState';
+import initialState from '../context/initialState';
 
 const reducer = (state = initialState, action) => {
   switch(action.type) {
@@ -17,6 +17,15 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         technologies: action.payload.technologies
+      };
+    case types.TEST: 
+      return {
+        ...state,
+        firstName: 'Jim',
+        lastName: 'Jones',
+        userName: 'JJ',
+        userId: '69420',
+        email: 'JJ@aol.com',
       };
     default:
       console.log('default is being called')

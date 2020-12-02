@@ -1,10 +1,20 @@
-import React, { useState, useEffect, useRef, useContext } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 import Header from '../Header/Header';
 import SearchForm from './SearchForm';
 import Editor from './Editor';
 import CompletedNotes from './CompletedNotes';
-import UserContext from '../../Context/UserContext';
+import { connect } from 'react-redux';
+import * as actions from '../../actions/actions';
+
+// const mapDispatchToProps = dispatch => ({
+//   updateUserInfo: (data) => dispatch(actions.updateUserInfo(data)),
+//   test: () => dispatch(actions.test())
+// });
+
+const mapStateToProps = ({
+  reducer: { userName }
+}) => ({ userName });
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -18,12 +28,11 @@ const useStyles = makeStyles((theme) =>
 );
 
 const AddTechnology = (props) => {
+  console.log('add tech', props);
   const classes = useStyles();
   const [showEditor, setShowEditor] = useState(false);
   const [currentTech, setCurrentTech] = useState('');
   const [notesCompleted, setNotesCompleted] = useState(true);
-  const [state, dispatch] = useContext(UserContext);
-  console.log('state ->', state);
   const editorRef = useRef(null);
 
   const addTech = (input) => {
@@ -54,7 +63,7 @@ const AddTechnology = (props) => {
 
   return (
     <>
-      <Header/>
+      <Header />
       <div className={classes.root}>
         <SearchForm addTech={addTech}/>
         <div ref={editorRef}>
@@ -78,4 +87,4 @@ const AddTechnology = (props) => {
   );
 }
 
-export default AddTechnology;
+export default connect(mapStateToProps, null)(AddTechnology);
