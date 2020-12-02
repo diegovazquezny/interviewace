@@ -36,9 +36,9 @@ const LoggedIn = (props) => {
   const { user } = useAuth0();
   const { logout } = useAuth0();
   // TODO: change back
-  const { nickname, picture } = user;
-  // let nickname = 'Diego';
-  // let picture = '';
+  //const { nickname, picture } = user;
+  let nickname = 'Diego';
+  let picture = '';
   const classes = useStyles();
   const history = useHistory();
   
@@ -75,6 +75,7 @@ const LoggedIn = (props) => {
         >
           <MenuItem onClick={logoutUser}>Logout</MenuItem>
           <MenuItem onClick={()=>history.push('/add-tech')}>add a technology</MenuItem>
+          <MenuItem onClick={()=>history.push('/study')}>study</MenuItem>
         </Menu>
       </>
     );
