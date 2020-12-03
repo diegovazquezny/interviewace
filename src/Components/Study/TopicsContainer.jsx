@@ -22,11 +22,23 @@ const useStyles = makeStyles((theme) =>
   }),
 );
 
+/* TODO 
+  fetch to get user's tech and bullets
+  cache it in redux to prevent unnecessary network requests
+  eventually allow user to edit from study guide
+*/
+
 const TopicsContainer = (props
   ) => {
   const classes = useStyles();
   const [showInfo, setShowInfo] = useState(false);
   const [currentTopic, setCurrentTopic] = useState('');
+  const [topicsFetched, setTopicsFetched] = useState(false);
+
+  if (!topicsFetched) {
+    // fetch('/')
+  }     
+
   
   const generateTopics = () => {
     return topics.map((topic, i) => {

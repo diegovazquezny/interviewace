@@ -5,6 +5,11 @@ import Header from '@editorjs/header';
 import List from '@editorjs/list';
 import Embed from '@editorjs/embed';
 import { Button } from '@material-ui/core';
+import { connect } from 'react-redux';
+
+const mapStateToProps = ({
+  reducer: { userId }
+}) => ({ userId });
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -54,6 +59,7 @@ const Editor = (props) => {
           'Content-Type' : 'application/json'
         },
         body: JSON.stringify({
+          userId: props.userId,
           notes: outputData,
           currentTech: props.currentTech          
         })
@@ -82,4 +88,4 @@ const Editor = (props) => {
   );
 }
 
-export default Editor;
+export default connect(mapStateToProps, null)(Editor);

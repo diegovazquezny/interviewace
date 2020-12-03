@@ -24,7 +24,7 @@ const reducer = (state = initialState, action) => {
         firstName: 'Jim',
         lastName: 'Jones',
         userName: 'JJ',
-        userId: '69420',
+        userId: '5',
         email: 'JJ@aol.com',
       };
     default:

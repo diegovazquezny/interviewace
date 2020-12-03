@@ -13,8 +13,8 @@ import * as actions from '../../actions/actions';
 // });
 
 const mapStateToProps = ({
-  reducer: { userName }
-}) => ({ userName });
+  reducer: { userId }
+}) => ({ userId });
 
 const useStyles = makeStyles((theme) =>
   createStyles({

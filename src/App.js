@@ -2,6 +2,7 @@
 import React from "react";
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import { hot } from 'react-hot-loader/root';
+import StudyContainer from './Components/Study/StudyContainer';
 import LandingPage from './Components/LandingPage/LandingPage';
 import AddTechnology from './Components/AddTechnology/AddTechnology';
 import {
@@ -36,6 +37,10 @@ function App() {
               <Route 
                 exact path="/add-tech"
                 component={AddTechnology} 
+              />
+              <Route 
+                exact path="/study"
+                component={StudyContainer} 
               />
             </Switch>
           </Router>
