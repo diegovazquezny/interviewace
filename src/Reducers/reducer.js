@@ -4,7 +4,6 @@ import initialState from '../context/initialState';
 const reducer = (state = initialState, action) => {
   switch(action.type) {
     case types.UPDATE_USER_INFO:
-      console.log('payload ->', action.payload); 
       return {
         ...state,
         firstName: action.payload.firstName,
@@ -13,10 +12,10 @@ const reducer = (state = initialState, action) => {
         userId: action.payload.userId,
         email: action.payload.email,
       };
-    case types.UPDATE_TECHNOLOGIES: 
+    case types.UPDATE_TECHNOLOGIES:
       return {
         ...state,
-        technologies: action.payload.technologies
+        technologies: action.payload
       };
     case types.TEST: 
       return {
@@ -24,11 +23,10 @@ const reducer = (state = initialState, action) => {
         firstName: 'Jim',
         lastName: 'Jones',
         userName: 'JJ',
-        userId: '69420',
+        userId: '5',
         email: 'JJ@aol.com',
       };
     default:
-      console.log('default is being called')
       return state;
   }
 }

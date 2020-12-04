@@ -2,8 +2,9 @@
 import React from "react";
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import { hot } from 'react-hot-loader/root';
-import LandingPage from './Components/LandingPage/LandingPage';
-import AddTechnology from './Components/AddTechnology/AddTechnology';
+import Study from './Pages/Study';
+import LandingPage from './Pages/LandingPage';
+import AddTechnology from './Pages/AddTechnology';
 import {
   HashRouter as Router,
   Route,
@@ -36,6 +37,10 @@ function App() {
               <Route 
                 exact path="/add-tech"
                 component={AddTechnology} 
+              />
+              <Route 
+                exact path="/study"
+                component={Study} 
               />
             </Switch>
           </Router>

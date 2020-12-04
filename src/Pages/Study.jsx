@@ -1,7 +1,7 @@
 import React from 'react';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
-import TopicsContainer from './TopicsContainer';
-import Header from '../Header/Header';
+import TopicsContainer from '../Components/Study/TopicsContainer';
+import Header from '../Components/Header/Header';
 
 const useStyles = makeStyles((theme) =>
   createStyles({

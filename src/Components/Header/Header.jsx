@@ -32,6 +32,10 @@ const useStyles = makeStyles((theme) =>
     logo: {
       color: 'white',
       marginLeft: '40px',
+      [theme.breakpoints.down('sm')]: {
+        fontSize: '0.75em',
+        marginLeft: '10px',
+      },
       fontFamily: 'Arial, Helvetica, sans-serif',
       textDecoration: 'none'
     },
@@ -43,9 +47,24 @@ const useStyles = makeStyles((theme) =>
 
 const Header = (props) => {
   // TODO: change back to const
-  console.log('in header ->', props);
+  //console.log('in header ->', props);
   let { user, isAuthenticated } = useAuth0();
   const classes = useStyles();
+
+  const testFetch = (e) => {
+    fetch(`/technology/notes?id=${5}`, {
+      method: 'GET',
+      headers: {
+        "Content-Type": "Application/JSON",
+      },
+    })
+    .then(res => res.json())
+    .then(data => console.log(data))
+    .catch(err => console.log(err));
+  }
+
+
+
   if (isAuthenticated && !state.userId ) { // 
     console.log('fetch');
     fetch('/authentication/login', {
@@ -77,10 +96,6 @@ const Header = (props) => {
       <Link className={classes.logo} to={'/'}>
         <h1>Interview Ace</h1>
       </Link>
-        <button onClick={()=>props.test({
-          type: 'TEST'
-        })}>TEST</button>
-        <button onClick={()=>console.log('from button', state)}>LOG STATE</button>
       { isAuthenticated
         ? <LoggedIn style={{paddingRight: '10px'}} />
         : <LoginButton style={{paddingRight: '10px'}} />

@@ -7,3 +7,6 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+.ql-container.ql-snow {
+  min-height: 50vh; 
+}

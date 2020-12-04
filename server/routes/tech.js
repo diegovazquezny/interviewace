@@ -3,10 +3,15 @@ const router = express.Router();
 const techController = require('../controllers/techController');
 
 router
-  .get('/fetch', 
-    techController.fetchTech, 
+  .get('/notes', 
+    techController.getNotes, 
     (req, res) => {
       res.status(200).json({ technologies: res.locals.tech })
+    })
+  .get('/all-tech', 
+    techController.fetchTopics, 
+    (req, res) => {
+      res.status(200).json({ technologies: res.locals.allTech })
     })
   .post('/notes',
     techController.saveNotes,

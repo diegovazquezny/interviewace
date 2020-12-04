@@ -10,5 +10,5 @@ content-type: application/json
 
 ###
 
-GET http://localhost:3000/technology/fetch
+GET http://localhost:3000/technology/notes?id=5
 content-type: application/json
