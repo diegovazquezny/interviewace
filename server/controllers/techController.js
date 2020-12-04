@@ -4,7 +4,6 @@ const helperFunctions = require('../helperFunctions/helperFunctions');
 module.exports = {
   getNotes: (req, res, next) => {
     const { id } = req.query;
-    console.log('id', id);
     const query = `
       SELECT bullet_points.bullet, technology.tech_name
       FROM bullet_points
@@ -15,14 +14,12 @@ module.exports = {
     `;
     db.query(query, [id])
       .then(response => {
-        //const { technologies } = response.rows;
         const technologies = response.rows.reduce((obj, tech) => {
           if (obj[tech.tech_name]) obj[tech.tech_name].push(tech.bullet);
           else obj[tech.tech_name] = [tech.bullet]; 
           return obj;
         }, {});
         
-        console.log('tech -> ', technologies);
         res.locals.tech = technologies;
         next()
       })
@@ -51,8 +48,6 @@ module.exports = {
     const { currentTech } = req.body;
     let { userId } = req.body;
     userId = !userId ? 5 : userId; 
-    console.log('inside save notes middleware', currentTech, userId);
-    //const processedNotes = helperFunctions.processNotes(blocks);
     const functionQuery = `
       CREATE OR REPLACE FUNCTION newTech (text)
       RETURNS integer AS $techid$

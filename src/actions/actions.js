@@ -1,4 +1,4 @@
-import * as types from '../reducers/actionTypes';
+import * as types from '../reducers/actionTypes.js';
 
 export const updateUserInfo = (data) => ({
   type: types.UPDATE_USER_INFO,
