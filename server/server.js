@@ -2,7 +2,7 @@ const path = require('path');
 const express = require('express');
 const app = express();
 const cookieParser = require('cookie-parser');
-
+require('dotenv').config();
 const authRouter = require('./routes/auth');
 const techRouter = require('./routes/tech');
 const PORT = 3000;
