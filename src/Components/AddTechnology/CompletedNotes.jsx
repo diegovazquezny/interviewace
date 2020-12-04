@@ -1,5 +1,6 @@
 import React from 'react';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
+import { useHistory } from 'react-router-dom';
 import { Button } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) =>
@@ -29,6 +30,7 @@ const useStyles = makeStyles((theme) =>
 
 const CompletedNotes = (props) => {
   const classes = useStyles();
+  const history = useHistory();
   return (
     <div className={classes.root}>
       <h1 className={classes.title}>Notes added successfully!</h1>
@@ -39,6 +41,7 @@ const CompletedNotes = (props) => {
           variant="contained"
           size="small"
           color="secondary"
+          onClick={()=>history.push('/study')}
         >
           See Notes
         </Button>

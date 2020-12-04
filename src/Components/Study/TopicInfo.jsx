@@ -1,5 +1,10 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
+import { connect } from 'react-redux';
+
+const mapStateToProps = ({
+  reducer: { technologies }
+}) => ({ technologies });
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -18,20 +23,16 @@ const useStyles = makeStyles((theme) =>
   }),
 );
 
-const text = `
-  Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
-  sed do eiusmod tempor incididunt ut labore et dolore magna 
-  aliqua. Ut enim ad minim veniam, quis nostrud exercitation 
-  ullamco laboris nisi ut aliquip ex ea commodo consequat. 
-  Duis aute irure dolor in reprehenderit in voluptate velit 
-  esse cillum dolore eu fugiat nulla pariatur. Excepteur 
-  sint occaecat cupidatat non proident, sunt in culpa qui 
-  officia deserunt mollit anim id est laborum.
-`;
-
-// fetch request to get detailed info about topic
-
 const TopicInfo = (props) => {
+  const textWrapper = useRef();
+  const text = '';
+
+  useEffect(() => {
+    props.technologies[props.currentTopic].forEach((note, i, arr) => 
+      textWrapper.current.innerHTML += note + (i === arr.length - 1 ? '' : '<hr>')
+    );
+  }, []);
+
   const classes = useStyles();
   return (
     <div className={classes.root}>
@@ -39,11 +40,11 @@ const TopicInfo = (props) => {
         <h3>{props.currentTopic}</h3>
         <button className={classes.btn} onClick={props.handleCloseButton}>X</button>  
       </div> 
-      <div className={classes.info}>
+      <div className={classes.info} ref={textWrapper}>
         <p>{text}</p>
       </div>   
     </div>
   );
 }
 
-export default TopicInfo;
+export default connect(mapStateToProps, null)(TopicInfo);

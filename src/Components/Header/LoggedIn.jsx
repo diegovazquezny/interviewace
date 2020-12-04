@@ -2,15 +2,14 @@ import React, { useState } from 'react';
 import { useAuth0 } from "@auth0/auth0-react";
 import { makeStyles } from '@material-ui/core/styles';
 import { Menu, MenuItem } from '@material-ui/core';
-import LocalBarIcon from '@material-ui/icons/LocalBar';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) =>
   ({
     container: {
       display: 'flex',
       flexDirection: 'row',
-      minWidth: '400px',
+      minWidth: '0px',
       justifyContent: 'space-between',
       marginRight: '40px'
     },

@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 import Topic from './Topic';
 import TopicInfo from './TopicInfo';
+import { connect } from 'react-redux';
+import * as actions from '../../actions/actions';
 
 const topics = [
   'React',
@@ -11,6 +13,14 @@ const topics = [
   'Event Loop',
   'React Smart vs Presentational'
 ];
+
+const mapDispatchToProps = dispatch => ({
+  updateTechnologies: (data) => dispatch(actions.updateTechnologies(data))
+});
+
+const mapStateToProps = ({
+  reducer: { technologies }
+}) => ({ technologies });
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -28,22 +38,32 @@ const useStyles = makeStyles((theme) =>
   eventually allow user to edit from study guide
 */
 
-const TopicsContainer = (props
-  ) => {
+const TopicsContainer = (props) => {
   const classes = useStyles();
   const [showInfo, setShowInfo] = useState(false);
   const [currentTopic, setCurrentTopic] = useState('');
   const [topicsFetched, setTopicsFetched] = useState(false);
 
   if (!topicsFetched) {
-    // fetch('/')
+    fetch(`/technology/notes?id=${5}`, {
+      method: 'GET',
+      headers: {
+        "Content-Type": "Application/JSON",
+      },
+    })
+    .then(res => res.json())
+    .then(data => { 
+      console.log('into Redux', data.technologies);
+      props.updateTechnologies(data.technologies);
+      setTopicsFetched(true);
+    })
+    .catch(err => console.log(err));
   }     
-
   
   const generateTopics = () => {
-    return topics.map((topic, i) => {
+    return Object.entries(props.technologies).map(([tech_name, _], i) => {
       return (
-        <Topic name={topic} handleClick={handleClick} key={`k${i}`}/>
+        <Topic name={tech_name} handleClick={handleClick} key={`k${i}`}/>
       )
     })
   }
@@ -61,14 +81,17 @@ const TopicsContainer = (props
   
   return (
     <>
-      { showInfo 
-        ? <TopicInfo currentTopic={currentTopic} handleCloseButton={handleCloseButton}/>  
-        : <div className={classes.root}>
-            {generateTopics()}  
-          </div>
-      }   
+      {
+        topicsFetched
+          ? showInfo
+            ? <TopicInfo currentTopic={currentTopic} handleCloseButton={handleCloseButton}/>
+            : <div className={classes.root}>
+                {generateTopics()}  
+              </div>
+          : <h1>Loading topics</h1>
+      }
     </>
   );
 }
 
-export default TopicsContainer;
+export default connect(mapStateToProps, mapDispatchToProps)(TopicsContainer);

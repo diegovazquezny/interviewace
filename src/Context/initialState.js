@@ -1,9 +1,9 @@
 const initialState = {
-  firstName: '',
-  lastName: '',
-  userName: '',
-  userId: '',
-  email: '',
+  firstName: 'Guest',
+  lastName: 'Guest',
+  userName: 'guest',
+  userId: '5',
+  email: 'guest@guest.com',
   technologies: [],
 }
 
