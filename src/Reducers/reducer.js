@@ -1,5 +1,17 @@
-import * as types from './actionTypes';
-import initialState from '../context/initialState';
+export const types = {
+  UPDATE_USER_INFO: 'UPDATE_USER_INFO',
+  UPDATE_TECHNOLOGIES: 'UPDATE_TECHNOLOGIES',
+  TEST: 'TEST'
+}
+
+const initialState = {
+  firstName: 'Guest',
+  lastName: 'Guest',
+  userName: 'guest',
+  userId: '5',
+  email: 'guest@guest.com',
+  technologies: [],
+}
 
 const reducer = (state = initialState, action) => {
   switch(action.type) {
