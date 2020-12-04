@@ -4,7 +4,7 @@ import { makeStyles, createStyles } from '@material-ui/core/styles';
 import Topic from './Topic';
 import TopicInfo from './TopicInfo';
 import { connect } from 'react-redux';
-import * as actions from '../../actions/actions';
+import * as actions from '../../Actions/Actions';
 
 const topics = [
   'React',

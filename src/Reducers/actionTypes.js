@@ -1,3 +1,0 @@
-export const UPDATE_USER_INFO = 'UPDATE_USER_INFO';
-export const UPDATE_TECHNOLOGIES = 'UPDATE_TECHNOLOGIES';
-export const TEST = 'TEST';

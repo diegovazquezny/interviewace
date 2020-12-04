@@ -5,7 +5,7 @@ import { makeStyles, createStyles } from '@material-ui/core/styles';
 import LoggedIn from './LoggedIn';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import * as actions from '../../actions/actions';
+import * as actions from '../../Actions/Actions';
 
 const mapDispatchToProps = dispatch => ({
   updateUserInfo: (data) => dispatch(actions.updateUserInfo(data)),
