@@ -43,10 +43,11 @@ const useStyles = makeStyles((theme) =>
 const Quill = (props) => {
   const [value, setValue] = useState('');
   const classes = useStyles();
-
+  const api_uri = 'https://interview-ace.herokuapp.com';
+  
   const handleClick = () => {
     console.log('value', value);
-    fetch('/technology/notes', {
+    fetch(api_uri + '/technology/notes', {
       method: 'POST',
       headers: {
         'Content-Type' : 'application/json'
