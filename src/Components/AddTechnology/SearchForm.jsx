@@ -9,6 +9,7 @@ const SearchForm = (props) => {
   const [didFetch, setDidFetch] = useState(false);
   const [input, setInput] = useState('');
   const textFieldRef = useRef();
+  const api_uri = 'https://interview-ace.herokuapp.com';
 
   const useStyles = makeStyles((theme) =>
     createStyles({
@@ -31,7 +32,7 @@ const SearchForm = (props) => {
   const classes = useStyles();
 
   function fetchTech () {
-    fetch('/technology/all-tech')
+    fetch(api_uri + '/technology/all-tech')
       .then(res => res.json())
       .then(data => {
         const { technologies } = data;

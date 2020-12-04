@@ -43,9 +43,10 @@ const TopicsContainer = (props) => {
   const [showInfo, setShowInfo] = useState(false);
   const [currentTopic, setCurrentTopic] = useState('');
   const [topicsFetched, setTopicsFetched] = useState(false);
+  const api_uri = 'https://interview-ace.herokuapp.com';
 
   if (!topicsFetched) {
-    fetch(`/technology/notes?id=${5}`, {
+    fetch(api_uri + `/technology/notes?id=${5}`, {
       method: 'GET',
       headers: {
         "Content-Type": "Application/JSON",

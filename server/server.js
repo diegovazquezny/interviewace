@@ -14,7 +14,7 @@ app.use(express.static(path.resolve(__dirname, '../index.html')));
 
 app.use('/test', (req, res) => {
   console.log('test');
-  return res.sendStatus(200);
+  return res.status(200).send({test:'works'});
 });
 
 app.use('/authentication', authRouter);
@@ -36,8 +36,8 @@ app.use(function (err, req, res, next) {
 });
 
 // start server
-app.listen(PORT, () => {
-  console.log(`Server listening on port: ${PORT}`);
+app.listen(process.env.PORT || 3000, () => {
+  console.log(`Server listening on port: ${3000}`);
 });
 
 module.exports = app;
