@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
-import EditorJs from '@editorjs/editorjs';
-import Header from '@editorjs/header';
-import List from '@editorjs/list';
-import Embed from '@editorjs/embed';
 import { Button } from '@material-ui/core';
+import { connect } from 'react-redux';
+import EditorError from './EditorError';
+import Quill from './Quill'; 
+
+const mapStateToProps = ({
+  reducer: { userId }
+}) => ({ userId });
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -18,42 +21,32 @@ const useStyles = makeStyles((theme) =>
 
 const Editor = (props) => {
   const classes = useStyles();
-
-  const editor = new EditorJs({
-    holder: 'editorjs',
-    tools: {
-      header: {
-        class: Header,
-        inlineToolbar: ['link']
-      },
-      list: {
-        class: List,
-        inlineToolbar: [
-          'link',
-          'bold'
-        ]
-      },
-      embed: {
-        class: Embed,
-        inlineToolbar: false,
-        config: {
-          services: {
-            youtube: true,
-            coub: true
-          }
-        }
-      }
-    }
-  });
+  let showError = false;
+  const [click, setClick] = useState(true);
+  
+  useEffect(() => {
+    console.log('click', click);
+  }, [click]);
 
   const handleClick = () => {
+    console.log(editor);
+    setClick(!click);
     editor.save().then((outputData) => {
+      console.log(outputData.blocks);
+      if (outputData.blocks.length === 0) {
+        props.showEditorError();
+        showError = true;
+        editorRef.current.innerHTML = '';
+        return;
+      }
+      showError = false;
       fetch('/technology/notes', {
         method: 'POST',
         headers: {
           'Content-Type' : 'application/json'
         },
         body: JSON.stringify({
+          userId: props.userId,
           notes: outputData,
           currentTech: props.currentTech          
         })
@@ -69,17 +62,13 @@ const Editor = (props) => {
 
   return (
     <>
-      <div className={classes.root} id={'editorjs'}/>
-      <Button 
-        onClick={handleClick}
-        variant="contained"
-        size="small"
-        color="secondary"
-      >
-        CLICK ME
-      </Button>
+      {showError && <EditorError/>}
+      <Quill 
+        userId={props.userId}
+        currentTech={props.currentTech}
+      />
     </>
   );
 }
 
-export default Editor;
+export default connect(mapStateToProps, null)(Editor);

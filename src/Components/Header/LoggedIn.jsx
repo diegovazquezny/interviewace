@@ -2,15 +2,14 @@ import React, { useState } from 'react';
 import { useAuth0 } from "@auth0/auth0-react";
 import { makeStyles } from '@material-ui/core/styles';
 import { Menu, MenuItem } from '@material-ui/core';
-import LocalBarIcon from '@material-ui/icons/LocalBar';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) =>
   ({
     container: {
       display: 'flex',
       flexDirection: 'row',
-      minWidth: '400px',
+      minWidth: '0px',
       justifyContent: 'space-between',
       marginRight: '40px'
     },
@@ -36,9 +35,9 @@ const LoggedIn = (props) => {
   const { user } = useAuth0();
   const { logout } = useAuth0();
   // TODO: change back
-  const { nickname, picture } = user;
-  // let nickname = 'Diego';
-  // let picture = '';
+  //const { nickname, picture } = user;
+  let nickname = 'Diego';
+  let picture = '';
   const classes = useStyles();
   const history = useHistory();
   
@@ -75,6 +74,7 @@ const LoggedIn = (props) => {
         >
           <MenuItem onClick={logoutUser}>Logout</MenuItem>
           <MenuItem onClick={()=>history.push('/add-tech')}>add a technology</MenuItem>
+          <MenuItem onClick={()=>history.push('/study')}>study</MenuItem>
         </Menu>
       </>
     );

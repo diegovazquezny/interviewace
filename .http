@@ -10,5 +10,16 @@ content-type: application/json
 
 ###
 
-GET http://localhost:3000/technology/fetch
+GET http://localhost:3000/technology/notes?id=5
 content-type: application/json
+
+###
+
+GET https://interview-ace.herokuapp.com/test
+
+###
+
+GET https://interview-ace.herokuapp.com/technology/notes?id=5
+content-type: application/json
+accept: application/json
+access-control-allow-origin: *

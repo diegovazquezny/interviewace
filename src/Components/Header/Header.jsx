@@ -1,10 +1,20 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import LoginButton from './LoginButton';
 import { useAuth0 } from "@auth0/auth0-react";
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 import LoggedIn from './LoggedIn';
-import { Link, withRouter, RouteComponentProps } from 'react-router-dom';
-import UserContext from '../../Context/UserContext';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import * as actions from '../../Actions/Actions';
+
+const mapDispatchToProps = dispatch => ({
+  updateUserInfo: (data) => dispatch(actions.updateUserInfo(data)),
+  test: () => dispatch(actions.test())
+});
+
+const mapStateToProps = ({
+  reducer: { userName }
+}) => ({ userName });
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -14,7 +24,7 @@ const useStyles = makeStyles((theme) =>
       justifyContent: 'space-between',
       alignItems: 'center',
       height: '70px',
-      backgroundColor: theme.palette.primary.main,
+      backgroundColor: 'green',
       margin: '0px',
       padding: '0px',
       boxShadow: '0 2px 5px 0 rgba(0,0,0,0.16), 0 2px 10px 0 rgba(0,0,0,0.12)'
@@ -22,6 +32,10 @@ const useStyles = makeStyles((theme) =>
     logo: {
       color: 'white',
       marginLeft: '40px',
+      [theme.breakpoints.down('sm')]: {
+        fontSize: '0.75em',
+        marginLeft: '10px',
+      },
       fontFamily: 'Arial, Helvetica, sans-serif',
       textDecoration: 'none'
     },
@@ -31,24 +45,27 @@ const useStyles = makeStyles((theme) =>
   }),
 );
 
-const Header = () => {
+const Header = (props) => {
   // TODO: change back to const
-  const [state, dispatch] = useContext(UserContext);
+  //console.log('in header ->', props);
   let { user, isAuthenticated } = useAuth0();
+  const api_uri = 'https://interview-ace.herokuapp.com';
   const classes = useStyles();
-  console.log('before fetch to /login', state);
+
   if (isAuthenticated && !state.userId ) { // 
     console.log('fetch');
-    fetch('/authentication/login', {
+    fetch(api_uri + '/authentication/login', {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        "Accept" : "application/json",
       },
+      mode: "cors",
       body: JSON.stringify(user)
     })
       .then(res => res.json())
       .then(data => {
-        dispatch({
+        props.updateUserInfo({
           type: 'UPDATE_USER_INFO',
           payload: {
             firstName: user.given_name,
@@ -58,12 +75,11 @@ const Header = () => {
             email: user.email
           }
         });
-        console.log('this is state now', state);
         return data;
       })
       .catch(err => console.log(err));
   }
-  //isAuthenticated = true;
+  isAuthenticated = true;
   return (
     <div className={classes.container}>
       <Link className={classes.logo} to={'/'}>
@@ -77,4 +93,4 @@ const Header = () => {
   );
 }
 
-export default Header;
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

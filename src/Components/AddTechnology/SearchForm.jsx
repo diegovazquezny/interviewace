@@ -9,16 +9,18 @@ const SearchForm = (props) => {
   const [didFetch, setDidFetch] = useState(false);
   const [input, setInput] = useState('');
   const textFieldRef = useRef();
-
+  const api_uri = 'https://interview-ace.herokuapp.com';
 
   const useStyles = makeStyles((theme) =>
     createStyles({
       root: {
         display: 'flex',
-        border: '1px solid black',
         width: '500px',
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        [theme.breakpoints.down('sm')]: {
+          width: '95vw'
+        },
       },
       btn: {
         height: '45px',
@@ -30,10 +32,9 @@ const SearchForm = (props) => {
   const classes = useStyles();
 
   function fetchTech () {
-    fetch('/technology/fetch')
+    fetch(api_uri + '/technology/all-tech')
       .then(res => res.json())
       .then(data => {
-        console.log('data ->', data);
         const { technologies } = data;
         setTechList(technologies)
       })
@@ -80,7 +81,7 @@ const SearchForm = (props) => {
         color="secondary"
         className={classes.btn}
         onClick={props.addTech(textFieldRef)}
-      >Click Me</Button>    
+      >Add</Button>    
     </div>
   ); 
 }
