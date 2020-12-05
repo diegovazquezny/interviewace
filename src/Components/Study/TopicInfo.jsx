@@ -86,7 +86,6 @@ const TopicInfo = (props) => {
       return (
         <div key={`k${i}`}>
           {parse(tech.note)}
-            <p>{tech.id}{i}</p>
           <Button onClick={handleEdit(tech.id, i)}>edit</Button>
           <Button onClick={handleDelete(tech.id, i)}>delete</Button>
           {(i !== arr.length - 1) && <hr/>}

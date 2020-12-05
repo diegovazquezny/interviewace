@@ -47,14 +47,15 @@ const useStyles = makeStyles((theme) =>
 
 const Header = (props) => {
   // TODO: change back to const
-  //console.log('in header ->', props);
   let { user, isAuthenticated } = useAuth0();
+  console.log('is authenticated ->', isAuthenticated);
   const classes = useStyles();
   const api_uri = process.env.NODE_ENV !== 'development' 
     ? 'https://interview-ace.herokuapp.com'
     : '';
 
-  if (isAuthenticated && !state.userId ) { // 
+  if (isAuthenticated) {
+    console.log('Authenticated! ->', isAuthenticated); 
     fetch(api_uri + '/authentication/login', {
       method: "POST",
       headers: {
@@ -80,7 +81,7 @@ const Header = (props) => {
       })
       .catch(err => console.log(err));
   }
-  isAuthenticated = true;
+  //isAuthenticated = true;
   return (
     <div className={classes.container}>
       <Link className={classes.logo} to={'/'}>
