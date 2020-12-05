@@ -6,14 +6,6 @@ import TopicInfo from './TopicInfo';
 import { connect } from 'react-redux';
 import * as actions from '../../Actions/Actions';
 
-const topics = [
-  'React',
-  'Redux',
-  'NodeJS',
-  'Event Loop',
-  'React Smart vs Presentational'
-];
-
 const mapDispatchToProps = dispatch => ({
   updateTechnologies: (data) => dispatch(actions.updateTechnologies(data))
 });
@@ -49,8 +41,11 @@ const TopicsContainer = (props) => {
     fetch(api_uri + `/technology/notes?id=${5}`, {
       method: 'GET',
       headers: {
-        "Content-Type": "Application/JSON",
+        "Content-Type": "application/json",
+        "Accept" : "application/json",
+        "Access-Control-Allow-Origin" : "*"
       },
+      mode: "cors"
     })
     .then(res => res.json())
     .then(data => { 
