@@ -19,8 +19,12 @@ const useStyles = makeStyles((theme) =>
     root: {
       display: 'flex',
       flexWrap: 'wrap',
-
     },
+    container: {
+      [theme.breakpoints.up('lg')]: {
+        margin: '0px 10rem 0px 10rem'
+      },
+    }
   }),
 );
 
@@ -35,7 +39,9 @@ const TopicsContainer = (props) => {
   const [showInfo, setShowInfo] = useState(false);
   const [currentTopic, setCurrentTopic] = useState('');
   const [topicsFetched, setTopicsFetched] = useState(false);
-  const api_uri = 'https://interview-ace.herokuapp.com';
+  const api_uri = process.env.NODE_ENV !== 'development' 
+    ? 'https://interview-ace.herokuapp.com'
+    : '';  
 
   if (!topicsFetched) {
     fetch(api_uri + `/technology/notes?id=${5}`, {
@@ -76,7 +82,7 @@ const TopicsContainer = (props) => {
   }
   
   return (
-    <>
+    <div className={classes.container}>
       {
         topicsFetched
           ? showInfo
@@ -86,7 +92,7 @@ const TopicsContainer = (props) => {
               </div>
           : <h1>Loading topics</h1>
       }
-    </>
+    </div>
   );
 }
 

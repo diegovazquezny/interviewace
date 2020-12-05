@@ -21,6 +21,12 @@ router
   .get('/', (req, res) => {
     console.log('get');
     return res.sendStatus(200);
-  });
+  })
+  .delete('/notes',
+    techController.deleteNotes,
+    (req, res) => {
+      res.status(200).json({ success: res.locals.success })
+    }
+  )
 
 module.exports = router;

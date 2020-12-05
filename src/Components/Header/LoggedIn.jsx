@@ -30,7 +30,6 @@ const useStyles = makeStyles((theme) =>
   }),
 );
 
-
 const LoggedIn = (props) => {
   const { user } = useAuth0();
   const { logout } = useAuth0();

@@ -43,7 +43,9 @@ const useStyles = makeStyles((theme) =>
 const Quill = (props) => {
   const [value, setValue] = useState('');
   const classes = useStyles();
-  const api_uri = 'https://interview-ace.herokuapp.com';
+  const api_uri = process.env.NODE_ENV !== 'development' 
+    ? 'https://interview-ace.herokuapp.com'
+    : '';
   
   const handleClick = () => {
     console.log('value', value);

@@ -5,7 +5,7 @@ module.exports = {
   getNotes: (req, res, next) => {
     const { id } = req.query;
     const query = `
-      SELECT bullet_points.bullet, technology.tech_name
+      SELECT bullet_points.bullet, bullet_points.bullet_id, technology.tech_name
       FROM bullet_points
       INNER JOIN technology
       ON bullet_points.tech_id = technology.tech_id
@@ -15,8 +15,12 @@ module.exports = {
     db.query(query, [id])
       .then(response => {
         const technologies = response.rows.reduce((obj, tech) => {
-          if (obj[tech.tech_name]) obj[tech.tech_name].push(tech.bullet);
-          else obj[tech.tech_name] = [tech.bullet]; 
+          const techObj = {
+            note: tech.bullet,
+            id: tech.bullet_id
+          }
+          if (obj[tech.tech_name]) obj[tech.tech_name].push(techObj);
+          else obj[tech.tech_name] = [techObj]; 
           return obj;
         }, {});
         
@@ -82,6 +86,23 @@ module.exports = {
       })
       .catch(err => {
         console.log('Function query', err);
+        next(err);
+      });
+  },
+  deleteNotes: (req, res, next) => {
+    const { id } = req.query;
+    const query = `
+      DELETE FROM "public"."bullet_points"
+      WHERE bullet_id = $1
+    `;
+    
+    db.query(query, [id])
+      .then(response => {
+        res.locals.success = true;
+        next();
+      })
+      .catch(err => {
+        console.log('delete query', err);
         next(err);
       });
   }

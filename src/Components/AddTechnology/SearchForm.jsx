@@ -4,32 +4,33 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 import { Button } from '@material-ui/core';
 
+const useStyles = makeStyles((theme) =>
+  createStyles({
+    root: {
+      display: 'flex',
+      width: '500px',
+      alignItems: 'center',
+      justifyContent: 'center',
+      [theme.breakpoints.down('sm')]: {
+        width: '95vw'
+      },
+    },
+    btn: {
+      height: '45px',
+      marginLeft: '10px'
+    }
+  })
+);
+
 const SearchForm = (props) => {
   const [techList, setTechList] = useState([]);
   const [didFetch, setDidFetch] = useState(false);
   const [input, setInput] = useState('');
   const textFieldRef = useRef();
-  const api_uri = 'https://interview-ace.herokuapp.com';
-
-  const useStyles = makeStyles((theme) =>
-    createStyles({
-      root: {
-        display: 'flex',
-        width: '500px',
-        alignItems: 'center',
-        justifyContent: 'center',
-        [theme.breakpoints.down('sm')]: {
-          width: '95vw'
-        },
-      },
-      btn: {
-        height: '45px',
-        marginLeft: '10px'
-      }
-    })
-  );
-
   const classes = useStyles();
+  const api_uri = process.env.NODE_ENV !== 'development' 
+    ? 'https://interview-ace.herokuapp.com'
+    : '';
 
   function fetchTech () {
     fetch(api_uri + '/technology/all-tech')

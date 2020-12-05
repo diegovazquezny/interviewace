@@ -1,10 +1,18 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
+import parse from 'html-react-parser';
+import { Button } from '@material-ui/core';
 import { connect } from 'react-redux';
+import * as actions from '../../Actions/Actions';
 
 const mapStateToProps = ({
   reducer: { technologies }
 }) => ({ technologies });
+
+const mapDispatchToProps = dispatch => ({
+  deleteNote: (data) => dispatch(actions.deleteNote(data)),
+});
+
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -25,13 +33,65 @@ const useStyles = makeStyles((theme) =>
 
 const TopicInfo = (props) => {
   const textWrapper = useRef();
-  const text = '';
+  const [rerender, setRerender] = useState(true);
+  const [num, setNum] = useState(1);
+  const api_uri = process.env.NODE_ENV !== 'development' 
+  ? 'https://interview-ace.herokuapp.com'
+  : '';
+
+  const handleDelete = (id) => {
+    return () => {
+      if (confirm('Are you sure you want to delete?')) {        
+        fetch(api_uri + '/technology/notes?id=' + id, {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            "Accept" : "application/json",
+          },
+          mode: "cors",
+        })
+        .then(res => res.json())
+        .then(res => setRerender(!rerender))
+        .then(res => {
+          // dispatch remove note from technology
+          props.deleteNote({
+            type: 'DELETE_NOTE',
+            bulletId: id
+          });
+          return res;
+        })
+        .catch(err => console.log(err));
+        props.deleteNote({
+          type: 'DELETE_NOTE',
+          bulletId: id
+        });
+      } else {
+        console.log('DO NOT DELETE')
+      }
+    }
+  } 
 
   useEffect(() => {
-    props.technologies[props.currentTopic].forEach((note, i, arr) => 
-      textWrapper.current.innerHTML += note + (i === arr.length - 1 ? '' : '<hr>')
-    );
-  }, []);
+    console.log('cmon')  
+  }, [rerender, num])
+
+  const handleEdit = (id) => {
+    return () => {
+      console.log('edit note', id);
+    }
+  }
+
+  const notes = props.technologies[props.currentTopic]
+    .map((tech, i, arr) => {
+      return (
+        <div key={`k${i}`}>
+          {parse(tech.note)}
+            <p>{tech.id}{i}</p>
+          <Button onClick={handleEdit(tech.id, i)}>edit</Button>
+          <Button onClick={handleDelete(tech.id, i)}>delete</Button>
+          {(i !== arr.length - 1) && <hr/>}
+        </div>)
+    });
 
   const classes = useStyles();
   return (
@@ -41,10 +101,10 @@ const TopicInfo = (props) => {
         <button className={classes.btn} onClick={props.handleCloseButton}>X</button>  
       </div> 
       <div className={classes.info} ref={textWrapper}>
-        <p>{text}</p>
+        {notes}
       </div>   
     </div>
   );
 }
 
-export default connect(mapStateToProps, null)(TopicInfo);
+export default connect(mapStateToProps, mapDispatchToProps)(TopicInfo);

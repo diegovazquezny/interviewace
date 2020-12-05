@@ -49,11 +49,12 @@ const Header = (props) => {
   // TODO: change back to const
   //console.log('in header ->', props);
   let { user, isAuthenticated } = useAuth0();
-  const api_uri = 'https://interview-ace.herokuapp.com';
   const classes = useStyles();
+  const api_uri = process.env.NODE_ENV !== 'development' 
+    ? 'https://interview-ace.herokuapp.com'
+    : '';
 
   if (isAuthenticated && !state.userId ) { // 
-    console.log('fetch');
     fetch(api_uri + '/authentication/login', {
       method: "POST",
       headers: {

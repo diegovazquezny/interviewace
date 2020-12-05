@@ -13,3 +13,8 @@ export const updateTechnologies = (data) => ({
 export const test = (data) => ({
   type: types.TEST
 });
+
+export const deleteNote = (data) => ({
+  type: types.DELETE_NOTE,
+  payload: data,
+});

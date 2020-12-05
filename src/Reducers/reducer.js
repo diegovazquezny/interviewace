@@ -1,7 +1,8 @@
 export const types = {
   UPDATE_USER_INFO: 'UPDATE_USER_INFO',
   UPDATE_TECHNOLOGIES: 'UPDATE_TECHNOLOGIES',
-  TEST: 'TEST'
+  TEST: 'TEST',
+  DELETE_NOTE: 'DELETE_NOTE'
 }
 
 const initialState = {
@@ -37,6 +38,23 @@ const reducer = (state = initialState, action) => {
         userName: 'JJ',
         userId: '5',
         email: 'JJ@aol.com',
+      };
+    case types.DELETE_NOTE:
+      const { bulletId } = action.payload;
+      const techObj = {...state.technologies};
+      for (let topic in techObj) {
+        for (let i = 0; i < techObj[topic].length; i += 1) {
+          if (bulletId === techObj[topic][i].id) {
+            techObj[topic].splice(i, 1);
+            return {
+              ...state,
+              technologies: techObj
+            }
+          }
+        }
+      }
+      return {
+        ...state,
       };
     default:
       return state;
