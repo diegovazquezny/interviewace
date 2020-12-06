@@ -1,13 +1,10 @@
 module.exports = {
   setSSIDCookie: (req, res, next) => {
-    console.log('setting cookie');
+    console.log('current cookie', req.cookies.ssid);
     res.cookie('ssid', res.locals.id, {
-      httpOnly: true,
-      // secure: true  
-    });
-    res.cookie('secret', 171717, {
-      maxAge: 100000,
-      httpOnly: true
+      httpOnly: false,
+      expires: new Date(Date.now() + 31104000000), 
+      //secure: true  
     });
     next();
   }

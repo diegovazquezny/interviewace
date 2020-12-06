@@ -1,20 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import LoginButton from './LoginButton';
 import { useAuth0 } from "@auth0/auth0-react";
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 import LoggedIn from './LoggedIn';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import * as actions from '../../Actions/Actions';
+import * as actions from '../../actions/actions';
 
 const mapDispatchToProps = dispatch => ({
   updateUserInfo: (data) => dispatch(actions.updateUserInfo(data)),
-  test: () => dispatch(actions.test())
 });
 
 const mapStateToProps = ({
-  reducer: { userName }
-}) => ({ userName });
+  reducer: { userName, picture, authenticated }
+}) => ({ userName, picture, authenticated });
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -47,48 +46,51 @@ const useStyles = makeStyles((theme) =>
 
 const Header = (props) => {
   // TODO: change back to const
+  //let isAuthenticated
   let { user, isAuthenticated } = useAuth0();
-  console.log('is authenticated ->', isAuthenticated);
+  if (props.authenticated) isAuthenticated = true;
+  const [isUserAuth, setIsUserAuth] = useState(false);
+  //if (props.userName) isAuthenticated = true;
+  //console.log('is authenticated ->', props);
+  console.log('user ->', props.authenticated);
   const classes = useStyles();
   const api_uri = process.env.NODE_ENV !== 'development' 
     ? 'https://interview-ace.herokuapp.com'
     : '';
 
-  if (isAuthenticated) {
-    console.log('Authenticated! ->', isAuthenticated); 
+  if (isAuthenticated && !isUserAuth && !props.authenticated) {
     fetch(api_uri + '/authentication/login', {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
-        "Accept" : "application/json",
-      },
-      mode: "cors",
-      body: JSON.stringify(user)
-    })
-      .then(res => res.json())
-      .then(data => {
-        props.updateUserInfo({
-          type: 'UPDATE_USER_INFO',
-          payload: {
-            firstName: user.given_name,
-            lastName: user.family_name,
-            userName: user.nickname,
-            userId: data.sessionId,
-            email: user.email
-          }
-        });
-        return data;
+       "Content-Type": "application/json",
+         "Accept" : "application/json",
+       },
+       mode: "cors",
+       body: JSON.stringify(user)
       })
-      .catch(err => console.log(err));
+       .then(res => res.json())
+       .then(data => {
+         props.updateUserInfo({
+           type: 'UPDATE_USER_INFO',
+           payload: {
+             firstName: user.given_name,
+             lastName: user.family_name,
+             userName: user.nickname,
+             userId: data.sessionId,
+             email: user.email
+           }
+         });
+         setIsUserAuth(true);
+       })
+       .catch(err => console.log(err));
   }
-  //isAuthenticated = true;
   return (
     <div className={classes.container}>
       <Link className={classes.logo} to={'/'}>
         <h1>Interview Ace</h1>
       </Link>
       { isAuthenticated
-        ? <LoggedIn style={{paddingRight: '10px'}} />
+        ? <LoggedIn validSession={isAuthenticated} style={{paddingRight: '10px'}} />
         : <LoginButton style={{paddingRight: '10px'}} />
       }
     </div>

@@ -20,8 +20,6 @@ app.use('/authentication', authRouter);
 app.use('/technology', techRouter);
 app.use('*', (req, res) => res.sendStatus(404));
 
-console.log('node', process.env);
-
 // Global Error Handler
 app.use(function (err, req, res, next) {
   const defaultErr = {

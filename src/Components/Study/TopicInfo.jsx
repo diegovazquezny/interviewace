@@ -3,7 +3,7 @@ import { makeStyles, createStyles } from '@material-ui/core/styles';
 import parse from 'html-react-parser';
 import { Button } from '@material-ui/core';
 import { connect } from 'react-redux';
-import * as actions from '../../Actions/Actions';
+import * as actions from '../../actions/actions';
 
 const mapStateToProps = ({
   reducer: { technologies }

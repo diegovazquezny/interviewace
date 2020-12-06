@@ -4,23 +4,36 @@ import App from "./App";
 import { Provider } from 'react-redux';
 import { Auth0Provider } from "@auth0/auth0-react";
 import store from './store';
-
+import history from './history';
 import "./styles.css";
 
+// const onRedirectCallback = appState => {
+//   history.push(
+//     appState && appState.targetUrl
+//       ? appState.targetUrl
+//       : window.location.pathname
+//   );
+// };
+const audience = "https://dev-71d4ng-s.us.auth0.com/api/v2/";
 const app = document.getElementById("app");
-const domain = 'dev-71d4ng-s.us.auth0.com';
-const id = '2Dy4ypXUbgqELIa7ccHaH7WnkF6oQfMj';
 
-ReactDOM.render(
-    <Auth0Provider
-      // domain={process.env.DOMAIN}
-      // clientId={process.env.CLIENT_ID}
-      domain={domain}
-      clientId={id}
-      redirectUri={window.location.origin}
-    >
-      <Provider store={store}>
-        <App/>
-      </Provider>
-    </Auth0Provider>, app
-);
+fetch('/authentication/login')
+  .then(res => res.json())
+  .then(res => {
+    const { domain } = res.oauth;
+    const { clientId } = res.oauth;
+    ReactDOM.render(
+      <Auth0Provider
+        domain={domain}
+        clientId={clientId}
+        audience={audience}
+        redirectUri={window.location.origin}
+        // onRedirectCallback={onRedirectCallback}
+      >
+        <Provider store={store}>
+          <App/>
+        </Provider>
+      </Auth0Provider>, app
+    );
+  })
+.catch(err => console.log(err));

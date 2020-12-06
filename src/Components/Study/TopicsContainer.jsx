@@ -4,15 +4,15 @@ import { makeStyles, createStyles } from '@material-ui/core/styles';
 import Topic from './Topic';
 import TopicInfo from './TopicInfo';
 import { connect } from 'react-redux';
-import * as actions from '../../Actions/Actions';
+import * as actions from '../../actions/actions';
 
 const mapDispatchToProps = dispatch => ({
   updateTechnologies: (data) => dispatch(actions.updateTechnologies(data))
 });
 
 const mapStateToProps = ({
-  reducer: { technologies }
-}) => ({ technologies });
+  reducer: { technologies, userId }
+}) => ({ technologies, userId });
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -44,7 +44,7 @@ const TopicsContainer = (props) => {
     : '';  
 
   if (!topicsFetched) {
-    fetch(api_uri + `/technology/notes?id=${5}`, {
+    fetch(api_uri + `/technology/notes?id=${props.userId}`, {
       method: 'GET',
       headers: {
         "Content-Type": "application/json",

@@ -1,7 +1,7 @@
 import React, {useContext} from 'react';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
-import { useAuth0 } from "@auth0/auth0-react";
 import Header from '../Components/Header/Header';
+import { connect } from 'react-redux';
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -10,8 +10,12 @@ const useStyles = makeStyles((theme) =>
   }),
 );
 
+const mapStateToProps = ({
+  reducer: { authenticated, picture, email }
+}) => ({ authenticated, picture, email });
+
 const LandingPage = (props) => {
-  const { user, isAuthenticated } = useAuth0();
+  const isAuthenticated = props.authenticated;
   const classes = useStyles();
   console.log(isAuthenticated);
   return (
@@ -21,9 +25,8 @@ const LandingPage = (props) => {
           ? <h1>Welcome to Interview Ace!</h1>
           : <h1>Please login first</h1>
         }
-      
     </>
   );
 }
 
-export default LandingPage;
+export default connect(mapStateToProps, null)(LandingPage);
