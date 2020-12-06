@@ -5,6 +5,7 @@ import Topic from './Topic';
 import TopicInfo from './TopicInfo';
 import { connect } from 'react-redux';
 import * as actions from '../../actions/actions';
+import EmptyNotes from './EmptyNotes'; 
 
 const mapDispatchToProps = dispatch => ({
   updateTechnologies: (data) => dispatch(actions.updateTechnologies(data))
@@ -39,6 +40,7 @@ const TopicsContainer = (props) => {
   const [showInfo, setShowInfo] = useState(false);
   const [currentTopic, setCurrentTopic] = useState('');
   const [topicsFetched, setTopicsFetched] = useState(false);
+  const [emptyNotes, setEmptyNotes] = useState(false);
   const api_uri = process.env.NODE_ENV !== 'development' 
     ? 'https://interview-ace.herokuapp.com'
     : '';  
@@ -55,7 +57,7 @@ const TopicsContainer = (props) => {
     })
     .then(res => res.json())
     .then(data => { 
-      console.log('into Redux', data.technologies);
+      console.log('into Redux', Object.entries(data.technologies).length);
       props.updateTechnologies(data.technologies);
       setTopicsFetched(true);
     })
