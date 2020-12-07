@@ -3,6 +3,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { makeStyles } from '@material-ui/core/styles';
 import { Menu, MenuItem } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 const useStyles = makeStyles((theme) =>
   ({
@@ -30,19 +31,24 @@ const useStyles = makeStyles((theme) =>
   }),
 );
 
+const mapStateToProps = ({
+  reducer: { userName, picture, authenticated }
+}) => ({ userName, picture, authenticated });
+
 const LoggedIn = (props) => {
   const { user } = useAuth0();
   const { logout } = useAuth0();
-  // TODO: change back
-  //const { nickname, picture } = user;
-  let nickname = 'Diego';
-  let picture = '';
+  const nickname = props.userName;
+  const picture = props.picture;
   const classes = useStyles();
   const history = useHistory();
   
   const logoutUser = (e) => {
+    //console.log(window.cookie);
+    //console.log('cookie', document.cookie);
+    document.cookie = 'ssid' + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
     logout({ returnTo: window.location.origin })
-    console.log('logout');
+    //console.log('logout');
   }
   
   const DropDownMenu = () => {
@@ -87,4 +93,4 @@ const LoggedIn = (props) => {
   );
 }
 
-export default LoggedIn;
+export default connect(mapStateToProps, null)(LoggedIn);

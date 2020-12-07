@@ -23,5 +23,23 @@ module.exports = {
         console.log('ERR -->', err);
         next(err);
       });
+  },
+  resumeSession: (req, res, next) => {
+    const { ssid } = req.cookies;
+    console.log('session', ssid);
+    const query = `
+      SELECT * FROM users
+      WHERE session_id = $1 
+    `;
+    db.query(query, [ssid])
+      .then(response => {
+        res.locals.user = response.rows[0];
+        console.log('res resume session ->', res.locals.user);
+        next();
+      })
+      .catch(err => {
+        console.log('ERR -->', err);
+        next(err);
+      });
   }
 }

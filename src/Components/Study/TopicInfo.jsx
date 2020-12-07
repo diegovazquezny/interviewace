@@ -3,7 +3,7 @@ import { makeStyles, createStyles } from '@material-ui/core/styles';
 import parse from 'html-react-parser';
 import { Button } from '@material-ui/core';
 import { connect } from 'react-redux';
-import * as actions from '../../Actions/Actions';
+import * as actions from '../../actions/actions';
 
 const mapStateToProps = ({
   reducer: { technologies }
@@ -53,7 +53,6 @@ const TopicInfo = (props) => {
         .then(res => res.json())
         .then(res => setRerender(!rerender))
         .then(res => {
-          // dispatch remove note from technology
           props.deleteNote({
             type: 'DELETE_NOTE',
             bulletId: id
@@ -65,15 +64,9 @@ const TopicInfo = (props) => {
           type: 'DELETE_NOTE',
           bulletId: id
         });
-      } else {
-        console.log('DO NOT DELETE')
-      }
+      } 
     }
   } 
-
-  useEffect(() => {
-    console.log('cmon')  
-  }, [rerender, num])
 
   const handleEdit = (id) => {
     return () => {
@@ -86,7 +79,6 @@ const TopicInfo = (props) => {
       return (
         <div key={`k${i}`}>
           {parse(tech.note)}
-            <p>{tech.id}{i}</p>
           <Button onClick={handleEdit(tech.id, i)}>edit</Button>
           <Button onClick={handleDelete(tech.id, i)}>delete</Button>
           {(i !== arr.length - 1) && <hr/>}

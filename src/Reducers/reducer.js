@@ -8,22 +8,28 @@ export const types = {
 const initialState = {
   firstName: 'Guest',
   lastName: 'Guest',
-  userName: 'guest',
+  userName: null,
   userId: '5',
   email: 'guest@guest.com',
+  pciture: '',
   technologies: [],
+  authenticated: false
 }
 
 const reducer = (state = initialState, action) => {
   switch(action.type) {
     case types.UPDATE_USER_INFO:
+      //console.log(action.payload)
+      //console.log('first name', action.payload.firstname)
       return {
         ...state,
-        firstName: action.payload.firstName,
-        lastName: action.payload.lastName,
-        userName: action.payload.userName,
+        firstName: action.payload.firstname,
+        lastName: action.payload.lastname,
+        userName: action.payload.username,
         userId: action.payload.userId,
         email: action.payload.email,
+        picture: action.payload.picture,
+        authenticated: true
       };
     case types.UPDATE_TECHNOLOGIES:
       return {

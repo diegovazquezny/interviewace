@@ -13,10 +13,21 @@ router
     sessionController.startSession,
     (req, res) => {
       res.status(200).json({ sessionId: res.locals.ssid })
+    })
+  .get('/login',
+    authController.oauth,
+    sessionController.resumeSession,
+    (req, res) => {
+      res.status(200).json({ oauth: res.locals.data })
     }) 
+  .get('/session',
+    sessionController.resumeSession,
+    (req, res) => {
+      res.status(200).json({ user: res.locals.user })
+    })
   .get('/', (req, res) => {
-    console.log('get');
-    return res.sendStatus(200);
-  });
-
+      console.log('get');
+      return res.sendStatus(200);
+    });
+    
 module.exports = router;

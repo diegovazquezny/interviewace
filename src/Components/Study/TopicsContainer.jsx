@@ -4,15 +4,17 @@ import { makeStyles, createStyles } from '@material-ui/core/styles';
 import Topic from './Topic';
 import TopicInfo from './TopicInfo';
 import { connect } from 'react-redux';
-import * as actions from '../../Actions/Actions';
+import * as actions from '../../actions/actions';
+import Loading from '../Loading';
+import EmptyNotes from './EmptyNotes'; 
 
 const mapDispatchToProps = dispatch => ({
   updateTechnologies: (data) => dispatch(actions.updateTechnologies(data))
 });
 
 const mapStateToProps = ({
-  reducer: { technologies }
-}) => ({ technologies });
+  reducer: { technologies, userId }
+}) => ({ technologies, userId });
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -39,12 +41,13 @@ const TopicsContainer = (props) => {
   const [showInfo, setShowInfo] = useState(false);
   const [currentTopic, setCurrentTopic] = useState('');
   const [topicsFetched, setTopicsFetched] = useState(false);
+  const [emptyNotes, setEmptyNotes] = useState(false);
   const api_uri = process.env.NODE_ENV !== 'development' 
     ? 'https://interview-ace.herokuapp.com'
     : '';  
 
   if (!topicsFetched) {
-    fetch(api_uri + `/technology/notes?id=${5}`, {
+    fetch(api_uri + `/technology/notes?id=${props.userId}`, {
       method: 'GET',
       headers: {
         "Content-Type": "application/json",
@@ -55,7 +58,10 @@ const TopicsContainer = (props) => {
     })
     .then(res => res.json())
     .then(data => { 
-      console.log('into Redux', data.technologies);
+      if (!Object.entries(data.technologies).length) {
+        console.log('empty notes');
+        setEmptyNotes(true);
+      } else setEmptyNotes(false);
       props.updateTechnologies(data.technologies);
       setTopicsFetched(true);
     })
@@ -84,13 +90,16 @@ const TopicsContainer = (props) => {
   return (
     <div className={classes.container}>
       {
+        emptyNotes && <EmptyNotes/> 
+      }
+      {
         topicsFetched
           ? showInfo
             ? <TopicInfo currentTopic={currentTopic} handleCloseButton={handleCloseButton}/>
             : <div className={classes.root}>
                 {generateTopics()}  
               </div>
-          : <h1>Loading topics</h1>
+          : <Loading/>
       }
     </div>
   );
