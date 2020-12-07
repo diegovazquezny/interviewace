@@ -12,10 +12,10 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.resolve(__dirname, '../index.html')));
-app.use('/test', (req, res) => {
-  console.log('test');
-  return res.status(200).send({test:'works'});
-});
+// app.use('/test', (req, res) => {
+//   console.log('test');
+//   return res.status(200).send({test:'works'});
+// });
 app.use('/authentication', authRouter);
 app.use('/technology', techRouter);
 app.use('*', (req, res) => res.sendStatus(404));

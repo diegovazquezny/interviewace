@@ -45,14 +45,9 @@ const useStyles = makeStyles((theme) =>
 );
 
 const Header = (props) => {
-  // TODO: change back to const
-  //let isAuthenticated
   let { user, isAuthenticated } = useAuth0();
   if (props.authenticated) isAuthenticated = true;
   const [isUserAuth, setIsUserAuth] = useState(false);
-  //if (props.userName) isAuthenticated = true;
-  //console.log('is authenticated ->', props);
-  console.log('user ->', props.authenticated);
   const classes = useStyles();
   const api_uri = process.env.NODE_ENV !== 'development' 
     ? 'https://interview-ace.herokuapp.com'

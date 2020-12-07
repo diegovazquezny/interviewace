@@ -53,7 +53,6 @@ const TopicInfo = (props) => {
         .then(res => res.json())
         .then(res => setRerender(!rerender))
         .then(res => {
-          // dispatch remove note from technology
           props.deleteNote({
             type: 'DELETE_NOTE',
             bulletId: id
@@ -65,15 +64,9 @@ const TopicInfo = (props) => {
           type: 'DELETE_NOTE',
           bulletId: id
         });
-      } else {
-        console.log('DO NOT DELETE')
-      }
+      } 
     }
   } 
-
-  useEffect(() => {
-    console.log('cmon')  
-  }, [rerender, num])
 
   const handleEdit = (id) => {
     return () => {

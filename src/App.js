@@ -5,7 +5,6 @@ import { hot } from 'react-hot-loader/root';
 import Study from './Pages/Study';
 import LandingPage from './Pages/LandingPage';
 import AddTechnology from './Pages/AddTechnology';
-import { useAuth0 } from "@auth0/auth0-react";
 import { connect } from 'react-redux';
 import * as actions from '../src/actions/actions';
 import {
@@ -14,6 +13,7 @@ import {
   Redirect,
   Switch,
 } from 'react-router-dom';
+import Loading from './Components/Loading';
 
 const mainTheme = createMuiTheme({
   palette: {
@@ -56,16 +56,14 @@ function App(props) {
           authenticated: true
         });
       }
-      //console.log('app res', user)
       setCheckSession(true);
-      //console.log('props inside App', props);
     })
     .catch(err => console.log(err));
 
   return (
     <>
     {
-      !checkSession && <h1>Checking session</h1>
+      !checkSession && <Loading/>
     }
     {
       checkSession &&

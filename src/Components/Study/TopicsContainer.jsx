@@ -5,6 +5,7 @@ import Topic from './Topic';
 import TopicInfo from './TopicInfo';
 import { connect } from 'react-redux';
 import * as actions from '../../actions/actions';
+import Loading from '../Loading';
 import EmptyNotes from './EmptyNotes'; 
 
 const mapDispatchToProps = dispatch => ({
@@ -57,7 +58,10 @@ const TopicsContainer = (props) => {
     })
     .then(res => res.json())
     .then(data => { 
-      console.log('into Redux', Object.entries(data.technologies).length);
+      if (!Object.entries(data.technologies).length) {
+        console.log('empty notes');
+        setEmptyNotes(true);
+      } else setEmptyNotes(false);
       props.updateTechnologies(data.technologies);
       setTopicsFetched(true);
     })
@@ -86,13 +90,16 @@ const TopicsContainer = (props) => {
   return (
     <div className={classes.container}>
       {
+        emptyNotes && <EmptyNotes/> 
+      }
+      {
         topicsFetched
           ? showInfo
             ? <TopicInfo currentTopic={currentTopic} handleCloseButton={handleCloseButton}/>
             : <div className={classes.root}>
                 {generateTopics()}  
               </div>
-          : <h1>Loading topics</h1>
+          : <Loading/>
       }
     </div>
   );
