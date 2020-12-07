@@ -4,16 +4,8 @@ import App from "./App";
 import { Provider } from 'react-redux';
 import { Auth0Provider } from "@auth0/auth0-react";
 import store from './store';
-import history from './history';
 import "./styles.css";
 
-// const onRedirectCallback = appState => {
-//   history.push(
-//     appState && appState.targetUrl
-//       ? appState.targetUrl
-//       : window.location.pathname
-//   );
-// };
 const audience = "https://dev-71d4ng-s.us.auth0.com/api/v2/";
 const app = document.getElementById("app");
 
@@ -28,7 +20,6 @@ fetch('/authentication/login')
         clientId={clientId}
         audience={audience}
         redirectUri={window.location.origin}
-        // onRedirectCallback={onRedirectCallback}
       >
         <Provider store={store}>
           <App/>

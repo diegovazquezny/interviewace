@@ -1,7 +1,5 @@
-
 import React, { useState } from "react";
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
-import { hot } from 'react-hot-loader/root';
 import Study from './Pages/Study';
 import LandingPage from './Pages/LandingPage';
 import AddTechnology from './Pages/AddTechnology';
@@ -10,7 +8,6 @@ import * as actions from '../src/actions/actions';
 import {
   HashRouter as Router,
   Route,
-  Redirect,
   Switch,
 } from 'react-router-dom';
 import Loading from './Components/Loading';
@@ -18,7 +15,7 @@ import Loading from './Components/Loading';
 const mainTheme = createMuiTheme({
   palette: {
     primary: {
-      main: '#2e050d',
+      main: '#0f7947',
     },
     secondary: {
       main: '#2a4cab',

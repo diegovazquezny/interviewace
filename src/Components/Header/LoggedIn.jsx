@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) =>
       justifyContent: 'space-between',
       marginRight: '40px'
     },
-    favorites: {
+    username: {
       display: 'flex',
       flexDirection: 'row',
       alignItems: 'center',
@@ -22,6 +22,9 @@ const useStyles = makeStyles((theme) =>
       cursor: 'pointer',
       fontSize: '18px',
       textDecoration: 'none',
+      [theme.breakpoints.down('sm')]: {
+        display: 'none',
+      },
     },
     img: {
       height: '50px',
@@ -44,11 +47,8 @@ const LoggedIn = (props) => {
   const history = useHistory();
   
   const logoutUser = (e) => {
-    //console.log(window.cookie);
-    //console.log('cookie', document.cookie);
     document.cookie = 'ssid' + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
     logout({ returnTo: window.location.origin })
-    //console.log('logout');
   }
   
   const DropDownMenu = () => {
@@ -65,7 +65,7 @@ const LoggedIn = (props) => {
     return (
       <>
         <p
-          className={classes.favorites}
+          className={classes.username}
           onClick={handleClick}
         >
           {nickname}

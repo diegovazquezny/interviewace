@@ -6,7 +6,7 @@ import { makeStyles, createStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles((theme) =>
   createStyles({
     btn: {
-      marginRight: '40px'
+      margin: '0px 40px 0px 40px'
     },
   }),
 );
