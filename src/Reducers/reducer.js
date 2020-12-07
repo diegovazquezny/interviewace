@@ -19,8 +19,6 @@ const reducer = (state = initialState, action) => {
   switch(action.type) {
     case types.UPDATE_USER_INFO:
       const { userData } = action.payload;  
-      console.log(userData);
-      console.log('first name', action.payload.firstname)
       return {
         ...state,
         firstName: userData.firstname,

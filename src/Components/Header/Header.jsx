@@ -52,8 +52,6 @@ const Header = (props) => {
   const api_uri = process.env.NODE_ENV !== 'development' 
     ? 'https://interview-ace.herokuapp.com'
     : '';
-  console.log(isAuthenticated, isUserAuth, props.authenticated);
-  console.log(isAuthenticated && !isUserAuth && !props.authenticated);
   if (isAuthenticated && !isUserAuth && !props.authenticated) {
     fetch(api_uri + '/authentication/login', {
       method: "POST",
@@ -78,8 +76,6 @@ const Header = (props) => {
            }
          });
          setIsUserAuth(true);
-         console.log(user);
-         console.log(props);
        })
        .catch(err => console.log(err));
   }
