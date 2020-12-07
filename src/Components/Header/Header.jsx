@@ -52,7 +52,8 @@ const Header = (props) => {
   const api_uri = process.env.NODE_ENV !== 'development' 
     ? 'https://interview-ace.herokuapp.com'
     : '';
-
+  console.log(isAuthenticated, isUserAuth, props.authenticated);
+  console.log(isAuthenticated && !isUserAuth && !props.authenticated);
   if (isAuthenticated && !isUserAuth && !props.authenticated) {
     fetch(api_uri + '/authentication/login', {
       method: "POST",
@@ -67,15 +68,18 @@ const Header = (props) => {
        .then(data => {
          props.updateUserInfo({
            type: 'UPDATE_USER_INFO',
-           payload: {
-             firstName: user.given_name,
-             lastName: user.family_name,
-             userName: user.nickname,
+           userData: {
+             firstname: user.given_name,
+             lastname: user.family_name,
+             username: user.nickname,
              userId: data.sessionId,
-             email: user.email
+             email: user.email,
+             picture: user.picture,
            }
          });
          setIsUserAuth(true);
+         console.log(user);
+         console.log(props);
        })
        .catch(err => console.log(err));
   }

@@ -1,17 +1,16 @@
 export const types = {
   UPDATE_USER_INFO: 'UPDATE_USER_INFO',
   UPDATE_TECHNOLOGIES: 'UPDATE_TECHNOLOGIES',
-  TEST: 'TEST',
   DELETE_NOTE: 'DELETE_NOTE'
 }
 
 const initialState = {
-  firstName: 'Guest',
-  lastName: 'Guest',
-  userName: null,
-  userId: '5',
-  email: 'guest@guest.com',
-  pciture: '',
+  firstName: '',
+  lastName: '',
+  userName: '',
+  userId: '',
+  email: '',
+  picture: '',
   technologies: [],
   authenticated: false
 }
@@ -19,31 +18,23 @@ const initialState = {
 const reducer = (state = initialState, action) => {
   switch(action.type) {
     case types.UPDATE_USER_INFO:
-      //console.log(action.payload)
-      //console.log('first name', action.payload.firstname)
+      const { userData } = action.payload;  
+      console.log(userData);
+      console.log('first name', action.payload.firstname)
       return {
         ...state,
-        firstName: action.payload.firstname,
-        lastName: action.payload.lastname,
-        userName: action.payload.username,
-        userId: action.payload.userId,
-        email: action.payload.email,
-        picture: action.payload.picture,
+        firstName: userData.firstname,
+        lastName: userData.lastname,
+        userName: userData.username,
+        userId: userData.userId,
+        email: userData.email,
+        picture: userData.picture,
         authenticated: true
       };
     case types.UPDATE_TECHNOLOGIES:
       return {
         ...state,
         technologies: action.payload
-      };
-    case types.TEST: 
-      return {
-        ...state,
-        firstName: 'Jim',
-        lastName: 'Jones',
-        userName: 'JJ',
-        userId: '5',
-        email: 'JJ@aol.com',
       };
     case types.DELETE_NOTE:
       const { bulletId } = action.payload;

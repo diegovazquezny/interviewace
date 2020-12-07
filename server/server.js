@@ -6,16 +6,13 @@ const cors = require('cors')
 require('dotenv').config();
 const authRouter = require('./routes/auth');
 const techRouter = require('./routes/tech');
-
+app.enable('trust proxy', 1);
 app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.resolve(__dirname, '../index.html')));
-// app.use('/test', (req, res) => {
-//   console.log('test');
-//   return res.status(200).send({test:'works'});
-// });
+
 app.use('/authentication', authRouter);
 app.use('/technology', techRouter);
 app.use('*', (req, res) => res.sendStatus(404));

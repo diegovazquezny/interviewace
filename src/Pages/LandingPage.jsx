@@ -104,7 +104,7 @@ const LandingPage = (props) => {
                     </div>  
                   </>
                 : <>
-                    <h1 className={classes.bannerText}>Ace your next interview with Interview Ace. Join today!</h1>
+                    <h1 className={classes.bannerText}>Prepare for your next interview with Interview Ace. Join today!</h1>
                     <div className={classes.btnWrapper}>
                       <LoginButton/> 
                     </div>
