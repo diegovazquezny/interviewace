@@ -18,9 +18,6 @@ const api_uri = process.env.NODE_ENV !== 'development'
     .then(res => {
       const { domain } = res.oauth;
       const { clientId } = res.oauth;
-      console.log(domain);
-      console.log(clientId);
-      console.log(audience);
     ReactDOM.render(
       <Auth0Provider
         domain={domain}
