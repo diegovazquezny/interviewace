@@ -70,7 +70,7 @@ const TopicInfo = (props) => {
 
   const handleEdit = (id) => {
     return () => {
-      console.log('edit note', id);
+      //console.log('edit note', id);
     }
   }
 

@@ -5,7 +5,7 @@ const { response } = require("express");
 module.exports = {
   startSession: (req, res, next) => {
     const { id } = res.locals;
-    console.log('starting session for user-->', [id]);
+    //console.log('starting session for user-->', [id]);
     const query = `
       UPDATE users 
       SET session_id = $1 
@@ -26,7 +26,7 @@ module.exports = {
   },
   resumeSession: (req, res, next) => {
     const { ssid } = req.cookies;
-    console.log('session', ssid);
+    //console.log('session', ssid);
     const query = `
       SELECT * FROM users
       WHERE session_id = $1 
@@ -34,7 +34,7 @@ module.exports = {
     db.query(query, [ssid])
       .then(response => {
         res.locals.user = response.rows[0];
-        console.log('res resume session ->', res.locals.user);
+        //console.log('res resume session ->', res.locals.user);
         next();
       })
       .catch(err => {

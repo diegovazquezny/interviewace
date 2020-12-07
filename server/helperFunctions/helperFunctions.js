@@ -6,13 +6,11 @@ module.exports = {
         case 'paragraph': {
           const { text } = block.data;
           outputHTML += `<p>${text}</p>`;
-          console.log(outputHTML);
           break;
         }
         case 'header': {
           const { text } = block.data;
           outputHTML += `<h1>${text}</h1>`;
-          console.log(outputHTML);
           break;
         }
         case 'list': {

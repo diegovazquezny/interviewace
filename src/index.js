@@ -8,8 +8,11 @@ import "./styles.css";
 
 const audience = "https://dev-71d4ng-s.us.auth0.com/api/v2/";
 const app = document.getElementById("app");
+const api_uri = process.env.NODE_ENV !== 'development' 
+    ? 'https://interview-ace.herokuapp.com'
+    : '';
 
-fetch('/authentication/login')
+fetch(api_uri + '/authentication/login')
   .then(res => res.json())
   .then(res => {
     const { domain } = res.oauth;

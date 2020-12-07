@@ -48,7 +48,7 @@ const Quill = (props) => {
     : '';
   
   const handleClick = () => {
-    console.log('value', value);
+    //console.log('value', value);
     fetch(api_uri + '/technology/notes', {
       method: 'POST',
       headers: {
@@ -62,7 +62,7 @@ const Quill = (props) => {
     })
       .then(res => res.json())
       .then(data => {
-        console.log('success? ', data.success);
+        //console.log('success? ', data.success);
         if (data.success) props.completedNotes();
       })
       .catch(err => console.log(err));

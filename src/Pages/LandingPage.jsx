@@ -17,7 +17,6 @@ const useStyles = makeStyles((theme) =>
       display: 'flex',
       flexDirection: 'row',
       alignItems: 'center',
-      // width: '65%',
       justifyContent: 'space-between',
       [theme.breakpoints.down('sm')]: {
         width: '100vw',
@@ -49,7 +48,6 @@ const useStyles = makeStyles((theme) =>
     title: {
       display: 'flex',
       flexDirection: 'column',
-      // fontSize: '1.3rem',
       width: '50%',
       color: '#333',
       [theme.breakpoints.down('sm')]: {
@@ -75,7 +73,6 @@ const LandingPage = (props) => {
   const isAuthenticated = props.authenticated;
   const history = useHistory();
   const classes = useStyles();
-  console.log(classes.root)
   return (
     <>
       <Header/>
