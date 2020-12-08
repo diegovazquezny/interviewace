@@ -56,14 +56,15 @@ const Header = (props) => {
     fetch(api_uri + '/authentication/login', {
       method: "POST",
       headers: {
-       "Content-Type": "application/json",
-         "Accept" : "application/json",
+        "Content-Type": "application/json",
+        "Accept" : "application/json",
        },
        mode: "cors",
        body: JSON.stringify(user)
       })
        .then(res => res.json())
        .then(data => {
+         console.log('data', data);
          props.updateUserInfo({
            type: 'UPDATE_USER_INFO',
            userData: {

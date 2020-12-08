@@ -34,13 +34,12 @@ module.exports = {
     db.query(query, [ssid])
       .then(response => {
         res.locals.user = response.rows[0];
-        //console.log('res resume session ->', res.locals.user);
         next();
       })
       .catch(err => {
-        console.log('ERR resume session -->', err);
-        next();
-        //next(err);
+        //console.log('ERR resume session -->', err);
+        console.log('error in resume session');
+        next(err);
       });
   }
 }

@@ -1,4 +1,5 @@
 const db = require('../model');
+require('dotenv').config();
 const { response } = require('../server');
 const jwt = require('jsonwebtoken');
 
@@ -54,10 +55,11 @@ module.exports = {
   },
   makeJWT: (req, res, next) => {
     const data = 'hellooo';
+    console.log('secret ->', process.env.JWT_SECRET);
     jwt.sign({ data: data }, process.env.JWT_SECRET, { expiresIn: '7d' }, (err, token) => {
-      res.json({
-        token
-      });
+      console.log('jwt sent', token);
+      res.locals.token = token;
+      next();
     });
   },
   verifyJWT: (req, res, next) => {
