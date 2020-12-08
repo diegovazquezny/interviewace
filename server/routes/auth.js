@@ -26,7 +26,6 @@ router
       res.status(200).json({ user: res.locals.user })
     })
   .get('/', (req, res) => {
-      console.log('get');
       return res.sendStatus(200);
     });
     

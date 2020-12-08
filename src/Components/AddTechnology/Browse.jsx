@@ -43,10 +43,11 @@ const Browse = (props) => {
     : '';
 
   const generateNotes = (array) => {
+    console.log(array);
     return array.map((note, i) => {
       return (
         <div key={`k${i}`}>
-          <ReadOnlyQuill value={note.bullet}/>
+          <ReadOnlyQuill value={note.bullet} bulletId={note.bullet_id}/>
           <hr/>
         </div>
       );

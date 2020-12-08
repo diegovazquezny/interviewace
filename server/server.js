@@ -3,9 +3,11 @@ const express = require('express');
 const app = express();
 const cookieParser = require('cookie-parser');
 const cors = require('cors')
-require('dotenv').config();
 const authRouter = require('./routes/auth');
 const techRouter = require('./routes/tech');
+const authController = require('./controllers/authController');
+
+require('dotenv').config();
 app.enable('trust proxy', 1);
 app.use(cors());
 app.use(express.json());
@@ -15,6 +17,8 @@ app.use(express.static(path.resolve(__dirname, '../index.html')));
 
 app.use('/authentication', authRouter);
 app.use('/technology', techRouter);
+// app.use('/test', authController.makeJWT);
+// app.use('/secret', authController.verifyJWT);
 app.use('*', (req, res) => res.sendStatus(404));
 
 // Global Error Handler

@@ -37,22 +37,23 @@ const Quill = (props) => {
     : '';
   
   const handleClick = () => {
-    fetch(api_uri + '/technology/notes', {
-      method: 'POST',
-      headers: {
-        'Content-Type' : 'application/json'
-      },
-      body: JSON.stringify({
-        userId: props.userId,
-        notes: value,
-        currentTech: props.currentTech          
-      })
-    })
-      .then(res => res.json())
-      .then(data => {
-        if (data.success) props.completedNotes();
-      })
-      .catch(err => console.log(err));
+    console.log(props.bulletId);
+    // fetch(api_uri + '/technology/notes', {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type' : 'application/json'
+    //   },
+    //   body: JSON.stringify({
+    //     userId: props.userId,
+    //     notes: value,
+    //     currentTech: props.currentTech          
+    //   })
+    // })
+    //   .then(res => res.json())
+    //   .then(data => {
+    //     if (data.success) props.completedNotes();
+    //   })
+    //   .catch(err => console.log(err));
   }
 
   return (

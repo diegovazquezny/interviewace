@@ -15,7 +15,12 @@ content-type: application/json
 
 ###
 
-GET https://interview-ace.herokuapp.com/test
+GET http://localhost:3000/test
+
+###
+
+GET http://localhost:3000/secret
+authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiaGVsbG9vbyIsImlhdCI6MTYwNzQ2MzMzNywiZXhwIjoxNjA3NDY2OTM3fQ.V9LIbweoG7GKxiN1Kh-GbVBoQ_DJzYR0dFtpDS2xY60
 
 ###
 

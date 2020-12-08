@@ -25,9 +25,8 @@ module.exports = {
       });
   },
   resumeSession: (req, res, next) => {
-    console.log(req.cookies);
     const { ssid } = req.cookies;
-    //console.log('session', ssid);
+    console.log('session', ssid);
     const query = `
       SELECT * FROM users
       WHERE session_id = $1 
@@ -39,8 +38,9 @@ module.exports = {
         next();
       })
       .catch(err => {
-        console.log('ERR -->', err);
-        next(err);
+        console.log('ERR resume session -->', err);
+        next();
+        //next(err);
       });
   }
 }
