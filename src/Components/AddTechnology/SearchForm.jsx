@@ -51,14 +51,13 @@ const SearchForm = (props) => {
   useEffect(() => {
     setDidFetch(true);
   },[JSON.stringify(techList)]);
-
   return (
     <div className={classes.root}>
       <div style={{ width: 300 }}>
         {
           didFetch 
           ? <Autocomplete
-              id="free-solo-demo"
+              id="search"
               freeSolo
               options={techList.map((option) => option.tech_name)}
               renderInput={(params) => (

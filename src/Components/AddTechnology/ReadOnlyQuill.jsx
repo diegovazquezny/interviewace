@@ -7,15 +7,7 @@ import { makeStyles, createStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles((theme) =>
   createStyles({
     root: {
-      [theme.breakpoints.down('sm')]: {
-        width: '100vw',
-      },
-      [theme.breakpoints.up('md')]: {
-        width: '100vw'
-      },
-      [theme.breakpoints.up('lg')]: {
-        width: '70vw'
-      },
+      width: 'auto'
     },
     btnWrapper: {
       display: 'flex',
@@ -29,9 +21,6 @@ const useStyles = makeStyles((theme) =>
         flexDirection: 'column',
         minHeight: '40vh',
       },
-    },
-    searchBtn: {
-      marginLeft: '10px'
     },
     submitBtn: {
       marginRight: '10px'
@@ -71,9 +60,10 @@ const Quill = (props) => {
       <h1>{props.currentTech}</h1>
       <ReactQuill 
         className={classes.quill} 
-        theme="snow" 
-        value={value} 
+        theme="bubble" 
+        value={props.value} 
         onChange={setValue}
+        readOnly={true}
       />
       <div className={classes.btnWrapper}>
         <Button
@@ -83,16 +73,7 @@ const Quill = (props) => {
             size="small"
             color="secondary"
         >
-          SUBMIT
-        </Button>
-        <Button
-            className={classes.searchBtn}    
-            onClick={props.backToSearch}
-            variant="contained"
-            size="small"
-            color="secondary"
-        >
-          SEARCH
+          Save
         </Button>
       </div>
     </div>

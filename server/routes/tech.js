@@ -13,6 +13,11 @@ router
     (req, res) => {
       res.status(200).json({ technologies: res.locals.allTech })
     })
+  .get('/all-notes-for-tech', 
+    techController.getAllNotesForTech, 
+    (req, res) => {
+      res.status(200).json({ technologies: res.locals.notes })
+    })
   .post('/notes',
     techController.saveNotes,
     (req, res) => {

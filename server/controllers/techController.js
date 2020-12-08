@@ -32,6 +32,26 @@ module.exports = {
         next(err);
       });
   },
+  getAllNotesForTech: (req, res, next) => {
+    const { tech } = req.query;
+    const query = `
+      SELECT bullet_points.bullet, bullet_points.bullet_id, technology.tech_name
+      FROM bullet_points
+      INNER JOIN technology
+      ON bullet_points.tech_id = technology.tech_id
+      AND technology.tech_name = $1
+      ORDER BY bullet_points.bullet
+    `;
+    db.query(query, [tech])
+      .then(response => {
+        res.locals.notes = response.rows;
+        next()
+      })
+      .catch(err => {
+        console.log('ERR -->', err);
+        next(err);
+      });
+  },
   fetchTopics: (req, res, next) => {
     const query = `
       SELECT tech_name FROM "public"."technology"

@@ -10,7 +10,7 @@ content-type: application/json
 
 ###
 
-GET http://localhost:3000/technology/notes?id=5
+GET http://localhost:3000/technology/all-notes-for-tech?tech=React
 content-type: application/json
 
 ###
