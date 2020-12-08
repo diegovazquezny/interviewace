@@ -41,16 +41,19 @@ function App(props) {
     .then(res => res.json())
     .then(res => {
       const { user }  = res;
+      console.log(user);
       if (user) {
         props.updateUserInfo({
           type: 'UPDATE_USER_INFO',
-          firstname: user.firstname,
-          lastname: user.lastname,
-          username: user.username,
-          email: user.email,
-          picture: user.image_url,
-          userId: user.user_id,
-          authenticated: true
+          userData: {
+            firstname: user.firstname,
+            lastname: user.lastname,
+            username: user.username,
+            email: user.email,
+            picture: user.image_url,
+            userId: user.user_id,
+            authenticated: true
+          }
         });
       }
       setCheckSession(true);
