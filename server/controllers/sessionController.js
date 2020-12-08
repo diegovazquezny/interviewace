@@ -25,6 +25,7 @@ module.exports = {
       });
   },
   resumeSession: (req, res, next) => {
+    console.log(req.cookies);
     const { ssid } = req.cookies;
     //console.log('session', ssid);
     const query = `
