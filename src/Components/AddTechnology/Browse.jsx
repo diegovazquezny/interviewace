@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import SearchForm from '../AddTechnology/SearchForm';
 import SearchFieldError from '../AddTechnology/SearchFieldError'; 
 import ReadOnlyQuill from '../AddTechnology/ReadOnlyQuill';
+import NotesPlaceholder from './NotesPlaceholder';
 
 const mapStateToProps = ({
   reducer: { userId, technologies }
@@ -48,7 +49,6 @@ const Browse = (props) => {
       return (
         <div key={`k${i}`}>
           <ReadOnlyQuill value={note.bullet} bulletId={note.bullet_id}/>
-          <hr/>
         </div>
       );
     }); 
@@ -81,11 +81,15 @@ const Browse = (props) => {
       <div className={classes.search}>
         <SearchForm addTech={addTech}/>
         {showError && <SearchFieldError/>}
-      </div> 
-      <div className={classes.content}>
-        {currentTech}
-        {showEditor && notesHTML} 
       </div>
+      {
+        currentTech ? 
+          <div className={classes.content}>
+            {currentTech}
+            {showEditor && notesHTML} 
+          </div>
+        : <NotesPlaceholder/>
+      } 
     </div>
   );
 }

@@ -7,7 +7,9 @@ import { makeStyles, createStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles((theme) =>
   createStyles({
     root: {
-      width: 'auto'
+      width: 'auto',
+      boxShadow: '0 2px 5px 0 rgba(0,0,0,0.16), 0 2px 10px 0 rgba(0,0,0,0.12)'
+
     },
     btnWrapper: {
       display: 'flex',
@@ -23,7 +25,7 @@ const useStyles = makeStyles((theme) =>
       },
     },
     submitBtn: {
-      marginRight: '10px'
+      margin: '0px 10px 10px 0px'
     }
   }),
 );

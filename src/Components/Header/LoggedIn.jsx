@@ -29,7 +29,8 @@ const useStyles = makeStyles((theme) =>
     img: {
       height: '50px',
       borderRadius: '30px',
-      marginLeft: '10px'
+      marginLeft: '10px',
+      cursor: 'pointer',
     }
   }),
 );
@@ -70,6 +71,7 @@ const LoggedIn = (props) => {
         >
           {nickname}
         </p>
+        <img src={picture} className={classes.img} onClick={handleClick}/>
         <Menu
           id="simple-menu"
           anchorEl={anchorEl}
@@ -88,7 +90,7 @@ const LoggedIn = (props) => {
   return (
     <div className={classes.container}>
       <DropDownMenu />
-      <img src={picture} className={classes.img}/>
+      
       </div>
   );
 }
