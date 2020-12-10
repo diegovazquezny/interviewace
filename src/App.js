@@ -3,6 +3,7 @@ import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import Study from './Pages/Study';
 import LandingPage from './Pages/LandingPage';
 import AddTechnology from './Pages/AddTechnology';
+import Redesign from './Pages/Redesign';
 import { connect } from 'react-redux';
 import * as actions from '../src/actions/actions';
 import {
@@ -41,7 +42,6 @@ function App(props) {
     .then(res => res.json())
     .then(res => {
       const { user }  = res;
-      console.log(user);
       if (user) {
         props.updateUserInfo({
           type: 'UPDATE_USER_INFO',
@@ -81,6 +81,10 @@ function App(props) {
               <Route 
                 exact path="/study"
                 component={Study} 
+              />
+              <Route 
+                exact path="/redesign"
+                component={Redesign} 
               />
             </Switch>
           </Router>

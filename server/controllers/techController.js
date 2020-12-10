@@ -125,5 +125,24 @@ module.exports = {
         console.log('delete query', err);
         next(err);
       });
-  }
+  },
+  getAllCategories: (req, res, next) => {
+    console.log(req.headers);
+    //const { id } = req.query;
+    const query = `
+      SELECT * FROM categories
+      ORDER BY category_name
+    `;
+    db.query(query)
+      .then(response => {
+        const categories = response.rows;
+        console.log(categories)
+        res.locals.categories = categories;
+        next()
+      })
+      .catch(err => {
+        console.log('ERR -->', err);
+        next(err);
+      });
+  },
 }

@@ -1,7 +1,8 @@
 export const types = {
   UPDATE_USER_INFO: 'UPDATE_USER_INFO',
   UPDATE_TECHNOLOGIES: 'UPDATE_TECHNOLOGIES',
-  DELETE_NOTE: 'DELETE_NOTE'
+  DELETE_NOTE: 'DELETE_NOTE',
+  ALL_CATEGORIES: 'ALL_CATEGORIES'
 }
 
 const initialState = {
@@ -12,7 +13,8 @@ const initialState = {
   email: '',
   picture: '',
   technologies: [],
-  authenticated: false
+  authenticated: false,
+  categories: []
 }
 
 const reducer = (state = initialState, action) => {
@@ -50,6 +52,13 @@ const reducer = (state = initialState, action) => {
       }
       return {
         ...state,
+      };
+    case types.ALL_CATEGORIES:
+      console.log(action.payload);
+      const categories = action.payload;
+      return {
+        ...state,
+        categories: categories
       };
     default:
       return state;

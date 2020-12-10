@@ -80,6 +80,7 @@ const LoggedIn = (props) => {
           <MenuItem onClick={logoutUser}>Logout</MenuItem>
           <MenuItem onClick={()=>history.push('/add-tech')}>add a technology</MenuItem>
           <MenuItem onClick={()=>history.push('/study')}>study</MenuItem>
+          <MenuItem onClick={()=>history.push('/redesign')}>redesign</MenuItem>
         </Menu>
       </>
     );

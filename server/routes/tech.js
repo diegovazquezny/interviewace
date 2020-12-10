@@ -32,5 +32,9 @@ router
       res.status(200).json({ success: res.locals.success })
     }
   )
+  .get('/all-categories', techController.getAllCategories,
+  (req, res) => {
+    res.status(200).json({ success: res.locals.categories })
+  })
 
 module.exports = router;
