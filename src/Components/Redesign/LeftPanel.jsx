@@ -1,14 +1,15 @@
 import React from 'react';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 import SearchForm from './SearchForm';
-import Categories from './Categories';
+import CreateNote from './CreateNote';
+import SearchCategories from './SearchCategories';
 
 const useStyles = makeStyles((theme) =>
   createStyles({
     root: {
-      minWidth: '305px',
-      maxWidth: '700px',
-      width: '325px',
+      minWidth: '100px',
+      maxWidth: '360px',
+      width: '360px',
       backgroundColor: 'rgb(21 21 21)',
       height: 'calc(100vh - 70px)',
       display: 'flex',
@@ -26,7 +27,7 @@ const LeftPanel = (props) => {
 
   const addTech = (input) => {
     return () => {
-      const techName = input.current.children[1].firstChild.defaultValue;
+      const techName = input.current.children[0].firstChild.defaultValue;
       if (!techName) {
         console.log('blank');
         //setShowError(true);
@@ -44,8 +45,9 @@ const LeftPanel = (props) => {
 
   return (
     <div className={classes.root}>
+      <CreateNote/>
       <SearchForm addTech={addTech}/>
-      <Categories/>
+      <SearchCategories/>
     </div>
   );
 }

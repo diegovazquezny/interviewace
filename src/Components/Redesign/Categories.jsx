@@ -45,12 +45,18 @@ function Categories(props) {
     }
   }
   
+  
   const makeAccordions = () => {
     console.log('from reducer', props);
     return Object.keys(props.categories).map((category, i) => {
       return (
         <div key={`k${i}`}>
-          <Accordion className={classes.accordion}>
+          <Accordion
+            square expanded={expanded === 'panel1'} 
+            onChange={handleChange('panel1')}
+            TransitionProps={{ unmountOnExit: true }}  
+            className={classes.accordion}
+          >
             <AccordionSummary
               expandIcon={<ExpandMoreIcon />}
               aria-controls="panel1a-content"

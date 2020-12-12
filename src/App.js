@@ -22,6 +22,14 @@ const mainTheme = createMuiTheme({
       main: '#2a4cab',
     },
   },
+  props: {
+    MuiTypography: {
+      variantMapping: {
+        h1: 'h1',
+        body2: 'h2'    
+      }
+    }
+  }
 });
 
 const mapDispatchToProps = dispatch => ({

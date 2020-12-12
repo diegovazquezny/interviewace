@@ -43,7 +43,10 @@ const MainPanel = (props) => {
         },
         mode: "cors"
       })
-      .then(res => res.json())
+      .then(res => {
+        setNotesArray([]);
+        return res.json();
+      })
       .then(data => {
         const notesArray = data.technologies.map((note, i) => {
           return (
