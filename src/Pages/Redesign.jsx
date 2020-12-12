@@ -5,7 +5,6 @@ import MainPanel from '../Components/Redesign/MainPanel';
 import Header from '../Components/Header/Header';
 import Loading from '../Components/Loading';
 import RightPanel from '../Components/Redesign/RightPanel';
-import Categories from '../Components/Redesign/Categories';
 import { connect } from 'react-redux';
 import * as actions from '../actions/actions'; 
 

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import { makeStyles, createStyles } from '@material-ui/core/styles';
+import { makeStyles, createStyles, withStyles } from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
 import { Button } from '@material-ui/core';
 
@@ -9,7 +9,7 @@ const useStyles = makeStyles((theme) =>
   createStyles({
     root: {
       display: 'flex',
-      width: '300px',
+      width: '100%',
       // backgroundColor: 'gray',
       justifyContent: 'center',
       alignItems: 'flex-end',
@@ -23,6 +23,7 @@ const useStyles = makeStyles((theme) =>
     inputRoot: {
       //color: "purple",
       "& .MuiOutlinedInput-notchedOutline": {
+        display: 'none',
         borderColor: "red"
       },
       "&:hover .MuiOutlinedInput-notchedOutline": {
@@ -43,6 +44,8 @@ const useSearchStyles = makeStyles({
     height: '40px',
     marginLeft: '5px',
     marginRight: '5px',
+    width: '50px',
+    minWidth: '50px'
   },
   textField: {
     backgroundColor: 'white',
@@ -54,6 +57,22 @@ const useSearchStyles = makeStyles({
     color: 'red'
   }
 });
+
+const StyledButton = withStyles({
+  root: {
+    background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
+    border: 0,
+    color: 'white',
+    height: 20,
+    padding: '0 30px',
+    boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
+    width: 20
+  },
+  label: {
+    textTransform: 'capitalize',
+  },
+})(Button);
+
 
 const SearchForm = (props) => {
   const [techList, setTechList] = useState([]);
@@ -118,7 +137,9 @@ const SearchForm = (props) => {
         color="secondary"
         className={searchClasses.btn}
         onClick={props.addTech(textFieldRef)}
-        ><SearchIcon/></Button>    
+        ><SearchIcon/>
+      </Button>    
+      {/* <StyledButton/> */}
       </div>
     </>
   ); 
