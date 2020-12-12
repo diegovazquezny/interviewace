@@ -17,6 +17,10 @@ const useStyles = makeStyles((theme) =>
       justifyContent: 'center',
       padding: '0px 20px 0px 20px'
     },
+    btnContainer: {
+      display: 'flex',
+      justifyContent: 'space-between'
+    },
     quill: {
       [theme.breakpoints.down('sm')]: {
         display: 'flex',
@@ -68,26 +72,29 @@ const Quill = (props) => {
           value={value} 
           onChange={setValue}
           readOnly={readOnlyQuill}
-        />
-        <div className={classes.btnWrapper}>
-          <Button
-              className={classes.submitBtn} 
-              onClick={handleSaveClick}
-              variant="contained"
-              size="small"
-              color="secondary"
-          >
-            Save
-          </Button>
-          <Button
-              className={classes.submitBtn} 
-              onClick={handleEditClick}
-              variant="contained"
-              size="small"
-              color="secondary"
-          >
-            Edit
-          </Button>
+          />
+        <div className={classes.btnContainer}>
+          <Likes/>
+          <div className={classes.btnWrapper}>
+            <Button
+                className={classes.submitBtn} 
+                onClick={handleSaveClick}
+                variant="contained"
+                size="small"
+                color="secondary"
+            >
+              Save
+            </Button>
+            {/* <Button
+                className={classes.submitBtn} 
+                onClick={handleEditClick}
+                variant="contained"
+                size="small"
+                color="secondary"
+            >
+              Edit
+            </Button> */}
+          </div>
         </div>
       </Paper>
     </div>
