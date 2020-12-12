@@ -20,6 +20,9 @@ const useStyles = makeStyles((theme) =>
       flexDirection: 'row',
       justifyContent: 'center',
       width: '100%' 
+    },
+    title: {
+      alignSelf: 'center'
     }
   }),
 );
