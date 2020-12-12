@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) =>
       alignItems: 'flex-end',
       padding: '5px',
       [theme.breakpoints.down('sm')]: {
-        width: '95vw'
+        width: '300px',
       },
       height: 'max-content',
       alignItems: 'center',
@@ -42,7 +42,7 @@ const useSearchStyles = makeStyles({
   btn: {
     height: '40px',
     marginLeft: '5px',
-    marginRight: '5px'
+    marginRight: '5px',
   },
   textField: {
     backgroundColor: 'white',

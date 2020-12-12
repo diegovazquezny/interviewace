@@ -4,6 +4,8 @@ import Paper from '@material-ui/core/Paper';
 import Quill from '../AddTechnology/Quill';
 import APIURL from '../../constants/APIURL';
 import ReadOnlyQuill from '../AddTechnology/ReadOnlyQuill';
+import { connect } from 'react-redux';
+import * as actions from '../../actions/actions';
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -27,10 +29,16 @@ const useStyles = makeStyles((theme) =>
   }),
 );
 
+const mapStateToProps = ({
+  reducer: { newNote }
+}) => ({ newNote });
+
 const MainPanel = (props) => {
   const classes = useStyles();
+  const [showDefault, setShowDefault] = useState(true);
   const [showEditor, setShowEditor] = useState(false);
   const [notesArray, setNotesArray] = useState([]);
+  const [showNewNote, setShowNewNote] = useState(false);
 
   useEffect(() => {
     if (props.currentTech) {
@@ -57,6 +65,8 @@ const MainPanel = (props) => {
           );
         });
         setNotesArray(notesArray);
+        setShowDefault(false);
+        setShowNewNote(false); 
       })
       .then(()=> setShowEditor(true))
       .catch(err => console.log(err));
@@ -64,21 +74,34 @@ const MainPanel = (props) => {
     }
   },[props.currentTech])
 
+  useEffect(()=> {
+    if (showNewNote) {
+      setShowDefault(false);
+      setShowEditor(false);
+    }
+    if (props.newNote) {
+      setShowDefault(false);
+      setShowEditor(false);
+      setShowNewNote(true); 
+    }
+  },[props.newNote])
+
   return (
     <>
-      { !showEditor 
-          ? <div className={classes.titleWrapper}>
-              <h1>Search for Notes or Create Your Own </h1>
-            </div>
-          : <>
-              <div className={classes.notesContainer}>
-                <h1 className={classes.title}>{props.currentTech}</h1> 
-                {notesArray}
-              </div>
-            </>
-      } 
+      { showDefault &&
+          <div className={classes.titleWrapper}>
+            <h1>Search for Notes or Create Your Own </h1>
+          </div> 
+      }
+      { showEditor &&  
+          <div className={classes.notesContainer}>
+            <h1 className={classes.title}>{props.currentTech}</h1> 
+              {notesArray}
+          </div>
+      }
+      {showNewNote && <Quill/>} 
     </>
   );
 }
 
-export default MainPanel;
+export default connect(mapStateToProps, null)(MainPanel);

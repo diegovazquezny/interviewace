@@ -4,6 +4,7 @@ import LeftPanel from '../Components/Redesign/LeftPanel';
 import MainPanel from '../Components/Redesign/MainPanel';
 import Header from '../Components/Header/Header';
 import Loading from '../Components/Loading';
+import RightPanel from '../Components/Redesign/RightPanel';
 import Categories from '../Components/Redesign/Categories';
 import { connect } from 'react-redux';
 import * as actions from '../actions/actions'; 
@@ -67,7 +68,8 @@ const Redesign = (props) => {
             <Header/>
             <div className={classes.container}>
               <LeftPanel getTechName={getTechName}/>
-              <MainPanel currentTech={currentTech}/>     
+              <MainPanel currentTech={currentTech}/>
+              <RightPanel/>     
             </div>
           </div>
         : <Loading/>

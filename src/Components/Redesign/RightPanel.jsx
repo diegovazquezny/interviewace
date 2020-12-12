@@ -15,11 +15,14 @@ const mapStateToProps = ({
 const useStyles = makeStyles((theme) =>
   createStyles({
     root: {
+      width: '260px',
+      height: 'calc(100vh - 70px)',
+      backgroundColor: 'rgb(21 21 21)'    
     },
   }),
 );
 
-const Name = (props) => {
+const RightPanel = (props) => {
   const classes = useStyles();
   return (
     <div className={classes.root}>
@@ -27,4 +30,4 @@ const Name = (props) => {
   );
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Name);
+export default connect(mapStateToProps, mapDispatchToProps)(RightPanel);
