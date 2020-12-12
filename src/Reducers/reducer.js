@@ -54,11 +54,20 @@ const reducer = (state = initialState, action) => {
         ...state,
       };
     case types.ALL_CATEGORIES:
-      console.log(action.payload);
-      const categories = action.payload;
+      const { categories } = action.payload;
+      console.log(categories);
+      const categoriesObject = categories.reduce((object, category) => {
+        const { category_name } = category;
+        object[category_name] = {
+          categoryID: category.category_id,
+          technologies: []
+        }
+        return object;
+      }, {});
+      console.log(categoriesObject);
       return {
         ...state,
-        categories: categories
+        categories: categoriesObject
       };
     default:
       return state;

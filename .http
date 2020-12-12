@@ -28,3 +28,10 @@ GET https://interview-ace.herokuapp.com/technology/notes?id=5
 content-type: application/json
 accept: application/json
 access-control-allow-origin: *
+
+###
+
+GET http://localhost:3000/technology/technology-from-category?id=8
+content-type: application/json
+accept: application/json
+access-control-allow-origin: *

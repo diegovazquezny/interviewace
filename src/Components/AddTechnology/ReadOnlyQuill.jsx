@@ -1,13 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import ReactQuill from 'react-quill';
-import { Button } from '@material-ui/core';
-import 'react-quill/dist/quill.snow.css';
+import Button from '@material-ui/core/Button';
+import Paper from '@material-ui/core/Paper';
+import APIURL from '../../constants/APIURL';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
+import Likes from '../Redesign/Likes';
 
 const useStyles = makeStyles((theme) =>
   createStyles({
     root: {
-      width: 'auto'
+      width: 'auto',
+      padding: '0px 20px 0px 20px'
     },
     btnWrapper: {
       display: 'flex',
@@ -23,60 +26,70 @@ const useStyles = makeStyles((theme) =>
       },
     },
     submitBtn: {
-      marginRight: '10px'
+      marginRight: '10px',
+      marginBottom: '10px'
+    },
+    topBar: {
+      display: 'flex'
+    },
+    title: {
+      justifySelf: 'center'
     }
   }),
 );
 
-
 const Quill = (props) => {
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState(props.value);
+  const [readOnlyQuill, setReadOnlyQuill] = useState(true);
+  const [quillTheme, setQuillTheme] = useState('bubble');
   const classes = useStyles();
-  const api_uri = process.env.NODE_ENV !== 'development' 
-    ? 'https://interview-ace.herokuapp.com'
-    : '';
+  const quillRef = useRef();
   
-  const handleClick = () => {
-    console.log(props.bulletId);
-    // fetch(api_uri + '/technology/notes', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type' : 'application/json'
-    //   },
-    //   body: JSON.stringify({
-    //     userId: props.userId,
-    //     notes: value,
-    //     currentTech: props.currentTech          
-    //   })
-    // })
-    //   .then(res => res.json())
-    //   .then(data => {
-    //     if (data.success) props.completedNotes();
-    //   })
-    //   .catch(err => console.log(err));
+  const handleSaveClick = () => {
+    console.log('post request');
   }
+
+  const handleEditClick = () => {
+    setReadOnlyQuill(!readOnlyQuill);
+  }
+
+  useEffect(() =>{
+    if (!readOnlyQuill) setQuillTheme('snow');
+    if (readOnlyQuill) setQuillTheme('bubble');
+  },[readOnlyQuill]);
 
   return (
     <div className={classes.root}>
-      <h1>{props.currentTech}</h1>
-      <ReactQuill 
-        className={classes.quill} 
-        theme="bubble" 
-        value={props.value} 
-        onChange={setValue}
-        readOnly={true}
-      />
-      <div className={classes.btnWrapper}>
-        <Button
-            className={classes.submitBtn} 
-            onClick={handleClick}
-            variant="contained"
-            size="small"
-            color="secondary"
-        >
-          Save
-        </Button>
-      </div>
+      <Paper>
+        <ReactQuill
+          ref={quillRef} 
+          className={classes.quill} 
+          theme={quillTheme}
+          value={value} 
+          onChange={setValue}
+          readOnly={readOnlyQuill}
+        />
+        <div className={classes.btnWrapper}>
+          <Button
+              className={classes.submitBtn} 
+              onClick={handleSaveClick}
+              variant="contained"
+              size="small"
+              color="secondary"
+          >
+            Save
+          </Button>
+          <Button
+              className={classes.submitBtn} 
+              onClick={handleEditClick}
+              variant="contained"
+              size="small"
+              color="secondary"
+          >
+            Edit
+          </Button>
+        </div>
+      </Paper>
     </div>
   );
 }

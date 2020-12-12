@@ -46,6 +46,9 @@ const useSearchStyles = makeStyles({
     borderRadius: '4px',
     height: 'max-content'
   },
+  inputLabel: {
+    color: 'red'
+  }
 });
 
 const SearchForm = (props) => {
@@ -55,7 +58,6 @@ const SearchForm = (props) => {
   const textFieldRef = useRef();
   const classes = useStyles();
   const searchClasses = useSearchStyles();
-  //const labelClasses = useLabelStyles();
 
   const api_uri = process.env.NODE_ENV !== 'development' 
     ? 'https://interview-ace.herokuapp.com'

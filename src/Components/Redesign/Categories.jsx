@@ -7,6 +7,8 @@ import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { FormatListNumbered } from '@material-ui/icons';
 import { connect } from 'react-redux';
+import APIURL from '../../constants/APIURL';
+import CategoriesList from './CategoriesList';
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -32,10 +34,20 @@ function Categories(props) {
   const classes = useStyles();
   const [accordions, setAccordions] = useState([]);
   const [showCategories, setShowCategories] = useState(false);
+  const handleAccordionClick = (id) => {
+    return (e) => {
+      console.log('click', id);
+      // fetch(APIURL + '/technology/technology-from-category?id=' + id)
+      //   .then(res => res.json())
+      //   .then(data => console.log(data))
+      //   .catch(err => console.log(err))
+
+    }
+  }
   
   const makeAccordions = () => {
     console.log('from reducer', props);
-    return props.categories.map((category, i) => {
+    return Object.keys(props.categories).map((category, i) => {
       return (
         <div key={`k${i}`}>
           <Accordion className={classes.accordion}>
@@ -43,14 +55,12 @@ function Categories(props) {
               expandIcon={<ExpandMoreIcon />}
               aria-controls="panel1a-content"
               id="panel1a-header"
+              onClick={handleAccordionClick(i)}
             >
           <Typography className={classes.heading}>{category}</Typography>
         </AccordionSummary>
         <AccordionDetails className={classes.accordion}>
-          <Typography>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
-            sit amet blandit leo lobortis eget.
-          </Typography>
+          <CategoriesList categoryID={i}/>
         </AccordionDetails>
       </Accordion>
       </div>  

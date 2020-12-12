@@ -12,6 +12,9 @@ const useStyles = makeStyles((theme) =>
   createStyles({
     root: {
     },
+    container: {
+      display: 'flex'
+    }
   }),
 );
 
@@ -23,10 +26,16 @@ const Redesign = (props) => {
   const classes = useStyles();
   const [didFetch, setDidFetch] = useState(false);
   const [categoryArray, setCategoryArray] = useState([]);
+  const [currentTech, setCurrentTech] = useState('');
   const api_uri = process.env.NODE_ENV !== 'development' 
   ? 'https://interview-ace.herokuapp.com'
   : '';
   
+  const getTechName = (techName) => {
+    console.log(techName);
+    setCurrentTech(techName);
+  } 
+
   const token = 'hello';
   if (!didFetch) {
     fetch(api_uri + '/technology/all-categories' , {
@@ -41,10 +50,11 @@ const Redesign = (props) => {
     })
     .then(res => res.json())
     .then(categories => {
-      const categoryArray = categories.success.map(category => category.category_name);
-      props.allCategories(categoryArray);
-      setCategoryArray(categoryArray);
-      console.log(categoryArray); 
+      //console.log(categories);
+      //const categoryArray = categories.success.map(category => category.category_name);
+      props.allCategories(categories);
+      //setCategoryArray(categoryArray);
+      //console.log(categoryArray); 
     })
     .then(data => setDidFetch(true))
     .catch(err => console.log(err));
@@ -55,8 +65,10 @@ const Redesign = (props) => {
       { didFetch 
         ? <div>
             <Header/>
-            <LeftPanel/>
-            <MainPanel/>     
+            <div className={classes.container}>
+              <LeftPanel getTechName={getTechName}/>
+              <MainPanel currentTech={currentTech}/>     
+            </div>
           </div>
         : <Loading/>
       }

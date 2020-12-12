@@ -33,7 +33,7 @@ module.exports = {
       });
   },
   getAllNotesForTech: (req, res, next) => {
-    const { tech } = req.query;
+    const { q } = req.query;
     const query = `
       SELECT bullet_points.bullet, bullet_points.bullet_id, technology.tech_name
       FROM bullet_points
@@ -42,7 +42,7 @@ module.exports = {
       AND technology.tech_name = $1
       ORDER BY bullet_points.bullet
     `;
-    db.query(query, [tech])
+    db.query(query, [q])
       .then(response => {
         res.locals.notes = response.rows;
         next()
@@ -127,8 +127,6 @@ module.exports = {
       });
   },
   getAllCategories: (req, res, next) => {
-    console.log(req.headers);
-    //const { id } = req.query;
     const query = `
       SELECT * FROM categories
       ORDER BY category_name
@@ -136,7 +134,6 @@ module.exports = {
     db.query(query)
       .then(response => {
         const categories = response.rows;
-        console.log(categories)
         res.locals.categories = categories;
         next()
       })
@@ -145,4 +142,27 @@ module.exports = {
         next(err);
       });
   },
+  getTechnologyFromCategory: (req, res, next) => {
+    const { id } = req.query;
+    const query = `
+      SELECT tech_name
+      FROM technology
+      NATURAL JOIN categories
+      NATURAL JOIN technology_categories
+      WHERE categories.category_id = $1
+    `;  
+    db.query(query, [id])
+      .then(response => {
+        const technologies = response.rows;
+        console.log(technologies);
+        res.locals.technologies = technologies;
+        next()
+      })
+      .catch(err => {
+        console.log('ERR -->', err);
+        next(err);
+      });
+  }
+
 }
+ 

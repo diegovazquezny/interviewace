@@ -30,11 +30,14 @@ router
     techController.deleteNotes,
     (req, res) => {
       res.status(200).json({ success: res.locals.success })
-    }
-  )
+  })
   .get('/all-categories', techController.getAllCategories,
   (req, res) => {
-    res.status(200).json({ success: res.locals.categories })
+    res.status(200).json({ categories: res.locals.categories })
+  })
+  .get('/technology-from-category', techController.getTechnologyFromCategory,
+  (req, res) => {
+    res.status(200).json({ technologies: res.locals.technologies })
   })
 
 module.exports = router;

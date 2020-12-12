@@ -64,7 +64,6 @@ module.exports = {
   },
   verifyJWT: (req, res, next) => {
     const bearerHeader = req.headers['authorization'];
-    
     if (!bearerHeader) res.sendStatus(403);
     else {
       const bearer = bearerHeader.split(' ');

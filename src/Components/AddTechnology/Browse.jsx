@@ -46,10 +46,10 @@ const Browse = (props) => {
     console.log(array);
     return array.map((note, i) => {
       return (
-        <div key={`k${i}`}>
+        <React.Fragment key={`k${i}`}>
           <ReadOnlyQuill value={note.bullet} bulletId={note.bullet_id}/>
           <hr/>
-        </div>
+        </React.Fragment>
       );
     }); 
   }

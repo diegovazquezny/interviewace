@@ -20,25 +20,28 @@ const useStyles = makeStyles((theme) =>
   }),
 );
 
-const addTech = (input) => {
-  return () => {
-    const techName = input.current.children[1].firstChild.defaultValue;
-    if (!techName) {
-      console.log('blank');
-      //setShowError(true);
-    }
-    if (techName) {
-      console.log(techName);
-      // setShowEditor(true);
-      // setShowError(false);
-      // setShowSearch(!showSearch);
-    }
-    //setCurrentTech(techName);
-  }
-}
 
 const LeftPanel = (props) => {
   const classes = useStyles();
+
+  const addTech = (input) => {
+    return () => {
+      const techName = input.current.children[1].firstChild.defaultValue;
+      if (!techName) {
+        console.log('blank');
+        //setShowError(true);
+      }
+      if (techName) {
+        console.log(techName);
+        props.getTechName(techName);
+        // setShowEditor(true);
+        // setShowError(false);
+        // setShowSearch(!showSearch);
+      }
+      //setCurrentTech(techName);
+    }
+  }
+
   return (
     <div className={classes.root}>
       <SearchForm addTech={addTech}/>
