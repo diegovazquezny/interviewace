@@ -23,6 +23,7 @@ const Accordion = withStyles({
     '&$expanded': {
       margin: 'auto',
     },
+    width: '95%',
   },
   expanded: {},
 })(MuiAccordion);
@@ -85,9 +86,11 @@ function Categories(props) {
   });
   
   return (
-    <>
-      {accordions}
-    </>
+    <div style={{display: 'flex', flexDirection:'column', alignItems: 'center', justifyContent:'center', paddingLeft: '10px'}}>
+      <div>
+        {accordions}
+      </div>
+    </div>
   );
 }
 

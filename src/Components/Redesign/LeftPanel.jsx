@@ -21,7 +21,6 @@ const useStyles = makeStyles((theme) =>
   }),
 );
 
-
 const LeftPanel = (props) => {
   const classes = useStyles();
 
