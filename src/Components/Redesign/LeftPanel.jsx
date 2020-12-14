@@ -3,6 +3,7 @@ import { makeStyles, createStyles } from '@material-ui/core/styles';
 import SearchForm from './SearchForm';
 import CreateNote from './CreateNote';
 import SearchCategories from './SearchCategories';
+import TopLevelCategories from './TopLevelCategories';
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -46,7 +47,8 @@ const LeftPanel = (props) => {
     <div className={classes.root}>
       <CreateNote/>
       <SearchForm addTech={addTech}/>
-      <SearchCategories/>
+      <TopLevelCategories/>
+      {/* <SearchCategories/> */}
     </div>
   );
 }
