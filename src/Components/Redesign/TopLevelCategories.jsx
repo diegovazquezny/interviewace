@@ -12,7 +12,9 @@ import CategoriesList from './CategoriesList';
 import SearchCategories from './SearchCategories';
 import * as actions from '../../actions/actions';
 import Loading from '../Loading';
-import SavedNotes from '../Redesign/SavedNotes'
+import SavedNotes from '../Redesign/SavedNotes';
+import FolderOpenIcon from '@material-ui/icons/FolderOpen';
+import PageviewIcon from '@material-ui/icons/Pageview';
 
 const Accordion = withStyles({
   root: {
@@ -132,7 +134,10 @@ function Categories(props) {
             id={`panel1d-header`} 
             onClick={getNotes}
           >
-            <Typography>{'View saved notes'}</Typography>
+            <div style={{display:'flex', justifyContent:'space-between', width:'75%'}}>
+              <FolderOpenIcon/>
+              <Typography>{'View saved notes'}</Typography>
+            </div>
           </AccordionSummary>
           <AccordionDetails>
             {setTopicsFetched ? <SavedNotes/> : <Loading/>}
@@ -141,8 +146,14 @@ function Categories(props) {
         </div>
         <div>
         <Accordion style={bottomAccordionStyle} square expanded={expanded === `panel2`} onChange={handleChange(`panel2`)}>
-          <AccordionSummary aria-controls="panel2d-content" id={`panel2d-header`}>
-            <Typography>{'Browse all notes'}</Typography>
+          <AccordionSummary 
+            aria-controls="panel2d-content" 
+            id={`panel2d-header`}
+          >
+             <div>
+              <PageviewIcon style={{marginRight:'5px'}}/>
+              <Typography>{'Browse all notes'}</Typography>
+            </div>
           </AccordionSummary>
           <AccordionDetails>
             <SearchCategories/>
