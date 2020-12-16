@@ -32,7 +32,6 @@ const Redesign = (props) => {
   : '';
   
   const getTechName = (techName) => {
-    console.log(techName);
     setCurrentTech(techName);
   } 
 

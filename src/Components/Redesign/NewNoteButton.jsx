@@ -4,11 +4,12 @@ import PostAddIcon from '@material-ui/icons/PostAdd';
 import Button from '@material-ui/core/Button';
 import { connect } from 'react-redux';
 import * as actions from '../../actions/actions';
+import * as uiActions from '../../actions/uiActions';
 
 const useStyles = makeStyles((theme) =>
   createStyles({
     button: {
-      width: '95%',
+      width: '250px',
       borderRadius: '4px',
       marginTop: '5px'
     },
@@ -16,14 +17,16 @@ const useStyles = makeStyles((theme) =>
 );
 
 const mapDispatchToProps = dispatch => ({
-  makeNewNote: (data) => dispatch(actions.makeNewNote(data)),
+  makeNewNoteOLD: (data) => dispatch(actions.makeNewNote(data)),
+  changeMain: (data) => dispatch(uiActions.changeMain(data)),
 });
 
 
-const CreateNote = (props) => {
+const NewNoteButton = (props) => {
   const classes = useStyles();
   const handleClick = (e) => {
-    props.makeNewNote(true);
+    props.changeMain('new note');
+    props.makeNewNoteOLD(true);
   }
   return (
     <Button
@@ -38,4 +41,4 @@ const CreateNote = (props) => {
   );
 }
 
-export default connect(null, mapDispatchToProps)(CreateNote);
+export default connect(null, mapDispatchToProps)(NewNoteButton);

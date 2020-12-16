@@ -3,6 +3,9 @@ const router = express.Router();
 const techController = require('../controllers/techController');
 
 router
+  .get('/', (req, res) => {
+    return res.sendStatus(200);
+  })
   .get('/notes', 
     techController.getNotes, 
     (req, res) => {
@@ -23,9 +26,6 @@ router
     (req, res) => {
       res.status(200).json({ success: res.locals.success })
     }) 
-  .get('/', (req, res) => {
-    return res.sendStatus(200);
-  })
   .delete('/notes',
     techController.deleteNotes,
     (req, res) => {
@@ -39,5 +39,8 @@ router
   (req, res) => {
     res.status(200).json({ technologies: res.locals.technologies })
   })
-
+  .post('/public-note', techController.savePublicNote,
+  (req, res) => {
+    res.status(200).json({ success: true })
+  })
 module.exports = router;

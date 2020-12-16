@@ -7,6 +7,7 @@ import { makeStyles, createStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles((theme) =>
   createStyles({
     root: {
+      alignSelf: 'center',
       [theme.breakpoints.down('sm')]: {
         width: '100vw',
       },

@@ -13,11 +13,13 @@ const initialState = {
   userId: '',
   email: '',
   picture: '',
-  technologies: [],
+  technologies: {},
   authenticated: false,
   categories: [],
   newNote: false
 }
+
+
 
 const reducer = (state = initialState, action) => {
   switch(action.type) {
@@ -34,6 +36,7 @@ const reducer = (state = initialState, action) => {
         authenticated: true
       };
     case types.UPDATE_TECHNOLOGIES:
+      console.log('update', action.payload);
       return {
         ...state,
         technologies: action.payload
@@ -57,7 +60,6 @@ const reducer = (state = initialState, action) => {
       };
     case types.ALL_CATEGORIES:
       const { categories } = action.payload;
-      console.log(categories);
       const categoriesObject = categories.reduce((object, category) => {
         const { category_name } = category;
         object[category_name] = {
@@ -66,13 +68,11 @@ const reducer = (state = initialState, action) => {
         }
         return object;
       }, {});
-      console.log(categoriesObject);
       return {
         ...state,
         categories: categoriesObject
       };
     case types.MAKE_NEW_NOTE:
-      console.log('make new note', action.payload);
       return {
         ...state,
         newNote: true

@@ -7,9 +7,11 @@ module.exports = {
     const query = `
       SELECT bullet_points.bullet, bullet_points.bullet_id, technology.tech_name
       FROM bullet_points
+      INNER JOIN notes_users
+      ON bullet_points.bullet_id = notes_users.bullet_id
+      AND notes_users.user_id = $1
       INNER JOIN technology
       ON bullet_points.tech_id = technology.tech_id
-      AND bullet_points.user_id = $1
       ORDER BY technology.tech_name 
     `;
     db.query(query, [id])
@@ -162,7 +164,24 @@ module.exports = {
         console.log('ERR -->', err);
         next(err);
       });
+  },
+  savePublicNote: (req, res, next) => {
+    const { userId, bulletId } = req.body;
+    console.log('save public note')
+    const query = `
+      INSERT INTO notes_users (bullet_id, user_id)
+      VALUES ($1, $2)
+    `;  
+    db.query(query, [bulletId, userId])
+      .then(response => {
+        const technologies = response.rows;
+        console.log(technologies);
+        next()
+      })
+      .catch(err => {
+        console.log('ERR -->', err);
+        next(err);
+      });
   }
-
 }
  

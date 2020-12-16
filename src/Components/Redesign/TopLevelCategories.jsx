@@ -10,6 +10,9 @@ import { connect } from 'react-redux';
 import APIURL from '../../constants/APIURL';
 import CategoriesList from './CategoriesList';
 import SearchCategories from './SearchCategories';
+import * as actions from '../../actions/actions';
+import Loading from '../Loading';
+import SavedNotes from '../Redesign/SavedNotes'
 
 const Accordion = withStyles({
   root: {
@@ -35,10 +38,12 @@ const AccordionSummary = withStyles({
     borderBottom: '1px solid rgba(0, 0, 0, .125)',
     marginBottom: -1,
     minHeight: 56,
+    // width: '250px',
     '&$expanded': {
       minHeight: 56,
     },
   },
+  // width: '250px',
   content: {
     '&$expanded': {
       margin: '12px 0',
@@ -50,45 +55,102 @@ const AccordionSummary = withStyles({
 
 const AccordionDetails = withStyles((theme) => ({
   root: {
-    padding: theme.spacing(2),
+    // padding: theme.spacing(2),
   },
 }))(MuiAccordionDetails);
 
+const topAccordionStyle = {
+  width: '250px', 
+  borderRadius: '4px 4px 0px 0px', 
+  backgroundColor: '#ececec'
+}
+
+const bottomAccordionStyle = {
+  width: '250px', 
+  borderRadius: '0px 0px 4px 4px', 
+  backgroundColor: '#ececec'
+}
+
 const mapStateToProps = ({
-  reducer: { categories, email  }
-}) => ({ categories, email });
+  reducer: { categories, email, technologies, userId  }
+}) => ({ categories, email, technologies, userId });
+
+const mapDispatchToProps = dispatch => ({
+  updateTechnologies: (data) => dispatch(actions.updateTechnologies(data))
+});
 
 function Categories(props) {
 
   const [expanded, setExpanded] = useState(false);
-  const topLevel = ['View saved notes', 'Browse all notes']
+  const [topicsFetched, setTopicsFetched] = useState(false);
+  //const [fetchedNotes, setFetchedNotes] = useState(false);
+
+  //console.log(topicsFetched);
+
   const handleChange = (panel) => (event, newExpanded) => {
-    console.log('change', panel, newExpanded);
     setExpanded(newExpanded ? panel : false);
   };
 
-  const accordions = topLevel.map((category, i) => {
-    return (
-      <div key={`k${i}`}>
-        <Accordion square expanded={expanded === `panel${i}`} onChange={handleChange(`panel${i}`)}>
-          <AccordionSummary aria-controls="panel1d-content" id={`panel${i}d-header`}>
-            <Typography variant={'body2'}>{category}</Typography>
+  const getNotes = () => {
+    if (!topicsFetched) {
+      fetch(APIURL + `/technology/notes?id=${props.userId}`, {
+        method: 'GET',
+        headers: {
+          "Content-Type": "application/json",
+          "Accept" : "application/json",
+          "Access-Control-Allow-Origin" : "*"
+        },
+        mode: "cors"
+      })
+      .then(res => res.json())
+      .then(data => { 
+        // if (!Object.entries(data.technologies).length) {
+        //   setFetchedNotes(true);
+        // } else setFetchedNotes(false);
+        props.updateTechnologies(data.technologies);
+        setTopicsFetched(true);
+      })
+      .catch(err => console.log(err));
+    }
+    //console.log(props.technologies);
+    //console.log('fetched notes', topicsFetched);
+  }
+
+  return (
+    <div 
+      style={{
+        display: 'flex', 
+        flexDirection:'column', 
+        alignItems: 'center', 
+        justifyContent:'center', 
+        width: '250px',
+      }}>
+      <div>
+      <Accordion style={topAccordionStyle} square expanded={expanded === `panel1`} onChange={handleChange(`panel1`)}>
+          <AccordionSummary 
+            aria-controls="panel1d-content" 
+            id={`panel1d-header`} 
+            onClick={getNotes}
+          >
+            <Typography>{'View saved notes'}</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            {setTopicsFetched ? <SavedNotes/> : <Loading/>}
+          </AccordionDetails>
+        </Accordion>
+        </div>
+        <div>
+        <Accordion style={bottomAccordionStyle} square expanded={expanded === `panel2`} onChange={handleChange(`panel2`)}>
+          <AccordionSummary aria-controls="panel2d-content" id={`panel2d-header`}>
+            <Typography>{'Browse all notes'}</Typography>
           </AccordionSummary>
           <AccordionDetails>
             <SearchCategories/>
           </AccordionDetails>
         </Accordion>
-      </div>  
-    );
-  });
-  
-  return (
-    <div style={{display: 'flex', flexDirection:'column', alignItems: 'center', justifyContent:'center', paddingLeft: '10px'}}>
-      <div>
-        {accordions}
-      </div>
+        </div>
     </div>
   );
 }
 
-export default connect(mapStateToProps, null)(Categories);
+export default connect(mapStateToProps, mapDispatchToProps)(Categories);

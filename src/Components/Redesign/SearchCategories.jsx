@@ -9,6 +9,7 @@ import { FormatListNumbered } from '@material-ui/icons';
 import { connect } from 'react-redux';
 import APIURL from '../../constants/APIURL';
 import CategoriesList from './CategoriesList';
+import Loading from '../Loading';
 
 const Accordion = withStyles({
   root: {
@@ -23,7 +24,9 @@ const Accordion = withStyles({
     '&$expanded': {
       // margin: 'auto',
     },
-    width: '95%',
+    width: '100%',
+    padding: '0px',
+    margin: '0px'
   },
   expanded: {},
 })(MuiAccordion);
@@ -33,9 +36,9 @@ const AccordionSummary = withStyles({
     backgroundColor: 'rgba(0, 0, 0, .03)',
     borderBottom: '1px solid rgba(0, 0, 0, .125)',
     marginBottom: -1,
-    minHeight: 56,
+    minHeight: 30,
     '&$expanded': {
-      minHeight: 56,
+      minHeight: 0,
     },
   },
   content: {
@@ -58,8 +61,8 @@ const mapStateToProps = ({
 }) => ({ categories, email });
 
 function Categories(props) {
-
   const [expanded, setExpanded] = useState(false);
+  const [showNotes, setShowNotes] = useState(false);
 
   const handleChange = (panel) => (event, newExpanded) => {
     console.log('change', panel, newExpanded);
@@ -69,7 +72,7 @@ function Categories(props) {
   const accordions = Object.keys(props.categories).map((category, i) => {
     return (
       <div key={`k${i}`}>
-        <Accordion square expanded={expanded === `panel${i}`} onChange={handleChange(`panel${i}`)}>
+        <Accordion square expanded={expanded === `panel${i}`} onChange={handleChange(`panel${i}`)} >
           <AccordionSummary aria-controls="panel1d-content" id={`panel${i}d-header`}>
             <Typography variant={'body2'}>{category}</Typography>
           </AccordionSummary>

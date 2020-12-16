@@ -4,8 +4,6 @@ import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 import APIURL from '../../constants/APIURL';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
-import { connect } from 'react-redux';
-import * as actions from '../../actions/actions';
 import Likes from '../Redesign/Likes';
 
 const useStyles = makeStyles((theme) =>
@@ -44,31 +42,15 @@ const useStyles = makeStyles((theme) =>
   }),
 );
 
-const mapStateToProps = ({
-  reducer: { userId }
-}) => ({ userId });
-
 const Quill = (props) => {
   const [value, setValue] = useState(props.value);
   const [readOnlyQuill, setReadOnlyQuill] = useState(true);
   const [quillTheme, setQuillTheme] = useState('bubble');
-  const { bulletId, userId } = props;
   const classes = useStyles();
   const quillRef = useRef();
   
   const handleSaveClick = () => {
-    console.log('post request', bulletId, userId);
-    fetch(APIURL + '/technology/public-note', {
-      method: 'POST',
-      headers: {
-        'Content-Type' : 'application/json'
-      },
-      body: JSON.stringify({
-        userId: props.userId,
-        bulletId          
-      })
-    })
-    .then(console.log('good'));
+    console.log('post request');
   }
 
   const handleEditClick = () => {
@@ -103,6 +85,15 @@ const Quill = (props) => {
             >
               Save
             </Button>
+            {/* <Button
+                className={classes.submitBtn} 
+                onClick={handleEditClick}
+                variant="contained"
+                size="small"
+                color="secondary"
+            >
+              Edit
+            </Button> */}
           </div>
         </div>
       </Paper>
@@ -110,4 +101,4 @@ const Quill = (props) => {
   );
 }
 
-export default connect(mapStateToProps, null)(Quill);
+export default Quill;

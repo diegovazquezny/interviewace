@@ -1,51 +1,53 @@
 import React from 'react';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 import SearchForm from './SearchForm';
-import CreateNote from './CreateNote';
+import NewNoteButton from './NewNoteButton';
 import SearchCategories from './SearchCategories';
 import TopLevelCategories from './TopLevelCategories';
+import * as uiActions from '../../actions/uiActions';
+import { connect } from 'react-redux';
 
 const useStyles = makeStyles((theme) =>
   createStyles({
     root: {
-      minWidth: '100px',
-      maxWidth: '360px',
+      // minWidth: '100px',
+      // maxWidth: '360px',
       width: '360px',
       backgroundColor: 'rgb(21 21 21)',
       height: 'calc(100vh - 70px)',
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
-      resize: 'horizontal',
       overflow: 'auto'
     },
   }),
 );
 
-const LeftPanel = (props) => {
+const mapDispatchToProps = dispatch => ({
+  changeMain: (data) => dispatch(uiActions.changeMain(data)),
+});
+
+const LeftPanel = ({ getTechName, changeMain }) => {
   const classes = useStyles();
 
   const addTech = (input) => {
     return () => {
       const techName = input.current.children[0].firstChild.defaultValue;
       if (!techName) {
+        // TODO: something else beside logging
         console.log('blank');
-        //setShowError(true);
       }
       if (techName) {
-        console.log(techName);
-        props.getTechName(techName);
-        // setShowEditor(true);
-        // setShowError(false);
-        // setShowSearch(!showSearch);
+        changeMain('search');
+        console.log('search clicked', techName);
+        getTechName(techName);
       }
-      //setCurrentTech(techName);
     }
   }
 
   return (
     <div className={classes.root}>
-      <CreateNote/>
+      <NewNoteButton/>
       <SearchForm addTech={addTech}/>
       <TopLevelCategories/>
       {/* <SearchCategories/> */}
@@ -53,4 +55,4 @@ const LeftPanel = (props) => {
   );
 }
 
-export default LeftPanel;
+export default connect(null, mapDispatchToProps)(LeftPanel);

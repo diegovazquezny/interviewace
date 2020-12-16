@@ -6,12 +6,12 @@ import AddTechnology from './Pages/AddTechnology';
 import Redesign from './Pages/Redesign';
 import { connect } from 'react-redux';
 import * as actions from '../src/actions/actions';
+import Loading from './Components/Loading';
 import {
   HashRouter as Router,
   Route,
   Switch,
 } from 'react-router-dom';
-import Loading from './Components/Loading';
 
 const mainTheme = createMuiTheme({
   palette: {

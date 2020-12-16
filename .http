@@ -35,3 +35,13 @@ GET http://localhost:3000/technology/technology-from-category?id=8
 content-type: application/json
 accept: application/json
 access-control-allow-origin: *
+
+###
+
+POST http://localhost:3000/technology/public-note
+content-type: application/json
+
+{
+   "bulletId" : "28",
+   "userId" : "41"
+}

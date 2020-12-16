@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
 import Quill from '../AddTechnology/Quill';
 import APIURL from '../../constants/APIURL';
 import ReadOnlyQuill from '../AddTechnology/ReadOnlyQuill';
 import { connect } from 'react-redux';
-import * as actions from '../../actions/actions';
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -30,19 +28,23 @@ const useStyles = makeStyles((theme) =>
 );
 
 const mapStateToProps = ({
-  reducer: { newNote }
-}) => ({ newNote });
+  reducer: { newNote, technologies },
+  uiReducer: { showSavedNotes, mainPanel }
+}) => ({ newNote, technologies, showSavedNotes, mainPanel });
 
-const MainPanel = (props) => {
+const MainPanel = ({ currentTech, showSavedNotes, technologies, mainPanel }) => {
   const classes = useStyles();
   const [showDefault, setShowDefault] = useState(true);
   const [showEditor, setShowEditor] = useState(false);
   const [notesArray, setNotesArray] = useState([]);
+  const [userSavedNotesArray, setUserSavedNotesArray] = useState([]);
   const [showNewNote, setShowNewNote] = useState(false);
+  const [showUserSavedNotes, setShowUserSavedNotes] = useState(false);
+  const [title, setTitle] = useState('');
 
   useEffect(() => {
-    if (props.currentTech) {
-      fetch(APIURL + `/technology/all-notes-for-tech?q=${props.currentTech}`, {
+    if (currentTech) {
+      fetch(APIURL + `/technology/all-notes-for-tech?q=${currentTech}`, {
         method: 'GET',
         headers: {
           "Content-Type": "application/json",
@@ -66,25 +68,56 @@ const MainPanel = (props) => {
         });
         setNotesArray(notesArray);
         setShowDefault(false);
-        setShowNewNote(false); 
+        setShowNewNote(false);
+        setShowUserSavedNotes(false);  
       })
       .then(()=> setShowEditor(true))
-      .catch(err => console.log(err));
-      
+      .catch(err => console.log(err)); 
     }
-  },[props.currentTech])
+  },[currentTech])
 
   useEffect(()=> {
-    if (showNewNote) {
-      setShowDefault(false);
-      setShowEditor(false);
+    const { techName } = showSavedNotes;
+    if (showSavedNotes.display) {
+      const clearSavedNotes = new Promise((resolve, reject) => {
+        resolve(setUserSavedNotesArray([]));
+      });
+      clearSavedNotes.then(() => {
+        const notesArray = technologies[techName].map((tech, i) => {
+          return (
+            <React.Fragment key={`k${i}`}>
+              <ReadOnlyQuill value={tech.note} bulletId={tech.id}/>
+              <hr/>
+            </React.Fragment>
+          );
+        });
+        setTitle(techName);
+        setUserSavedNotesArray(notesArray); 
+        setShowDefault(false);
+        setShowEditor(false);
+        setShowNewNote(false);
+        setShowUserSavedNotes(true);  
+      });
     }
-    if (props.newNote) {
-      setShowDefault(false);
-      setShowEditor(false);
-      setShowNewNote(true); 
+  },[showSavedNotes.renders]);
+
+  useEffect(() => {
+    //console.log('MAIN PANEL +++++++>>>>>>', mainPanel);
+    switch(mainPanel) {
+      case 'new note':
+        //console.log('main panel switch:', mainPanel);
+        setShowDefault(false);
+        setShowEditor(false);
+        setShowUserSavedNotes(false); 
+        setShowNewNote(true);
+      case 'saved notes':
+        //console.log('main panel switch:', mainPanel);
+      case 'search':
+        //console.log('main panel switch:', mainPanel);
+      default:
+        //console.log('default');
     }
-  },[props.newNote])
+  },[mainPanel]);
 
   return (
     <>
@@ -95,11 +128,21 @@ const MainPanel = (props) => {
       }
       { showEditor &&  
           <div className={classes.notesContainer}>
-            <h1 className={classes.title}>{props.currentTech}</h1> 
+            <h1 className={classes.title}>{currentTech}</h1> 
               {notesArray}
           </div>
       }
-      {showNewNote && <Quill/>} 
+      { showNewNote &&
+        <div className={classes.notesContainer}>
+          <Quill/> 
+        </div> 
+      }
+      { showUserSavedNotes && 
+        <div className={classes.notesContainer}>
+          <h1 className={classes.title}>{title}</h1> 
+            {userSavedNotesArray}
+        </div> 
+      }
     </>
   );
 }

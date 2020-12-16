@@ -9,16 +9,18 @@ const useStyles = makeStyles((theme) =>
   createStyles({
     root: {
       display: 'flex',
-      width: '100%',
-      // backgroundColor: 'gray',
+      width: '250px',
       justifyContent: 'center',
       alignItems: 'flex-end',
       padding: '5px',
       [theme.breakpoints.down('sm')]: {
-        width: '300px',
+        width: '250px',
       },
       height: 'max-content',
       alignItems: 'center',
+    },
+    search: {
+      width: '100%'
     },
     inputRoot: {
       //color: "purple",
@@ -43,7 +45,7 @@ const useSearchStyles = makeStyles({
   btn: {
     height: '40px',
     marginLeft: '5px',
-    marginRight: '5px',
+    marginRight: '0px',
     width: '50px',
     minWidth: '50px'
   },
@@ -57,22 +59,6 @@ const useSearchStyles = makeStyles({
     color: 'red'
   }
 });
-
-const StyledButton = withStyles({
-  root: {
-    background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
-    border: 0,
-    color: 'white',
-    height: 20,
-    padding: '0 30px',
-    boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
-    width: 20
-  },
-  label: {
-    textTransform: 'capitalize',
-  },
-})(Button);
-
 
 const SearchForm = (props) => {
   const [techList, setTechList] = useState([]);
@@ -111,7 +97,8 @@ const SearchForm = (props) => {
         {
           didFetch 
           ? <Autocomplete
-              classes={classes}
+              // classes={classes}
+              className={classes.search}
               id="search"
               size="small"
               freeSolo
@@ -139,7 +126,6 @@ const SearchForm = (props) => {
         onClick={props.addTech(textFieldRef)}
         ><SearchIcon/>
       </Button>    
-      {/* <StyledButton/> */}
       </div>
     </>
   ); 
