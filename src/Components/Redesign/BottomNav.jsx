@@ -117,6 +117,7 @@ const BottomNav = ({ getTechName, changeMain }) => {
       >
         {menuItem === 'Search' && <SearchFormMobile handleSearchClick={handleSearchClick}/>}
         {menuItem === 'Saved' && <SavedNotesMobile closeSavedPopOver={closeSavedPopOver}/>}
+        {menuItem === 'Browse' && <p>Coming soon!</p>}
       </Popover>
     </>
   );

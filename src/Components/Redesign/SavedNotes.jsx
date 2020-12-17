@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import * as actions from '../../actions/actions';
 import * as uiActions from '../../actions/uiActions';
 import Paper from '@material-ui/core/Paper';
+import Loading from '../Loading';
 import APIURL from '../../constants/APIURL';
 
 const mapDispatchToProps = dispatch => ({
@@ -33,7 +34,10 @@ const useStyles = makeStyles((theme) =>
       },
     },
     root: {
-      width: '100%'
+      width: '100%',
+      height: '50vh',
+      overflowY: 'scroll',
+      overflowX: 'hidden'
     }
   }),
 );
@@ -61,7 +65,7 @@ const SavedNotes = ({ userId, technologies, showSavedNotes, closeSavedPopOver })
 
   return (
   <div className={classes.root}>
-    {makeNotes()}
+    {showNotes ? makeNotes() : <Loading/>}
   </div>
   );
 }

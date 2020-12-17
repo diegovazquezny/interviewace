@@ -19,8 +19,6 @@ const initialState = {
   newNote: false
 }
 
-
-
 const reducer = (state = initialState, action) => {
   switch(action.type) {
     case types.UPDATE_USER_INFO:
@@ -36,7 +34,6 @@ const reducer = (state = initialState, action) => {
         authenticated: true
       };
     case types.UPDATE_TECHNOLOGIES:
-      console.log('update', action.payload);
       return {
         ...state,
         technologies: action.payload
