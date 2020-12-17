@@ -15,11 +15,26 @@ const mapStateToProps = ({
 const useStyles = makeStyles((theme) =>
   createStyles({
     root: {
+      width: '260px',
+      // height: 'calc(100vh - 70px - 56px)',
+      backgroundColor: 'rgb(21 21 21)',
+      [theme.breakpoints.down('sm')]: {
+        display: 'none',
+        height: 'calc(100vh - 70px - 56px)',
+      },
+      [theme.breakpoints.up('md')]: {
+        // height: 'calc(100vh - 70px - 56px)',
+        display: 'none',
+      },
+      [theme.breakpoints.up('lg')]: {
+        height: 'calc(100vh - 70px)',
+        display: 'flex',
+      },    
     },
   }),
 );
 
-const Name = (props) => {
+const RightPanel = (props) => {
   const classes = useStyles();
   return (
     <div className={classes.root}>
@@ -27,4 +42,4 @@ const Name = (props) => {
   );
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Name);
+export default connect(mapStateToProps, mapDispatchToProps)(RightPanel);

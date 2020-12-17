@@ -1,5 +1,7 @@
 const db = require('../model');
+require('dotenv').config();
 const { response } = require('../server');
+const jwt = require('jsonwebtoken');
 
 module.exports = {
   findUser: (req, res, next) => {
@@ -44,10 +46,38 @@ module.exports = {
     }
   },
   oauth: (req, res, next) => {   
+    console.log('oauth stuff')
     res.locals.data = {
       domain: process.env.DOMAIN,
       clientId: process.env.CLIENT_ID
     }
     next();  
+  },
+  makeJWT: (req, res, next) => {
+    const data = 'hellooo';
+    console.log('secret ->', process.env.JWT_SECRET);
+    jwt.sign({ data: data }, process.env.JWT_SECRET, { expiresIn: '7d' }, (err, token) => {
+      console.log('jwt sent', token);
+      res.locals.token = token;
+      next();
+    });
+  },
+  verifyJWT: (req, res, next) => {
+    const bearerHeader = req.headers['authorization'];
+    if (!bearerHeader) res.sendStatus(403);
+    else {
+      const bearer = bearerHeader.split(' ');
+      const token = bearer[1];
+      const data = true;
+      jwt.verify(token, process.env.JWT_SECRET, (err, data) => {
+        if (err) {
+          res.sendStatus(403);
+        } 
+        else {
+          res.locals.authenticated = true;
+          next();
+        }
+      })
+    }
   }
 }

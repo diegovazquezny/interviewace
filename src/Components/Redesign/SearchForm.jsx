@@ -1,26 +1,64 @@
 import React, { useState, useEffect, useRef } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import { makeStyles, createStyles } from '@material-ui/core/styles';
+import { makeStyles, createStyles, withStyles } from '@material-ui/core/styles';
+import SearchIcon from '@material-ui/icons/Search';
 import { Button } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) =>
   createStyles({
     root: {
       display: 'flex',
-      width: '500px',
-      alignItems: 'center',
+      width: '250px',
       justifyContent: 'center',
+      alignItems: 'flex-end',
+      padding: '5px',
       [theme.breakpoints.down('sm')]: {
-        width: '95vw'
+        width: '250px',
       },
+      height: 'max-content',
+      alignItems: 'center',
     },
-    btn: {
-      height: '45px',
-      marginLeft: '10px'
-    }
+    search: {
+      width: '100%'
+    },
+    inputRoot: {
+      //color: "purple",
+      "& .MuiOutlinedInput-notchedOutline": {
+        display: 'none',
+        borderColor: "red"
+      },
+      "&:hover .MuiOutlinedInput-notchedOutline": {
+        borderColor: "red"
+      },
+      "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+        borderColor: "purple"
+      },
+      "& .MuiAutocomplete-input" : {
+        //color: 'red'
+      }
+    },	
   })
 );
+
+const useSearchStyles = makeStyles({
+  btn: {
+    height: '40px',
+    marginLeft: '5px',
+    marginRight: '0px',
+    width: '50px',
+    minWidth: '50px'
+  },
+  textField: {
+    backgroundColor: 'white',
+    borderRadius: '4px',
+    height: 'max-content',
+    margin: '0px',
+  },
+  inputLabel: {
+    color: 'red'
+  }
+});
 
 const SearchForm = (props) => {
   const [techList, setTechList] = useState([]);
@@ -28,6 +66,8 @@ const SearchForm = (props) => {
   const [input, setInput] = useState('');
   const textFieldRef = useRef();
   const classes = useStyles();
+  const searchClasses = useSearchStyles();
+
   const api_uri = process.env.NODE_ENV !== 'development' 
     ? 'https://interview-ace.herokuapp.com'
     : '';
@@ -52,37 +92,42 @@ const SearchForm = (props) => {
     setDidFetch(true);
   },[JSON.stringify(techList)]);
   return (
-    <div className={classes.root}>
-      <div style={{ width: 300 }}>
+    <>
+      <div className={classes.root}>
         {
           didFetch 
           ? <Autocomplete
+              // classes={classes}
+              className={classes.search}
               id="search"
+              size="small"
               freeSolo
               options={techList.map((option) => option.tech_name)}
               renderInput={(params) => (
-                <TextField 
+                <TextField
+                  className={searchClasses.textField} 
                   {...params} 
-                  label="Choose a technology" 
                   margin="normal" 
                   variant="outlined"
                   ref={textFieldRef}
                   value={input}
                   onChange={e => setInput(e.target.value)}
+                  placeholder={'Search for a technology'}
                 />
               )}
             />
           : <h1>Fetching Data</h1> 
         }
-      </div>
       <Button
         variant="contained"
         size="small"
         color="secondary"
-        className={classes.btn}
+        className={searchClasses.btn}
         onClick={props.addTech(textFieldRef)}
-      >Add</Button>    
-    </div>
+        ><SearchIcon/>
+      </Button>    
+      </div>
+    </>
   ); 
 }
 

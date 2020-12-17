@@ -70,6 +70,7 @@ const LoggedIn = (props) => {
         >
           {nickname}
         </p>
+        <img src={picture} className={classes.img} onClick={handleClick}/>
         <Menu
           id="simple-menu"
           anchorEl={anchorEl}
@@ -80,6 +81,7 @@ const LoggedIn = (props) => {
           <MenuItem onClick={logoutUser}>Logout</MenuItem>
           <MenuItem onClick={()=>history.push('/add-tech')}>add a technology</MenuItem>
           <MenuItem onClick={()=>history.push('/study')}>study</MenuItem>
+          <MenuItem onClick={()=>history.push('/redesign')}>redesign</MenuItem>
         </Menu>
       </>
     );
@@ -88,8 +90,7 @@ const LoggedIn = (props) => {
   return (
     <div className={classes.container}>
       <DropDownMenu />
-      <img src={picture} className={classes.img}/>
-      </div>
+    </div>
   );
 }
 

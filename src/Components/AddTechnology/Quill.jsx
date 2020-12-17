@@ -7,6 +7,7 @@ import { makeStyles, createStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles((theme) =>
   createStyles({
     root: {
+      alignSelf: 'center',
       [theme.breakpoints.down('sm')]: {
         width: '100vw',
       },
@@ -14,7 +15,7 @@ const useStyles = makeStyles((theme) =>
         width: '100vw'
       },
       [theme.breakpoints.up('lg')]: {
-        width: '80vw'
+        width: '70vw'
       },
     },
     btnWrapper: {
@@ -48,7 +49,6 @@ const Quill = (props) => {
     : '';
   
   const handleClick = () => {
-    //console.log('value', value);
     fetch(api_uri + '/technology/notes', {
       method: 'POST',
       headers: {
@@ -62,7 +62,6 @@ const Quill = (props) => {
     })
       .then(res => res.json())
       .then(data => {
-        //console.log('success? ', data.success);
         if (data.success) props.completedNotes();
       })
       .catch(err => console.log(err));
@@ -70,6 +69,7 @@ const Quill = (props) => {
 
   return (
     <div className={classes.root}>
+      <h1>{props.currentTech}</h1>
       <ReactQuill 
         className={classes.quill} 
         theme="snow" 

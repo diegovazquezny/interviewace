@@ -3,14 +3,15 @@ import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import Study from './Pages/Study';
 import LandingPage from './Pages/LandingPage';
 import AddTechnology from './Pages/AddTechnology';
+import Redesign from './Pages/Redesign';
 import { connect } from 'react-redux';
 import * as actions from '../src/actions/actions';
+import Loading from './Components/Loading';
 import {
   HashRouter as Router,
   Route,
   Switch,
 } from 'react-router-dom';
-import Loading from './Components/Loading';
 
 const mainTheme = createMuiTheme({
   palette: {
@@ -21,6 +22,14 @@ const mainTheme = createMuiTheme({
       main: '#2a4cab',
     },
   },
+  props: {
+    MuiTypography: {
+      variantMapping: {
+        h1: 'h1',
+        body2: 'h2'    
+      }
+    }
+  }
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -41,7 +50,6 @@ function App(props) {
     .then(res => res.json())
     .then(res => {
       const { user }  = res;
-      console.log(user);
       if (user) {
         props.updateUserInfo({
           type: 'UPDATE_USER_INFO',
@@ -81,6 +89,10 @@ function App(props) {
               <Route 
                 exact path="/study"
                 component={Study} 
+              />
+              <Route 
+                exact path="/redesign"
+                component={Redesign} 
               />
             </Switch>
           </Router>

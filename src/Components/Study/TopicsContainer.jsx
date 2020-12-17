@@ -59,7 +59,6 @@ const TopicsContainer = (props) => {
     .then(res => res.json())
     .then(data => { 
       if (!Object.entries(data.technologies).length) {
-        //console.log('empty notes');
         setEmptyNotes(true);
       } else setEmptyNotes(false);
       props.updateTechnologies(data.technologies);

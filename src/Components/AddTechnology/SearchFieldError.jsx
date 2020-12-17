@@ -4,7 +4,7 @@ import { makeStyles, createStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles((theme) =>
   createStyles({
     text: {
-      color: 'red'  
+      color: 'red',
     }
   }),
 );
@@ -12,9 +12,8 @@ const useStyles = makeStyles((theme) =>
 const SearchFieldError = (props) => {
   const classes = useStyles();
   return (
-    <h4 className={classes.text}>
-      Search field cannot be empty. Please enter in a technology.
-    </h4>
+    <h5 className={classes.text}>
+      Please enter in a technology.</h5>
   );
 }
 

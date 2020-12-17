@@ -1,7 +1,9 @@
 export const types = {
   UPDATE_USER_INFO: 'UPDATE_USER_INFO',
   UPDATE_TECHNOLOGIES: 'UPDATE_TECHNOLOGIES',
-  DELETE_NOTE: 'DELETE_NOTE'
+  DELETE_NOTE: 'DELETE_NOTE',
+  ALL_CATEGORIES: 'ALL_CATEGORIES',
+  MAKE_NEW_NOTE: 'MAKE_NEW_NOTE'
 }
 
 const initialState = {
@@ -11,8 +13,10 @@ const initialState = {
   userId: '',
   email: '',
   picture: '',
-  technologies: [],
-  authenticated: false
+  technologies: {},
+  authenticated: false,
+  categories: [],
+  newNote: false
 }
 
 const reducer = (state = initialState, action) => {
@@ -50,6 +54,25 @@ const reducer = (state = initialState, action) => {
       }
       return {
         ...state,
+      };
+    case types.ALL_CATEGORIES:
+      const { categories } = action.payload;
+      const categoriesObject = categories.reduce((object, category) => {
+        const { category_name } = category;
+        object[category_name] = {
+          categoryID: category.category_id,
+          technologies: []
+        }
+        return object;
+      }, {});
+      return {
+        ...state,
+        categories: categoriesObject
+      };
+    case types.MAKE_NEW_NOTE:
+      return {
+        ...state,
+        newNote: true
       };
     default:
       return state;

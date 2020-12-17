@@ -26,7 +26,9 @@ const useStyles = makeStyles((theme) =>
       backgroundColor: '#4b739a',
       margin: '0px',
       padding: '0px',
-      boxShadow: '0 2px 5px 0 rgba(0,0,0,0.16), 0 2px 10px 0 rgba(0,0,0,0.12)'
+      boxShadow: '0 2px 5px 0 rgba(0,0,0,0.16), 0 2px 10px 0 rgba(0,0,0,0.12)',
+      top: '0',
+      // position: 'fixed'
     },
     logo: {
       color: 'white',
@@ -56,14 +58,15 @@ const Header = (props) => {
     fetch(api_uri + '/authentication/login', {
       method: "POST",
       headers: {
-       "Content-Type": "application/json",
-         "Accept" : "application/json",
+        "Content-Type": "application/json",
+        "Accept" : "application/json",
        },
        mode: "cors",
        body: JSON.stringify(user)
       })
        .then(res => res.json())
        .then(data => {
+         console.log('data', data);
          props.updateUserInfo({
            type: 'UPDATE_USER_INFO',
            userData: {

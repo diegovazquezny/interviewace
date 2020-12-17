@@ -7,9 +7,11 @@ module.exports = {
     const query = `
       SELECT bullet_points.bullet, bullet_points.bullet_id, technology.tech_name
       FROM bullet_points
+      INNER JOIN notes_users
+      ON bullet_points.bullet_id = notes_users.bullet_id
+      AND notes_users.user_id = $1
       INNER JOIN technology
       ON bullet_points.tech_id = technology.tech_id
-      AND bullet_points.user_id = $1
       ORDER BY technology.tech_name 
     `;
     db.query(query, [id])
@@ -25,6 +27,26 @@ module.exports = {
         }, {});
         
         res.locals.tech = technologies;
+        next()
+      })
+      .catch(err => {
+        console.log('ERR -->', err);
+        next(err);
+      });
+  },
+  getAllNotesForTech: (req, res, next) => {
+    const { q } = req.query;
+    const query = `
+      SELECT bullet_points.bullet, bullet_points.bullet_id, technology.tech_name
+      FROM bullet_points
+      INNER JOIN technology
+      ON bullet_points.tech_id = technology.tech_id
+      AND technology.tech_name = $1
+      ORDER BY bullet_points.bullet
+    `;
+    db.query(query, [q])
+      .then(response => {
+        res.locals.notes = response.rows;
         next()
       })
       .catch(err => {
@@ -105,5 +127,61 @@ module.exports = {
         console.log('delete query', err);
         next(err);
       });
+  },
+  getAllCategories: (req, res, next) => {
+    const query = `
+      SELECT * FROM categories
+      ORDER BY category_name
+    `;
+    db.query(query)
+      .then(response => {
+        const categories = response.rows;
+        res.locals.categories = categories;
+        next()
+      })
+      .catch(err => {
+        console.log('ERR -->', err);
+        next(err);
+      });
+  },
+  getTechnologyFromCategory: (req, res, next) => {
+    const { id } = req.query;
+    const query = `
+      SELECT tech_name
+      FROM technology
+      NATURAL JOIN categories
+      NATURAL JOIN technology_categories
+      WHERE categories.category_id = $1
+    `;  
+    db.query(query, [id])
+      .then(response => {
+        const technologies = response.rows;
+        console.log(technologies);
+        res.locals.technologies = technologies;
+        next()
+      })
+      .catch(err => {
+        console.log('ERR -->', err);
+        next(err);
+      });
+  },
+  savePublicNote: (req, res, next) => {
+    const { userId, bulletId } = req.body;
+    console.log('save public note')
+    const query = `
+      INSERT INTO notes_users (bullet_id, user_id)
+      VALUES ($1, $2)
+    `;  
+    db.query(query, [bulletId, userId])
+      .then(response => {
+        const technologies = response.rows;
+        console.log(technologies);
+        next()
+      })
+      .catch(err => {
+        console.log('ERR -->', err);
+        next(err);
+      });
   }
 }
+ 

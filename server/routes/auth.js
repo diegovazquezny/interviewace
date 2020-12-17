@@ -11,8 +11,12 @@ router
     authController.createUser,
     cookieController.setSSIDCookie,
     sessionController.startSession,
+    authController.makeJWT,
     (req, res) => {
-      res.status(200).json({ sessionId: res.locals.ssid })
+      res.status(200).json({ 
+        sessionId: res.locals.ssid, 
+        token: res.locals.token
+      })
     })
   .get('/login',
     authController.oauth,
@@ -26,7 +30,6 @@ router
       res.status(200).json({ user: res.locals.user })
     })
   .get('/', (req, res) => {
-      console.log('get');
       return res.sendStatus(200);
     });
     
