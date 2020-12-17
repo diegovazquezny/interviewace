@@ -10,20 +10,15 @@ const uiState = {
     renders: 0  
   },
   mainPanel: '',
-  // newNote: 
 }
 
 const uiReducer = (state = uiState, action) => {
   switch(action.type) {
     case types.SHOW_SAVED_NOTES:
-      // do stuff
-      //console.log('ui reducer', action, state.showSavedNotes.display);
       const techName = action.payload;
       if (techName === state.showSavedNotes.techName) {
         return state;
-      } //console.log('same tech');
-      //console.log('id', techId);
-
+      } 
       return {
         ...state,
         mainPanel: 'user notes',
@@ -34,7 +29,6 @@ const uiReducer = (state = uiState, action) => {
         }
       }
     case types.CHANGE_MAIN:
-      console.log('ui reducer change main =>', action);
       switch(action.payload) {
         case 'search':
           return {

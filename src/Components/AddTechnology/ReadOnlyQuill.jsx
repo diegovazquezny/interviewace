@@ -68,7 +68,7 @@ const Quill = (props) => {
         bulletId          
       })
     })
-    .then(console.log('good'));
+    //.then();
   }
 
   const handleEditClick = () => {
