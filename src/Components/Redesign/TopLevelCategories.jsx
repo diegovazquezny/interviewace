@@ -4,11 +4,8 @@ import MuiAccordion from '@material-ui/core/Accordion';
 import MuiAccordionSummary from '@material-ui/core/AccordionSummary';
 import MuiAccordionDetails from '@material-ui/core/AccordionDetails';
 import Typography from '@material-ui/core/Typography';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import { FormatListNumbered } from '@material-ui/icons';
 import { connect } from 'react-redux';
 import APIURL from '../../constants/APIURL';
-import CategoriesList from './CategoriesList';
 import SearchCategories from './SearchCategories';
 import * as actions from '../../actions/actions';
 import Loading from '../Loading';
@@ -85,9 +82,6 @@ function Categories(props) {
 
   const [expanded, setExpanded] = useState(false);
   const [topicsFetched, setTopicsFetched] = useState(false);
-  //const [fetchedNotes, setFetchedNotes] = useState(false);
-
-  //console.log(topicsFetched);
 
   const handleChange = (panel) => (event, newExpanded) => {
     setExpanded(newExpanded ? panel : false);
@@ -106,16 +100,11 @@ function Categories(props) {
       })
       .then(res => res.json())
       .then(data => { 
-        // if (!Object.entries(data.technologies).length) {
-        //   setFetchedNotes(true);
-        // } else setFetchedNotes(false);
         props.updateTechnologies(data.technologies);
         setTopicsFetched(true);
       })
       .catch(err => console.log(err));
     }
-    //console.log(props.technologies);
-    //console.log('fetched notes', topicsFetched);
   }
 
   return (

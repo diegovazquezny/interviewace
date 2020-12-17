@@ -5,15 +5,40 @@ import MainPanel from '../Components/Redesign/MainPanel';
 import Header from '../Components/Header/Header';
 import Loading from '../Components/Loading';
 import RightPanel from '../Components/Redesign/RightPanel';
-import { connect } from 'react-redux';
+import BottomNav from '../Components/Redesign/BottomNav';
 import * as actions from '../actions/actions'; 
+import APIURL from '../constants/APIURL';
+import { connect } from 'react-redux';
 
 const useStyles = makeStyles((theme) =>
   createStyles({
     root: {
+      width: '100%',
+      [theme.breakpoints.down('sm')]: {
+        display: 'flex',
+      },
+      [theme.breakpoints.up('md')]: {
+        display: 'flex',
+      },
+      [theme.breakpoints.up('lg')]: {
+        // display: 'none',
+      },
     },
     container: {
       display: 'flex'
+    },
+    body: {
+      [theme.breakpoints.down('sm')]: {
+        // height: '100vh',
+        overflow: 'scroll'
+      },
+      [theme.breakpoints.down('md')]: {
+        // height: '100vh',
+        overflow: 'scroll'
+      },
+      [theme.breakpoints.up('lg')]: {
+        overflow: 'visible'
+      },
     }
   }),
 );
@@ -27,9 +52,11 @@ const Redesign = (props) => {
   const [didFetch, setDidFetch] = useState(false);
   const [categoryArray, setCategoryArray] = useState([]);
   const [currentTech, setCurrentTech] = useState('');
-  const api_uri = process.env.NODE_ENV !== 'development' 
-  ? 'https://interview-ace.herokuapp.com'
-  : '';
+  const [value, setValue] = React.useState('recents');
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
   
   const getTechName = (techName) => {
     setCurrentTech(techName);
@@ -37,7 +64,7 @@ const Redesign = (props) => {
 
   const token = 'hello';
   if (!didFetch) {
-    fetch(api_uri + '/technology/all-categories' , {
+    fetch(APIURL + '/technology/all-categories' , {
       method: 'GET',
       headers: {
         "Content-Type": "application/json",
@@ -49,18 +76,14 @@ const Redesign = (props) => {
     })
     .then(res => res.json())
     .then(categories => {
-      //console.log(categories);
-      //const categoryArray = categories.success.map(category => category.category_name);
       props.allCategories(categories);
-      //setCategoryArray(categoryArray);
-      //console.log(categoryArray); 
     })
     .then(data => setDidFetch(true))
     .catch(err => console.log(err));
   }
   
   return (
-    <>
+    <div className={classes.body}>
       { didFetch 
         ? <div>
             <Header/>
@@ -72,7 +95,10 @@ const Redesign = (props) => {
           </div>
         : <Loading/>
       }
-    </>
+      <>
+        <BottomNav getTechName={getTechName}/>
+      </>
+    </div>
   );
 }
 

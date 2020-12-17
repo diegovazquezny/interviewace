@@ -8,7 +8,19 @@ import { connect } from 'react-redux';
 const useStyles = makeStyles((theme) =>
   createStyles({
     root: {
-      display: 'flex'
+      display: 'flex',
+      [theme.breakpoints.down('sm')]: {
+        height: 'calc(100vh - 70px - 56px)',
+        overFlow: 'scroll',
+        width: '100vw'
+      },
+      [theme.breakpoints.up('md')]: {
+        minHeight: 'calc(100vh - 70px - 56px)',
+        width: '100vw'
+      },
+      [theme.breakpoints.up('lg')]: {
+        height: 'calc(100vh - 70px)',
+      }, 
     },
     notesContainer: {
       display: 'flex',
@@ -102,10 +114,8 @@ const MainPanel = ({ currentTech, showSavedNotes, technologies, mainPanel }) => 
   },[showSavedNotes.renders]);
 
   useEffect(() => {
-    //console.log('MAIN PANEL +++++++>>>>>>', mainPanel);
     switch(mainPanel) {
       case 'new note':
-        //console.log('main panel switch:', mainPanel);
         setShowDefault(false);
         setShowEditor(false);
         setShowUserSavedNotes(false); 
@@ -120,7 +130,7 @@ const MainPanel = ({ currentTech, showSavedNotes, technologies, mainPanel }) => 
   },[mainPanel]);
 
   return (
-    <>
+    <div className={classes.root}>
       { showDefault &&
           <div className={classes.titleWrapper}>
             <h1>Search for Notes or Create Your Own </h1>
@@ -143,7 +153,7 @@ const MainPanel = ({ currentTech, showSavedNotes, technologies, mainPanel }) => 
             {userSavedNotesArray}
         </div> 
       }
-    </>
+    </div>
   );
 }
 

@@ -39,17 +39,17 @@ const useStyles = makeStyles((theme) =>
 );
 
 
-const SavedNotes = ({ userId, technologies, showSavedNotes }) => {
+const SavedNotes = ({ userId, technologies, showSavedNotes, closeSavedPopOver }) => {
   const classes = useStyles();
   const [showNotes, setShowNotes] = useState(false);
 
   const handleClick = (techName) => (e) =>{
     console.log(techName);
-    showSavedNotes(techName);  
+    showSavedNotes(techName);
+    if (closeSavedPopOver) closeSavedPopOver();  
   } 
   
   const makeNotes = () => {
-    //console.log(technologies);
     return Object.entries(technologies)
       .map(([tech, data], i) => <Paper className={classes.text} key={`topic${i}`} onClick={handleClick(tech)}>{tech}</Paper>);
   }

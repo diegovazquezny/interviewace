@@ -26,7 +26,9 @@ const useStyles = makeStyles((theme) =>
       backgroundColor: '#4b739a',
       margin: '0px',
       padding: '0px',
-      boxShadow: '0 2px 5px 0 rgba(0,0,0,0.16), 0 2px 10px 0 rgba(0,0,0,0.12)'
+      boxShadow: '0 2px 5px 0 rgba(0,0,0,0.16), 0 2px 10px 0 rgba(0,0,0,0.12)',
+      top: '0',
+      // position: 'fixed'
     },
     logo: {
       color: 'white',

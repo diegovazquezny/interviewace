@@ -18,7 +18,18 @@ const useStyles = makeStyles((theme) =>
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
-      overflow: 'auto'
+      overflow: 'auto',
+      [theme.breakpoints.down('sm')]: {
+        display: 'none',
+      },
+      [theme.breakpoints.up('md')]: {
+        // height: 'calc(100vh - 70px - 56px)',
+        display: 'none',
+      },
+      [theme.breakpoints.up('lg')]: {
+        height: 'calc(100vh - 70px)',
+        display: 'flex',
+      },  
     },
   }),
 );
