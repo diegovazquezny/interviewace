@@ -10,22 +10,22 @@ router
     techController.getNotes, 
     (req, res) => {
       res.status(200).json({ technologies: res.locals.tech })
-    })
+  })
   .get('/all-tech', 
     techController.fetchTopics, 
     (req, res) => {
       res.status(200).json({ technologies: res.locals.allTech })
-    })
+  })
   .get('/all-notes-for-tech', 
     techController.getAllNotesForTech, 
     (req, res) => {
       res.status(200).json({ technologies: res.locals.notes })
-    })
+  })
   .post('/notes',
     techController.saveNotes,
     (req, res) => {
       res.status(200).json({ success: res.locals.success })
-    }) 
+  }) 
   .delete('/notes',
     techController.deleteNotes,
     (req, res) => {
