@@ -4,6 +4,7 @@ import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 import FolderIcon from '@material-ui/icons/Folder';
 import VisibilityOutlinedIcon from '@material-ui/icons/VisibilityOutlined';
+import AddBoxIcon from '@material-ui/icons/AddBox';
 import SearchIcon from '@material-ui/icons/Search';
 import { connect } from 'react-redux';
 import Popover from '@material-ui/core/Popover';
@@ -39,35 +40,48 @@ const mapDispatchToProps = dispatch => ({
   changeMain: (data) => dispatch(uiActions.changeMain(data)),
 });
 
-const BottomNav = ({ getTechName, changeMain }) => {
+const mapStateToProps = ({
+  reducer: { userName, picture, authenticated }
+}) => ({ userName, picture, authenticated });
+
+const BottomNav = ({ getTechName, changeMain, userName }) => {
   const classes = useStyles();
   const [value, setValue] = useState('recents');
   const [anchorEl, setAnchorEl] = useState(null);
   const [menuItem, setMenuItem] = useState('');
   const open = Boolean(anchorEl);
 
-
+  
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-
-  const handlePopOverOpen = (e) => {
-    console.log('click =>', e.currentTarget.children[0].children[1].textContent);
+  
+  const handleAddNoteClick = (e) => {
     const menuItem = e.currentTarget.children[0].children[1].textContent;
     setMenuItem(menuItem);
+    changeMain(menuItem);
+  }
+
+  const handlePopOverOpen = (e) => {
+    //console.log('click =>', e.currentTarget.children[0].children[1].textContent);
+    const menuItem = e.currentTarget.children[0].children[1].textContent;
+    //if (!userName && menuItem === 'Saved') return;
+    setMenuItem(menuItem);
     setAnchorEl(e.currentTarget);
+    changeMain(menuItem);
+    console.log('item was clicked');
   }
 
   const handlePopoverClose = () => {
     setAnchorEl(null);
   };
 
-  const handleSearchClick = (textRef) => (e) => {
-    const techName = textRef.current.children[0].firstChild.value;
-    setAnchorEl(null);
+  const handleSearchClick = (textRef, value) => (e) => {
+    //console.log('search option clicked')
+    const techName = value ? value : textRef.current.children[0].firstChild.value;
+    setTimeout(setAnchorEl(null), 0);
     if (techName) {
       changeMain('search');
-      console.log('search clicked', techName);
       getTechName(techName);
     }
   }
@@ -77,6 +91,12 @@ const BottomNav = ({ getTechName, changeMain }) => {
   return (
     <>
       <BottomNavigation value={value} onChange={handleChange} className={classes.root}>
+        <BottomNavigationAction 
+          label="Add" 
+          value="add" 
+          icon={<AddBoxIcon />}
+          onClick={handleAddNoteClick} 
+        />
         <BottomNavigationAction 
           label="Search" 
           value="search" 

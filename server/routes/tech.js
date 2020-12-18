@@ -41,6 +41,6 @@ router
   })
   .post('/public-note', techController.savePublicNote,
   (req, res) => {
-    res.status(200).json({ success: true })
+    res.status(200).json({ success: res.locals.success })
   })
 module.exports = router;

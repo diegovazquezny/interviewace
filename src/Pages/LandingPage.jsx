@@ -106,7 +106,15 @@ const LandingPage = (props) => {
                 : <>
                     <h1 className={classes.bannerText}>Prepare for your next interview with Interview Ace. Join today!</h1>
                     <div className={classes.btnWrapper}>
-                      <LoginButton/> 
+                    <Button
+                        className={classes.btn}
+                        variant="contained"
+                        size="large"
+                        color="primary"
+                        onClick={()=>history.push('/redesign')}
+                      >
+                        get started
+                      </Button> 
                     </div>
                   </>
               }

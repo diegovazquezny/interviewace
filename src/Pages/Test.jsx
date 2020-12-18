@@ -25,16 +25,15 @@ const useStyles = makeStyles((theme) =>
       },
     },
     container: {
-      display: 'flex',
+      display: 'flex'
     },
     body: {
       [theme.breakpoints.down('sm')]: {
-        height: 'calc(100vh - 56px)',
         // height: '100vh',
         overflow: 'scroll'
       },
       [theme.breakpoints.down('md')]: {
-        height: 'calc(100vh - 56px)',
+        // height: '100vh',
         overflow: 'scroll'
       },
       [theme.breakpoints.up('lg')]: {

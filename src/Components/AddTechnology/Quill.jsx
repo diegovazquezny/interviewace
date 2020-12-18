@@ -4,6 +4,9 @@ import { Button } from '@material-ui/core';
 import 'react-quill/dist/quill.snow.css';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 
+/* TODO
+  user needs to enter in tech name and category/tags
+*/
 const useStyles = makeStyles((theme) =>
   createStyles({
     root: {
@@ -85,15 +88,6 @@ const Quill = (props) => {
             color="secondary"
         >
           SUBMIT
-        </Button>
-        <Button
-            className={classes.searchBtn}    
-            onClick={props.backToSearch}
-            variant="contained"
-            size="small"
-            color="secondary"
-        >
-          SEARCH
         </Button>
       </div>
     </div>

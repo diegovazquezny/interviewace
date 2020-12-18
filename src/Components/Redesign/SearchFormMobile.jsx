@@ -60,11 +60,10 @@ const SearchForm = ({ handleSearchClick }) => {
     : '';
 
     
-  // const handleSearchClick = (textRef) => (e) => {
-  //   const techName = textRef.current.children[0].firstChild.value;
-  //   console.log(techName);
-  //   //const techName = textRef.children[0].firstChild.defaultValue;
-  // }
+  const handleClickOnSearchTerm = (e, option) => {
+    if (option === 'blur') return;
+    handleSearchClick(null, e.target.innerText)();
+  }
 
   function fetchTech () {
     fetch(api_uri + '/technology/all-tech')
@@ -93,7 +92,11 @@ const SearchForm = ({ handleSearchClick }) => {
         {
           didFetch 
           ? <Autocomplete
-              // classes={classes}
+              // onClose={((e,_)=> handleSearchClick(null, e.target.innerText)())}
+              onClose={handleClickOnSearchTerm}
+              open={input ? true : false}
+              openOnFocus={true}
+              limitTags={3}
               className={classes.search}
               id="search"
               size="small"
@@ -101,6 +104,7 @@ const SearchForm = ({ handleSearchClick }) => {
               options={techList.map((option) => option.tech_name)}
               renderInput={(params) => (
                 <TextField
+                  autoComplete='false'
                   className={searchClasses.textField} 
                   {...params} 
                   margin="normal" 
@@ -120,7 +124,6 @@ const SearchForm = ({ handleSearchClick }) => {
         color="secondary"
         className={searchClasses.btn}
         onClick={handleSearchClick(textFieldRef)}
-        // onClick={props.addTech(textFieldRef)}
         ><SearchIcon/>
       </Button>    
       </div>
