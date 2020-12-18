@@ -70,10 +70,11 @@ module.exports = {
       });
   },
   saveNotes: (req, res, next) => {
-    const { notes } = req.body;
-    const { currentTech } = req.body;
-    let { userId } = req.body;
-    userId = !userId ? 5 : userId; 
+    const { notes, userId } = req.body;
+    const { techName, techCategory } = req.body.noteInfo;
+    //let { userId } = req.body;
+    console.log(notes, techName, techCategory, userId);
+    //userId = !userId ? 5 : userId; 
     const functionQuery = `
       CREATE OR REPLACE FUNCTION newTech (text)
       RETURNS integer AS $techid$
@@ -92,16 +93,24 @@ module.exports = {
     const runFunctionQuery = `select newTech($1)`;
 
     const bulletPointsQuery = `
-      INSERT INTO bullet_points (tech_id, bullet, user_id)
-      SELECT technology.tech_id, $2, $3
+      INSERT INTO bullet_points (tech_id, bullet, user_id, category)
+      SELECT technology.tech_id, $2, $3, $4
       FROM technology
       WHERE technology.tech_name = $1
+      RETURNING bullet_points.bullet_id
     `;
     
+    // TODO: get the bullet_id from the response
+    // write another query to insert the bullet_id and user_id into notes_users
+
+    const notesUsersQuery = `
+      INSERT INTO 
+    `;
+
     db.query(functionQuery)
-      .then(response => db.query(runFunctionQuery, [currentTech]))
+      .then(response => db.query(runFunctionQuery, [techName]))
       .then(response => techId = response.rows[0].tech_id)
-      .then(response => db.query(bulletPointsQuery, [currentTech, notes, userId]))
+      .then(response => db.query(bulletPointsQuery, [techName, notes, userId, techCategory]))
       .then(response => {
         res.locals.success = true;
         next();

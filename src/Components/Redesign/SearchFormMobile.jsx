@@ -70,7 +70,7 @@ const SearchForm = ({ handleSearchClick }) => {
       .then(res => res.json())
       .then(data => {
         const { technologies } = data;
-        setTechList(technologies)
+        setTechList(technologies);
       })
       .catch(err => console.log(err));
   }
