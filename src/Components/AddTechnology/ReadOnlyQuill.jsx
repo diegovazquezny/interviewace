@@ -4,9 +4,24 @@ import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 import APIURL from '../../constants/APIURL';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
 import { connect } from 'react-redux';
 import * as actions from '../../actions/actions';
 import Likes from '../Redesign/Likes';
+
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
+// const useStyles = makeStyles((theme) => ({
+//   root: {
+//     width: '100%',
+//     '& > * + *': {
+//       marginTop: theme.spacing(2),
+//     },
+//   },
+// }));
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -52,10 +67,20 @@ const Quill = (props) => {
   const [value, setValue] = useState(props.value);
   const [readOnlyQuill, setReadOnlyQuill] = useState(true);
   const [quillTheme, setQuillTheme] = useState('bubble');
+  const [openWarning, setOpenWarning] = useState(false);
+  const [openSuccess, setOpenSuccess] = useState(false);
   const { bulletId, userId } = props;
   const classes = useStyles();
   const quillRef = useRef();
-  
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpenSuccess(false);
+    setOpenWarning(false);
+  };
+
   const handleSaveClick = () => {
     console.log('post request', bulletId, userId);
     fetch(APIURL + '/technology/public-note', {
@@ -68,7 +93,13 @@ const Quill = (props) => {
         bulletId          
       })
     })
-    //.then();
+    .then(res => res.json())
+    .then(data => {
+      const { success } = data;
+      if (!success) setOpenWarning(true);
+      else setOpenSuccess(true);
+    })
+    .catch(err => console.log(err));
   }
 
   const handleEditClick = () => {
@@ -93,19 +124,28 @@ const Quill = (props) => {
           />
         <div className={classes.btnContainer}>
           <Likes/>
-          <div className={classes.btnWrapper}>
-            <Button
-                className={classes.submitBtn} 
-                onClick={handleSaveClick}
-                variant="contained"
-                size="small"
-                color="secondary"
-            >
-              Save
-            </Button>
-          </div>
+          <Button
+              className={classes.submitBtn} 
+              onClick={handleSaveClick}
+              variant="contained"
+              size="small"
+              color="secondary"
+              style={{display: userId ? 'intial' : 'none'}}
+          >
+            Save
+          </Button>
         </div>
       </Paper>
+      <Snackbar open={openWarning} autoHideDuration={3000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="warning">
+          You already saved this note!
+        </Alert>
+      </Snackbar>
+      <Snackbar open={openSuccess} autoHideDuration={3000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="success">
+          The note is saved!
+        </Alert>
+      </Snackbar>
     </div>
   );
 }

@@ -15,7 +15,8 @@ const Likes = (props) => {
         width: 'fit-content',
         height: '30px',
         padding: '0px 5px 0px 5px',
-        alignItems: 'center'
+        alignItems: 'center',
+        marginLeft: '10px'
       },
       number: {
         fontSize: '1.2rem'

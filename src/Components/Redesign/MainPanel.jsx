@@ -10,7 +10,8 @@ const useStyles = makeStyles((theme) =>
     root: {
       display: 'flex',
       [theme.breakpoints.down('sm')]: {
-        height: 'calc(100vh - 70px - 56px)',
+        // height: 'calc(100vh - 70px - 56px)',
+        height: 'fit-content',
         overFlow: 'scroll',
         width: '100vw'
       },
@@ -115,6 +116,8 @@ const MainPanel = ({ currentTech, showSavedNotes, technologies, mainPanel }) => 
 
   useEffect(() => {
     switch(mainPanel) {
+      case 'add':
+        console.log('add new note');
       case 'new note':
         setShowDefault(false);
         setShowEditor(false);

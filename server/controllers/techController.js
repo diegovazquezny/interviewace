@@ -140,7 +140,7 @@ module.exports = {
         next()
       })
       .catch(err => {
-        console.log('ERR -->', err);
+        console.log(err);
         next(err);
       });
   },
@@ -175,12 +175,18 @@ module.exports = {
     db.query(query, [bulletId, userId])
       .then(response => {
         const technologies = response.rows;
-        console.log(technologies);
-        next()
+        res.locals.success = true;        
+        next();
       })
       .catch(err => {
-        console.log('ERR -->', err);
-        next(err);
+        console.log(err.toString())
+        if (err.code == 23505) {
+          res.locals.success = false;
+          next();
+        } else {
+          console.log('ERR -->', err.code);
+          next(err);
+        }
       });
   }
 }

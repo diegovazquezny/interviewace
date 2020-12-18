@@ -59,7 +59,8 @@ const Redesign = (props) => {
   };
   
   const getTechName = (techName) => {
-    setCurrentTech(techName);
+    //setCurrentTech(techName);
+    setTimeout(setCurrentTech(techName), 0);
   } 
 
   const token = 'hello';

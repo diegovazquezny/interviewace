@@ -30,6 +30,8 @@ function SavedNotesMobile(props) {
     setExpanded(newExpanded ? panel : false);
   };
 
+  if (!props.userId) return <p>Log in to see saved notes</p>
+
   const getNotes = () => {
     if (!topicsFetched) {
       fetch(APIURL + `/technology/notes?id=${props.userId}`, {

@@ -75,7 +75,7 @@ const Quill = (props) => {
           />
         <div className={classes.btnContainer}>
           <Likes/>
-          <div className={classes.btnWrapper}>
+          {/* <div className={classes.btnWrapper}> */}
             <Button
                 className={classes.submitBtn} 
                 onClick={handleSaveClick}
@@ -94,7 +94,7 @@ const Quill = (props) => {
             >
               Edit
             </Button> */}
-          </div>
+          {/* </div> */}
         </div>
       </Paper>
     </div>
