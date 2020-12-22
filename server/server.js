@@ -12,13 +12,14 @@ app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.resolve(__dirname, '../index.html')));
+app.use(express.static(path.join(__dirname, 'dist')));
 
 app.use('/authentication', authRouter);
 app.use('/technology', techRouter);
 // app.use('/test', authController.makeJWT);
 // app.use('/secret', authController.verifyJWT);
-app.use('*', (req, res) => res.sendStatus(404));
+app.get('/', (req, res) => res.sendFile(path.resolve(__dirname, 'build', 'index.html')));
+app.use('*', (req, res) => res.redirect('/'));
 
 // Global Error Handler
 app.use(function (err, req, res, next) {
