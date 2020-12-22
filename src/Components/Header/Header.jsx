@@ -66,7 +66,8 @@ const Header = (props) => {
       })
        .then(res => res.json())
        .then(data => {
-         console.log('data', data);
+         console.log('token', data.token);
+         //localStorage.setItem('JWT', data.token);
          props.updateUserInfo({
            type: 'UPDATE_USER_INFO',
            userData: {

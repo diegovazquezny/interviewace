@@ -26,6 +26,7 @@ router
     }) 
   .get('/session',
     sessionController.resumeSession,
+    authController.makeJWT,
     (req, res) => {
       res.status(200).json({ user: res.locals.user })
     })

@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const techController = require('../controllers/techController');
+const authController = require('../controllers/authController');
 
 router
   .get('/', (req, res) => {
@@ -31,7 +32,7 @@ router
     (req, res) => {
       res.status(200).json({ success: res.locals.success })
   })
-  .get('/all-categories', techController.getAllCategories,
+  .get('/all-categories', authController.verifyJWT, techController.getAllCategories,
   (req, res) => {
     res.status(200).json({ categories: res.locals.categories })
   })

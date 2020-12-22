@@ -7,10 +7,12 @@ import Redesign from './Pages/Redesign';
 import { connect } from 'react-redux';
 import * as actions from '../src/actions/actions';
 import Loading from './Components/Loading';
+import Cookies from 'js-cookie';
 import {
-  HashRouter as Router,
+  BrowserRouter as Router,
   Route,
   Switch,
+  Redirect
 } from 'react-router-dom';
 
 const mainTheme = createMuiTheme({
@@ -40,7 +42,8 @@ const mapStateToProps = ({
   reducer: { userName, picture, email }
 }) => ({ userName, picture, email });
 
-function App(props) {
+//function App(props) {
+function App({updateUserInfo, userName, picture, email}) {
   const [checkSession, setCheckSession] = useState(false);
   const api_uri = process.env.NODE_ENV !== 'development' 
     ? 'https://interview-ace.herokuapp.com'
@@ -49,9 +52,10 @@ function App(props) {
   fetch(api_uri + '/authentication/session')
     .then(res => res.json())
     .then(res => {
-      const { user }  = res;
+      const { user } = res;
+      //console.log('user', document.cookie);
       if (user) {
-        props.updateUserInfo({
+        updateUserInfo({
           type: 'UPDATE_USER_INFO',
           userData: {
             firstname: user.firstname,
@@ -68,6 +72,22 @@ function App(props) {
     })
     .catch(err => console.log(err));
 
+  console.log(Cookies);
+
+  const PrivateRoute = ({ component: Component, ...rest }) => (
+    <Route
+      {...rest}
+      render={props => {
+        return Cookies.get('ssid') || userName ? (
+          <Component {...props} />
+          ) : (
+            <Redirect to="/" />
+            )
+        }
+      }
+    />
+  );
+
   return (
     <>
     {
@@ -82,15 +102,15 @@ function App(props) {
                 exact path="/"
                 component={LandingPage} 
               />
-              <Route 
+              <PrivateRoute 
                 exact path="/add-tech"
                 component={AddTechnology} 
               />
-              <Route 
+              <PrivateRoute 
                 exact path="/study"
                 component={Study} 
               />
-              <Route 
+              <PrivateRoute 
                 exact path="/redesign"
                 component={Redesign} 
               />

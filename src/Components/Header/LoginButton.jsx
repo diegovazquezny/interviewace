@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme) =>
   }),
 );
 
-const LoginButton = () => {
+const LoginButton = ({text}) => {
   const { loginWithRedirect } = useAuth0();
   const classes = useStyles();
 
@@ -23,7 +23,7 @@ const LoginButton = () => {
       color="secondary"
       className={classes.btn}
     >
-      Log In
+      {text ? text : 'Log In'}
     </Button>
   );
 };

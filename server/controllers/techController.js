@@ -165,7 +165,7 @@ module.exports = {
     db.query(query, [id])
       .then(response => {
         const technologies = response.rows;
-        console.log(technologies);
+        console.log('technologies', technologies);
         res.locals.technologies = technologies;
         next()
       })
