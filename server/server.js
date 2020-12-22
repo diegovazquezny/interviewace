@@ -6,7 +6,6 @@ const cors = require('cors')
 const authRouter = require('./routes/auth');
 const techRouter = require('./routes/tech');
 require('dotenv').config();
-//const authController = require('./controllers/authController');
 
 app.enable('trust proxy', 1);
 app.use(cors());

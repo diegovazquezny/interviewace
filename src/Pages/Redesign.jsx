@@ -41,6 +41,11 @@ const useStyles = makeStyles((theme) =>
       [theme.breakpoints.up('lg')]: {
         overflow: 'visible'
       },
+    },
+    panels: {
+      [theme.breakpoints.down('md')]: {
+        display: 'none'
+      },
     }
   }),
 );
@@ -92,9 +97,9 @@ const Redesign = (props) => {
         ? <div>
             <Header/>
             <div className={classes.container}>
-              <LeftPanel getTechName={getTechName}/>
+              <LeftPanel className={classes.panels} getTechName={getTechName}/>
               <MainPanel currentTech={currentTech}/>
-              <RightPanel/>     
+              <RightPanel className={classes.panels}/>     
             </div>
           </div>
         : <Loading/>

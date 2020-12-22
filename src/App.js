@@ -9,7 +9,7 @@ import * as actions from '../src/actions/actions';
 import Loading from './Components/Loading';
 import Cookies from 'js-cookie';
 import {
-  BrowserRouter as Router,
+  HashRouter as Router,
   Route,
   Switch,
   Redirect
@@ -42,7 +42,6 @@ const mapStateToProps = ({
   reducer: { userName, picture, email }
 }) => ({ userName, picture, email });
 
-//function App(props) {
 function App({updateUserInfo, userName, picture, email}) {
   const [checkSession, setCheckSession] = useState(false);
   const api_uri = process.env.NODE_ENV !== 'development' 
