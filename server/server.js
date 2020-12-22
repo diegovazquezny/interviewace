@@ -18,7 +18,8 @@ app.use('/authentication', authRouter);
 app.use('/technology', techRouter);
 // app.use('/test', authController.makeJWT);
 // app.use('/secret', authController.verifyJWT);
-app.get('/', (req, res) => res.sendFile(path.resolve(__dirname, 'build', 'index.html')));
+app.get('/', (req, res) => res.sendFile(path.resolve(__dirname, 'dist', 'index.html')));
+console.log(path.resolve(__dirname, 'dist', 'index.html'));
 app.use('*', (req, res) => res.redirect('/'));
 
 // Global Error Handler
