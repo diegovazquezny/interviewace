@@ -88,11 +88,11 @@ const LandingPage = (props) => {
                         variant="contained"
                         size="large"
                         color="primary"
-                        onClick={()=>history.push('/study')}
+                        onClick={()=>history.push('/redesign')}
                       >
-                        Study
+                        See notes
                       </Button>
-                      <Button
+                      {/* <Button
                         className={classes.btn}
                         variant="contained"
                         size="large"
@@ -100,21 +100,13 @@ const LandingPage = (props) => {
                         onClick={()=>history.push('/add-tech')}
                       >
                         Add notes
-                      </Button>
+                      </Button> */}
                     </div>  
                   </>
                 : <>
                     <h1 className={classes.bannerText}>Prepare for your next interview with Interview Ace. Join today!</h1>
                     <div className={classes.btnWrapper}>
-                    <Button
-                        className={classes.btn}
-                        variant="contained"
-                        size="large"
-                        color="primary"
-                        onClick={()=>history.push('/redesign')}
-                      >
-                        get started
-                      </Button> 
+                      <LoginButton text={'Sign up'}/>
                     </div>
                   </>
               }

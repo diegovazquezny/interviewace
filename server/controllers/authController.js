@@ -59,11 +59,18 @@ module.exports = {
     jwt.sign({ data: data }, process.env.JWT_SECRET, { expiresIn: '7d' }, (err, token) => {
       console.log('jwt sent', token);
       res.locals.token = token;
+      res.cookie('JWT', token, {
+        path: '/',
+        httpOnly: false,
+        //expires: new Date(Date.now() + 31104000000), 
+        //secure: true  
+      });
       next();
     });
   },
   verifyJWT: (req, res, next) => {
     const bearerHeader = req.headers['authorization'];
+    console.log(bearerHeader);
     if (!bearerHeader) res.sendStatus(403);
     else {
       const bearer = bearerHeader.split(' ');
@@ -71,9 +78,11 @@ module.exports = {
       const data = true;
       jwt.verify(token, process.env.JWT_SECRET, (err, data) => {
         if (err) {
+          console.log('JWT NOT VALID', token);
           res.sendStatus(403);
         } 
         else {
+          console.log('valid JWT');
           res.locals.authenticated = true;
           next();
         }

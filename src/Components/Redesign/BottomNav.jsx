@@ -41,8 +41,8 @@ const mapDispatchToProps = dispatch => ({
 });
 
 const mapStateToProps = ({
-  reducer: { userName, picture, authenticated }
-}) => ({ userName, picture, authenticated });
+  reducer: { userName, picture, authenticated, userId }
+}) => ({ userName, picture, authenticated, userId });
 
 const BottomNav = ({ getTechName, changeMain, userName }) => {
   const classes = useStyles();
@@ -57,7 +57,12 @@ const BottomNav = ({ getTechName, changeMain, userName }) => {
   };
   
   const handleAddNoteClick = (e) => {
+    if (!userName) {
+      handlePopOverOpen(e);
+      return;
+    }
     const menuItem = e.currentTarget.children[0].children[1].textContent;
+    console.log('userName', userName);
     setMenuItem(menuItem);
     changeMain(menuItem);
   }
@@ -66,10 +71,13 @@ const BottomNav = ({ getTechName, changeMain, userName }) => {
     //console.log('click =>', e.currentTarget.children[0].children[1].textContent);
     const menuItem = e.currentTarget.children[0].children[1].textContent;
     //if (!userName && menuItem === 'Saved') return;
+    console.log(menuItem, 'was clicked');
     setMenuItem(menuItem);
     setAnchorEl(e.currentTarget);
+    if (!userName) {
+      return;
+    }
     changeMain(menuItem);
-    console.log('item was clicked');
   }
 
   const handlePopoverClose = () => {
@@ -135,6 +143,7 @@ const BottomNav = ({ getTechName, changeMain, userName }) => {
         onClose={handlePopoverClose}
         disableRestoreFocus
       >
+        {menuItem === 'Add' && <p>Log in to create a note</p>}
         {menuItem === 'Search' && <SearchFormMobile handleSearchClick={handleSearchClick}/>}
         {menuItem === 'Saved' && <SavedNotesMobile closeSavedPopOver={closeSavedPopOver}/>}
         {menuItem === 'Browse' && <p>Coming soon!</p>}
@@ -143,4 +152,4 @@ const BottomNav = ({ getTechName, changeMain, userName }) => {
   );
 }
 
-export default connect(null, mapDispatchToProps)(BottomNav);
+export default connect(mapStateToProps, mapDispatchToProps)(BottomNav);

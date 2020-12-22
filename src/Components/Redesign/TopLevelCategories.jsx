@@ -70,6 +70,22 @@ const bottomAccordionStyle = {
   backgroundColor: '#ececec'
 }
 
+const useStyles = makeStyles((theme) =>
+  createStyles({
+    root: {
+      display: 'flex', 
+      flexDirection:'column', 
+      alignItems: 'center', 
+      justifyContent:'center', 
+      width: '250px',
+    },
+    menuTitles: {
+      fontSize: '0.75rem'
+    }
+  }),
+);
+
+
 const mapStateToProps = ({
   reducer: { categories, email, technologies, userId  }
 }) => ({ categories, email, technologies, userId });
@@ -79,7 +95,7 @@ const mapDispatchToProps = dispatch => ({
 });
 
 function Categories(props) {
-
+  const classes = useStyles();
   const [expanded, setExpanded] = useState(false);
   const [topicsFetched, setTopicsFetched] = useState(false);
 
@@ -108,14 +124,7 @@ function Categories(props) {
   }
 
   return (
-    <div 
-      style={{
-        display: 'flex', 
-        flexDirection:'column', 
-        alignItems: 'center', 
-        justifyContent:'center', 
-        width: '250px',
-      }}>
+    <div className={classes.root}>
       <div>
       <Accordion style={topAccordionStyle} square expanded={expanded === `panel1`} onChange={handleChange(`panel1`)}>
           <AccordionSummary 
@@ -123,8 +132,8 @@ function Categories(props) {
             id={`panel1d-header`} 
             onClick={getNotes}
           >
-            <div style={{display:'flex', justifyContent:'space-between', width:'75%'}}>
-              <FolderOpenIcon/>
+            <div style={{display:'flex', width:'75%'}}>
+              <FolderOpenIcon style={{marginRight: '5px'}}/>
               <Typography>{'View saved notes'}</Typography>
             </div>
           </AccordionSummary>
@@ -139,8 +148,8 @@ function Categories(props) {
             aria-controls="panel2d-content" 
             id={`panel2d-header`}
           >
-             <div>
-              <PageviewIcon style={{marginRight:'5px'}}/>
+             <div style={{display:'flex', width:'75%'}}>
+              <PageviewIcon style={{marginRight: '5px'}}/>
               <Typography>{'Browse all notes'}</Typography>
             </div>
           </AccordionSummary>

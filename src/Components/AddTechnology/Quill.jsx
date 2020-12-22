@@ -99,7 +99,7 @@ const Quill = (props) => {
             size="small"
             color="secondary"
         >
-          SUBMIT
+          SAVE
         </Button>
       </div>
     </div>

@@ -9,6 +9,7 @@ import BottomNav from '../Components/Redesign/BottomNav';
 import * as actions from '../actions/actions'; 
 import APIURL from '../constants/APIURL';
 import { connect } from 'react-redux';
+import getJWT from '../helperFunctions/getJWT';
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -40,6 +41,11 @@ const useStyles = makeStyles((theme) =>
       [theme.breakpoints.up('lg')]: {
         overflow: 'visible'
       },
+    },
+    panels: {
+      [theme.breakpoints.down('md')]: {
+        display: 'none'
+      },
     }
   }),
 );
@@ -64,7 +70,8 @@ const Redesign = (props) => {
     setTimeout(setCurrentTech(techName), 0);
   } 
 
-  const token = 'hello';
+  //const JWT = ;
+  console.log(getJWT);
   if (!didFetch) {
     fetch(APIURL + '/technology/all-categories' , {
       method: 'GET',
@@ -72,7 +79,7 @@ const Redesign = (props) => {
         "Content-Type": "application/json",
         "Accept" : "application/json",
         "Access-Control-Allow-Origin" : "*",
-        "Bearer" : token
+        "Authorization" : 'Bearer ' + getJWT
       },
       mode: "cors"
     })
@@ -90,9 +97,9 @@ const Redesign = (props) => {
         ? <div>
             <Header/>
             <div className={classes.container}>
-              <LeftPanel getTechName={getTechName}/>
+              <LeftPanel className={classes.panels} getTechName={getTechName}/>
               <MainPanel currentTech={currentTech}/>
-              <RightPanel/>     
+              <RightPanel className={classes.panels}/>     
             </div>
           </div>
         : <Loading/>

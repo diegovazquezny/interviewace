@@ -7,6 +7,7 @@ import Select from '@material-ui/core/Select';
 import NativeSelect from '@material-ui/core/NativeSelect';
 import InputBase from '@material-ui/core/InputBase';
 import APIURL from '../../constants/APIURL';
+import getJWT from '../../helperFunctions/getJWT';
 
 const BootstrapInput = withStyles((theme) =>
   createStyles({
@@ -111,7 +112,7 @@ export default function NewNoteInfoForm({ getInfo }) {
       method: 'GET',
       headers: {
         'Content-Type' : 'application/json',
-        'Bearer': null
+        'Authorization': 'Bearer ' + getJWT,
       }
     })
       .then(res => res.json())
