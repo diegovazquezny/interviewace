@@ -69,6 +69,7 @@ const SearchForm = ({ handleSearchClick }) => {
     fetch(api_uri + '/technology/all-tech')
       .then(res => res.json())
       .then(data => {
+        console.log('data ->', data);
         const { technologies } = data;
         setTechList(technologies);
       })
@@ -90,8 +91,8 @@ const SearchForm = ({ handleSearchClick }) => {
     <>
       <div className={classes.root}>
         {
-          didFetch 
-          ? <Autocomplete
+          didFetch &&
+            <Autocomplete
               // onClose={((e,_)=> handleSearchClick(null, e.target.innerText)())}
               onClose={handleClickOnSearchTerm}
               open={input ? true : false}
@@ -116,7 +117,6 @@ const SearchForm = ({ handleSearchClick }) => {
                 />
               )}
             />
-          : <h1>Fetching Data</h1> 
         }
       <Button
         variant="contained"

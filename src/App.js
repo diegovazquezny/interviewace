@@ -23,6 +23,12 @@ const mainTheme = createMuiTheme({
     secondary: {
       main: '#2a4cab',
     },
+    success: {
+      main: '#4caf50'
+    },
+    warning: {
+      main: '#ff9800'
+    }
   },
   props: {
     MuiTypography: {

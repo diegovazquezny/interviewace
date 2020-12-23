@@ -72,6 +72,7 @@ module.exports = {
   saveNotes: (req, res, next) => {
     const { notes, userId } = req.body;
     const { techName, techCategory } = req.body.noteInfo;
+    if (!techName || !techCategory) next();
     //let { userId } = req.body;
     //console.log(notes, techName, techCategory, userId);
     //userId = !userId ? 5 : userId; 

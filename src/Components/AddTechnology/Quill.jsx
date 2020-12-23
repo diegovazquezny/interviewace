@@ -4,10 +4,16 @@ import { Button } from '@material-ui/core';
 import 'react-quill/dist/quill.snow.css';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 import NewNoteInfoForm from '../AddTechnology/NewNoteInfoForm';
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
 import { connect } from 'react-redux'
 /* TODO
   user needs to enter in tech name and category/tags
 */
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
 const useStyles = makeStyles((theme) =>
   createStyles({
     root: {
@@ -51,6 +57,10 @@ const mapStateToProps = ({
 const Quill = (props) => {
   const [value, setValue] = useState('');
   const [noteInfo, setNoteInfo] = useState({});
+  const [savedNote, setSavedNote] = useState(false);
+  const [openSuccess, setOpenSuccess] = useState(false);
+  const [readOnlyQuill, setReadOnlyQuill] = useState(false);
+  const [quillTheme, setQuillTheme] = useState('snow');
   const classes = useStyles();
   const api_uri = process.env.NODE_ENV !== 'development' 
     ? 'https://interview-ace.herokuapp.com'
@@ -62,7 +72,6 @@ const Quill = (props) => {
       method: 'POST',
       headers: {
         'Content-Type' : 'application/json',
-        'Bearer' : null
       },
       body: JSON.stringify({
         userId: props.userId,
@@ -74,10 +83,19 @@ const Quill = (props) => {
       .then(data => {
         // TODO snackbar to show it was saved
         // switch button to edit
-        if (data.success) props.completedNotes();
+        setSavedNote(true);
+        setOpenSuccess(true);
+        setReadOnlyQuill(true);
       })
       .catch(err => console.log(err));
   }
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpenSuccess(false);
+  };
 
   const getInfo = (info) => setNoteInfo(info);
 
@@ -86,22 +104,50 @@ const Quill = (props) => {
       <NewNoteInfoForm getInfo={getInfo}/>
       <ReactQuill 
         className={classes.quill} 
-        theme="snow" 
+        theme='snow'
+        readOnly={readOnlyQuill}
         value={value} 
         onChange={setValue}
         style={{minHeight: '40vh'}}
       />
       <div className={classes.btnWrapper}>
-        <Button
+      {
+        !savedNote ? 
+          <Button
+              className={classes.submitBtn} 
+              onClick={handleClick}
+              variant="contained"
+              size="small"
+              color="success"
+          >
+            SAVE
+          </Button>
+        : <>
+          <Button
             className={classes.submitBtn} 
-            onClick={handleClick}
+            //onClick={handleClick}
             variant="contained"
             size="small"
-            color="secondary"
-        >
-          SAVE
-        </Button>
+            color="warning"
+          >
+            EDIT
+          </Button>
+          <Button
+            className={classes.submitBtn} 
+            //onClick={handleClick}
+            variant="contained"
+            size="small"
+            color="success"
+          >
+            NEW NOTE
+          </Button></>
+      }
       </div>
+      <Snackbar open={openSuccess} autoHideDuration={5000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="success">
+          The note is saved!
+        </Alert>
+      </Snackbar>
     </div>
   );
 }

@@ -95,8 +95,8 @@ const SearchForm = (props) => {
     <>
       <div className={classes.root}>
         {
-          didFetch 
-          ? <Autocomplete
+          didFetch &&
+            <Autocomplete
               className={classes.search}
               //id="search"
               size="small"
@@ -115,7 +115,6 @@ const SearchForm = (props) => {
                 />
               )}
             />
-          : <h1>Fetching Data</h1> 
         }
       <Button
         variant="contained"

@@ -55,8 +55,8 @@ const SearchForm = (props) => {
     <div className={classes.root}>
       <div style={{ width: 300 }}>
         {
-          didFetch 
-          ? <Autocomplete
+          didFetch &&
+            <Autocomplete
               id="search"
               freeSolo
               options={techList.map((option) => option.tech_name)}
@@ -72,7 +72,6 @@ const SearchForm = (props) => {
                 />
               )}
             />
-          : <h1>Fetching Data</h1> 
         }
       </div>
       <Button
