@@ -30,6 +30,11 @@ const uiReducer = (state = uiState, action) => {
       }
     case types.CHANGE_MAIN:
       switch(action.payload) {
+        case 'Home':
+          return {
+            ...state,
+            mainPanel: 'home'
+          }
         case 'Add':
           return {
             ...state,

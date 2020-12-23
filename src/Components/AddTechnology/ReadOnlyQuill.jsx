@@ -82,7 +82,7 @@ const Quill = (props) => {
   };
 
   const handleSaveClick = () => {
-    console.log('post request', bulletId, userId);
+    //console.log('post request', bulletId, userId);
     fetch(APIURL + '/technology/public-note', {
       method: 'POST',
       headers: {

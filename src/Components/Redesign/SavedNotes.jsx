@@ -48,7 +48,7 @@ const SavedNotes = ({ userId, technologies, showSavedNotes, closeSavedPopOver })
   const [showNotes, setShowNotes] = useState(false);
 
   const handleClick = (techName) => (e) =>{
-    console.log(techName);
+    //console.log(techName);
     showSavedNotes(techName);
     if (closeSavedPopOver) closeSavedPopOver();  
   } 

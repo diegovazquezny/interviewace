@@ -73,7 +73,7 @@ module.exports = {
     const { notes, userId } = req.body;
     const { techName, techCategory } = req.body.noteInfo;
     //let { userId } = req.body;
-    console.log(notes, techName, techCategory, userId);
+    //console.log(notes, techName, techCategory, userId);
     //userId = !userId ? 5 : userId; 
     const functionQuery = `
       CREATE OR REPLACE FUNCTION newTech (text)
@@ -165,7 +165,7 @@ module.exports = {
     db.query(query, [id])
       .then(response => {
         const technologies = response.rows;
-        console.log('technologies', technologies);
+        //console.log('technologies', technologies);
         res.locals.technologies = technologies;
         next()
       })
@@ -176,7 +176,7 @@ module.exports = {
   },
   savePublicNote: (req, res, next) => {
     const { userId, bulletId } = req.body;
-    console.log('save public note')
+    //console.log('save public note')
     const query = `
       INSERT INTO notes_users (bullet_id, user_id)
       VALUES ($1, $2)
@@ -188,7 +188,7 @@ module.exports = {
         next();
       })
       .catch(err => {
-        console.log(err.toString())
+        //console.log(err.toString())
         if (err.code == 23505) {
           res.locals.success = false;
           next();

@@ -12,19 +12,18 @@ const useStyles = makeStyles((theme) =>
     root: {
       // minWidth: '100px',
       // maxWidth: '360px',
-      width: '360px',
-      backgroundColor: 'rgb(21 21 21)',
-      height: 'calc(100vh - 70px)',
+      width: '100%',
+      height: '100%',
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
       overflow: 'auto',
       [theme.breakpoints.down('sm')]: {
-        display: 'none',
+        display: 'flex',
       },
       [theme.breakpoints.down('md')]: {
         // height: 'calc(100vh - 70px - 56px)',
-        display: 'none',
+        display: 'flex',
       },
       [theme.breakpoints.up('md')]: {
         height: 'calc(100vh - 70px)',
@@ -42,7 +41,7 @@ const mapDispatchToProps = dispatch => ({
   changeMain: (data) => dispatch(uiActions.changeMain(data)),
 });
 
-const LeftPanel = ({ getTechName, changeMain }) => {
+const MobileDefaultPage = ({ getTechName, changeMain }) => {
   const classes = useStyles();
 
   const addTech = (input) => {
@@ -64,10 +63,8 @@ const LeftPanel = ({ getTechName, changeMain }) => {
     <div className={classes.root}>
       <NewNoteButton/>
       <SearchForm addTech={addTech}/>
-      <TopLevelCategories/>
-      {/* <SearchCategories/> */}
     </div>
   );
 }
 
-export default connect(null, mapDispatchToProps)(LeftPanel);
+export default connect(null, mapDispatchToProps)(MobileDefaultPage);
