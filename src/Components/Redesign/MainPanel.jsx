@@ -4,23 +4,29 @@ import Quill from '../AddTechnology/Quill';
 import APIURL from '../../constants/APIURL';
 import ReadOnlyQuill from '../AddTechnology/ReadOnlyQuill';
 import { connect } from 'react-redux';
+import MobileDefaultPage from './MobileDefaultPage';
 
 const useStyles = makeStyles((theme) =>
   createStyles({
     root: {
       display: 'flex',
-      [theme.breakpoints.down('sm')]: {
+      [theme.breakpoints.down('md')]: {
         // height: 'calc(100vh - 70px - 56px)',
         height: 'fit-content',
         overFlow: 'scroll',
         width: '100vw'
       },
+      // [theme.breakpoints.up('md')]: {
+      //   minHeight: 'calc(100vh - 70px - 56px)',
+      //   width: '100vw'
+      // },
+      // [theme.breakpoints.up('lg')]: {
+      //   height: 'calc(100vh - 70px)',
+      // },
       [theme.breakpoints.up('md')]: {
-        minHeight: 'calc(100vh - 70px - 56px)',
-        width: '100vw'
-      },
-      [theme.breakpoints.up('lg')]: {
         height: 'calc(100vh - 70px)',
+        display: 'flex',
+        width: '100vw'
       }, 
     },
     notesContainer: {
@@ -30,9 +36,10 @@ const useStyles = makeStyles((theme) =>
     },
     titleWrapper: {
       display: 'flex',
-      flexDirection: 'row',
-      justifyContent: 'center',
-      width: '100%' 
+      flexDirection: 'column',
+      alignItems: 'center',
+      width: '100%',
+      textAlign: 'center' 
     },
     title: {
       alignSelf: 'center'
@@ -45,7 +52,7 @@ const mapStateToProps = ({
   uiReducer: { showSavedNotes, mainPanel }
 }) => ({ newNote, technologies, showSavedNotes, mainPanel });
 
-const MainPanel = ({ currentTech, showSavedNotes, technologies, mainPanel }) => {
+const MainPanel = ({ currentTech, showSavedNotes, technologies, mainPanel, getTechName }) => {
   const classes = useStyles();
   const [showDefault, setShowDefault] = useState(true);
   const [showEditor, setShowEditor] = useState(false);
@@ -116,19 +123,30 @@ const MainPanel = ({ currentTech, showSavedNotes, technologies, mainPanel }) => 
 
   useEffect(() => {
     switch(mainPanel) {
+      case 'home':
+        //window.location.reload();
+        setShowEditor(false);
+        setShowNewNote(false);
+        setShowUserSavedNotes(false);  
+        setShowDefault(true);
+        break;
       case 'add':
-        console.log('add new note');
+        //console.log('add new note');
       case 'new note':
         setShowDefault(false);
         setShowEditor(false);
         setShowUserSavedNotes(false); 
         setShowNewNote(true);
+        break;
       case 'saved notes':
         //console.log('main panel switch:', mainPanel);
+        break;
       case 'search':
         //console.log('main panel switch:', mainPanel);
+        break;
       default:
         //console.log('default');
+        break;
     }
   },[mainPanel]);
 
@@ -136,7 +154,8 @@ const MainPanel = ({ currentTech, showSavedNotes, technologies, mainPanel }) => 
     <div className={classes.root}>
       { showDefault &&
           <div className={classes.titleWrapper}>
-            <h1>Search for Notes or Create Your Own </h1>
+            <h1>Search for Notes or Create Your Own</h1>
+            <MobileDefaultPage getTechName={getTechName}/>
           </div> 
       }
       { showEditor &&  

@@ -10,6 +10,7 @@ import { connect } from 'react-redux';
 import Popover from '@material-ui/core/Popover';
 import SearchFormMobile from './SearchFormMobile';
 import SavedNotesMobile from '../Redesign/SavedNotesMobile';
+import HomeIcon from '@material-ui/icons/Home';
 import * as uiActions from '../../actions/uiActions';
 import * as actions from '../../actions/actions';
 
@@ -18,16 +19,17 @@ const useStyles = makeStyles((theme) =>
     root: {
       width: '100%',
       position: 'fixed',
-      [theme.breakpoints.down('sm')]: {
+      //backgroundColor: 'red',
+      [theme.breakpoints.down('md')]: {
         display: 'flex',
         bottom: '0'
       },
       [theme.breakpoints.up('md')]: {
-        display: 'flex',
-      },
-      [theme.breakpoints.up('lg')]: {
         display: 'none',
       },
+      // [theme.breakpoints.up('lg')]: {
+      //   display: 'none',
+      // },
     },
     container: {
       display: 'flex'
@@ -55,6 +57,13 @@ const BottomNav = ({ getTechName, changeMain, userName }) => {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+
+  const handleHomeClick = (e) => {
+    const menuItem = e.currentTarget.children[0].children[1].textContent;
+    setMenuItem(menuItem);
+    changeMain(menuItem);
+    //console.log(menuItem, 'was clicked');
+  };
   
   const handleAddNoteClick = (e) => {
     if (!userName) {
@@ -62,7 +71,7 @@ const BottomNav = ({ getTechName, changeMain, userName }) => {
       return;
     }
     const menuItem = e.currentTarget.children[0].children[1].textContent;
-    console.log('userName', userName);
+    //console.log('userName', userName);
     setMenuItem(menuItem);
     changeMain(menuItem);
   }
@@ -71,7 +80,7 @@ const BottomNav = ({ getTechName, changeMain, userName }) => {
     //console.log('click =>', e.currentTarget.children[0].children[1].textContent);
     const menuItem = e.currentTarget.children[0].children[1].textContent;
     //if (!userName && menuItem === 'Saved') return;
-    console.log(menuItem, 'was clicked');
+    //console.log(menuItem, 'was clicked');
     setMenuItem(menuItem);
     setAnchorEl(e.currentTarget);
     if (!userName) {
@@ -100,6 +109,12 @@ const BottomNav = ({ getTechName, changeMain, userName }) => {
     <>
       <BottomNavigation value={value} onChange={handleChange} className={classes.root}>
         <BottomNavigationAction 
+          label="Home" 
+          value="home" 
+          icon={<HomeIcon />}
+          onClick={handleHomeClick} 
+        />
+        <BottomNavigationAction 
           label="Add" 
           value="add" 
           icon={<AddBoxIcon />}
@@ -117,12 +132,12 @@ const BottomNav = ({ getTechName, changeMain, userName }) => {
           icon={<FolderIcon />}
           onClick={handlePopOverOpen}  
         />
-        <BottomNavigationAction 
+        {/* <BottomNavigationAction 
           label="Browse" 
           value="browse" 
           icon={<VisibilityOutlinedIcon />}
           onClick={handlePopOverOpen}   
-        />
+        /> */}
       </BottomNavigation>
       <Popover
         id="mouse-over-popover"

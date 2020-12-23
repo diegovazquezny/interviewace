@@ -97,9 +97,8 @@ const SearchForm = (props) => {
         {
           didFetch 
           ? <Autocomplete
-              // classes={classes}
               className={classes.search}
-              id="search"
+              //id="search"
               size="small"
               freeSolo
               options={techList.map((option) => option.tech_name)}

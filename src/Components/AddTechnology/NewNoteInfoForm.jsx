@@ -104,7 +104,6 @@ export default function NewNoteInfoForm({ getInfo }) {
       techCategory: techCategory  
     });
     getInfo(noteInfo);
-    console.log(noteInfo);
   },[techCategory, techName]);
 
   if (categories.length === 0) {

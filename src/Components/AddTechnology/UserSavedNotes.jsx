@@ -50,7 +50,7 @@ const Quill = (props) => {
   const quillRef = useRef();
   
   const handleSaveClick = () => {
-    console.log('post request');
+    //console.log('post request');
   }
 
   const handleEditClick = () => {

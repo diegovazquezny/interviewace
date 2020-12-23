@@ -18,7 +18,7 @@ const CategoriesList = (props) => {
       .then(data => console.log(data))
       .catch(err => console.log(err))
   }
-  console.log('show list');
+  //console.log('show list');
   return (
     <>
       <h2>Technology</h2>

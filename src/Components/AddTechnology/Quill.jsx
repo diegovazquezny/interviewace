@@ -57,7 +57,7 @@ const Quill = (props) => {
     : '';
   
   const handleClick = () => {
-    console.log(noteInfo);
+    //console.log(noteInfo);
     fetch(api_uri + '/technology/notes', {
       method: 'POST',
       headers: {

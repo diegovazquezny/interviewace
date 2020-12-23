@@ -46,7 +46,7 @@ module.exports = {
     }
   },
   oauth: (req, res, next) => {   
-    console.log('oauth stuff')
+    //console.log('oauth stuff')
     res.locals.data = {
       domain: process.env.DOMAIN,
       clientId: process.env.CLIENT_ID
@@ -55,9 +55,9 @@ module.exports = {
   },
   makeJWT: (req, res, next) => {
     const data = 'hellooo';
-    console.log('secret ->', process.env.JWT_SECRET);
+    //console.log('secret ->', process.env.JWT_SECRET);
     jwt.sign({ data: data }, process.env.JWT_SECRET, { expiresIn: '7d' }, (err, token) => {
-      console.log('jwt sent', token);
+      //console.log('jwt sent', token);
       res.locals.token = token;
       res.cookie('JWT', token, {
         path: '/',
@@ -70,7 +70,7 @@ module.exports = {
   },
   verifyJWT: (req, res, next) => {
     const bearerHeader = req.headers['authorization'];
-    console.log(bearerHeader);
+    //console.log(bearerHeader);
     if (!bearerHeader) res.sendStatus(403);
     else {
       const bearer = bearerHeader.split(' ');
@@ -82,7 +82,7 @@ module.exports = {
           res.sendStatus(403);
         } 
         else {
-          console.log('valid JWT');
+          //console.log('valid JWT');
           res.locals.authenticated = true;
           next();
         }

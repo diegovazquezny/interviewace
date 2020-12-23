@@ -65,7 +65,7 @@ function Categories(props) {
   const [showNotes, setShowNotes] = useState(false);
 
   const handleChange = (panel) => (event, newExpanded) => {
-    console.log('change', panel, newExpanded);
+    //console.log('change', panel, newExpanded);
     setExpanded(newExpanded ? panel : false);
   };
 

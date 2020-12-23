@@ -71,8 +71,6 @@ function App({updateUserInfo, userName, picture, email}) {
     })
     .catch(err => console.log(err));
 
-  console.log(Cookies);
-
   const PrivateRoute = ({ component: Component, ...rest }) => (
     <Route
       {...rest}
@@ -116,7 +114,6 @@ function App({updateUserInfo, userName, picture, email}) {
             </Switch>
           </Router>
       </ThemeProvider>
-    
     }
     </>
   );

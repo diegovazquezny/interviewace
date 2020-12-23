@@ -32,11 +32,11 @@ const useStyles = makeStyles((theme) =>
       [theme.breakpoints.down('sm')]: {
         height: 'calc(100vh - 56px)',
         // height: '100vh',
-        overflow: 'scroll'
+        //overflow: 'scroll'
       },
       [theme.breakpoints.down('md')]: {
         height: 'calc(100vh - 56px)',
-        overflow: 'scroll'
+        //overflow: 'scroll'
       },
       [theme.breakpoints.up('lg')]: {
         overflow: 'visible'
@@ -70,8 +70,6 @@ const Redesign = (props) => {
     setTimeout(setCurrentTech(techName), 0);
   } 
 
-  //const JWT = ;
-  console.log(getJWT);
   if (!didFetch) {
     fetch(APIURL + '/technology/all-categories' , {
       method: 'GET',
@@ -98,7 +96,7 @@ const Redesign = (props) => {
             <Header/>
             <div className={classes.container}>
               <LeftPanel className={classes.panels} getTechName={getTechName}/>
-              <MainPanel currentTech={currentTech}/>
+              <MainPanel currentTech={currentTech} getTechName={getTechName}/>
               <RightPanel className={classes.panels}/>     
             </div>
           </div>

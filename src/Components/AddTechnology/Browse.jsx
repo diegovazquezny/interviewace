@@ -43,7 +43,7 @@ const Browse = (props) => {
     : '';
 
   const generateNotes = (array) => {
-    console.log(array);
+    //console.log(array);
     return array.map((note, i) => {
       return (
         <React.Fragment key={`k${i}`}>
@@ -67,7 +67,7 @@ const Browse = (props) => {
   }
 
   useEffect(() => {
-    console.log(currentTech);
+    //console.log(currentTech);
     fetch(api_uri + `/technology/all-notes-for-tech?tech=${currentTech}`)
     .then(res => res.json())
     .then(data => {
