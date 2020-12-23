@@ -21,6 +21,7 @@ router
   .get('/login',
     authController.oauth,
     sessionController.resumeSession,
+    authController.makeJWT,
     (req, res) => {
       res.status(200).json({ oauth: res.locals.data })
     }) 
