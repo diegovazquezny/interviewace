@@ -1,6 +1,4 @@
-// check if user has a session
 const db = require('../model');
-const { response } = require("express");
 
 module.exports = {
   startSession: (req, res, next) => {
@@ -33,7 +31,6 @@ module.exports = {
         next();
       })
       .catch(err => {
-        //console.log('ERR resume session -->', err);
         console.log('error in resume session');
         next(err);
       });

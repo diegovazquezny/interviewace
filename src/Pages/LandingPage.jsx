@@ -81,7 +81,7 @@ const LandingPage = (props) => {
             <div className={classes.title}>
               { isAuthenticated 
                 ? <>
-                    <h1 className={classes.bannerText}>Time to ace that next interview. Let's get started right now!</h1>
+                    <h1 className={classes.bannerText}>Write a new note or read your existing ones. Let's get started right now!</h1>
                     <div className={classes.btnWrapper}>
                       <Button
                         className={classes.btn}
@@ -104,7 +104,7 @@ const LandingPage = (props) => {
                     </div>  
                   </>
                 : <>
-                    <h1 className={classes.bannerText}>Prepare for your next interview with Interview Ace. Join today!</h1>
+                    <h1 className={classes.bannerText}>Save all your notes in one conventient location. Join today!</h1>
                     <div className={classes.btnWrapper}>
                       <LoginButton text={'Sign up'}/>
                     </div>

@@ -86,7 +86,7 @@ const Header = (props) => {
   return (
     <div className={classes.container}>
       <Link className={classes.logo} to={'/'}>
-        <h1>Interview Ace</h1>
+        <h1>Tech Notes</h1>
       </Link>
       { isAuthenticated
         ? <LoggedIn validSession={isAuthenticated} style={{paddingRight: '10px'}} />

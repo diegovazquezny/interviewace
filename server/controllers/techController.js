@@ -1,5 +1,4 @@
 const db = require('../model');
-const helperFunctions = require('../helperFunctions/helperFunctions');
 
 module.exports = {
   getNotes: (req, res, next) => {
@@ -70,12 +69,10 @@ module.exports = {
       });
   },
   saveNotes: (req, res, next) => {
+    console.log(req.body);
     const { notes, userId } = req.body;
     const { techName, techCategory } = req.body.noteInfo;
     if (!techName || !techCategory) next();
-    //let { userId } = req.body;
-    //console.log(notes, techName, techCategory, userId);
-    //userId = !userId ? 5 : userId; 
     const functionQuery = `
       CREATE OR REPLACE FUNCTION newTech (text)
       RETURNS integer AS $techid$
@@ -105,7 +102,8 @@ module.exports = {
     // write another query to insert the bullet_id and user_id into notes_users
 
     const notesUsersQuery = `
-      INSERT INTO 
+      INSERT INTO notes_users (bullet_id, user_id)
+      values($1, $2)
     `;
 
     db.query(functionQuery)
@@ -113,7 +111,11 @@ module.exports = {
       .then(response => techId = response.rows[0].tech_id)
       .then(response => db.query(bulletPointsQuery, [techName, notes, userId, techCategory]))
       .then(response => {
-        res.locals.success = true;
+        const bullet_id = response.rows[0].bullet_id;
+        return db.query(notesUsersQuery, [bullet_id, userId]);
+      })
+      .then(response => {
+        res.locals.success = true
         next();
       })
       .catch(err => {

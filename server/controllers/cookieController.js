@@ -4,7 +4,6 @@ module.exports = {
       path: '/',
       httpOnly: false,
       expires: new Date(Date.now() + 31104000000), 
-      //secure: true  
     });
     next();
   }

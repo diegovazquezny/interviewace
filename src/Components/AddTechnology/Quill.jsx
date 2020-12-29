@@ -67,7 +67,7 @@ const Quill = (props) => {
     : '';
   
   const handleClick = () => {
-    //console.log(noteInfo);
+    console.log('sending new note to BE', noteInfo);
     fetch(api_uri + '/technology/notes', {
       method: 'POST',
       headers: {
@@ -118,7 +118,7 @@ const Quill = (props) => {
               onClick={handleClick}
               variant="contained"
               size="small"
-              color="success"
+              color="primary"
           >
             SAVE
           </Button>
@@ -128,7 +128,7 @@ const Quill = (props) => {
             //onClick={handleClick}
             variant="contained"
             size="small"
-            color="warning"
+            color="secondary"
           >
             EDIT
           </Button>
@@ -137,7 +137,7 @@ const Quill = (props) => {
             //onClick={handleClick}
             variant="contained"
             size="small"
-            color="success"
+            color="primary"
           >
             NEW NOTE
           </Button></>
