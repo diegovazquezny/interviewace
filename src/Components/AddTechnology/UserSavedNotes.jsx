@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) =>
         display: 'flex',
         flex: '1',
         flexDirection: 'column',
-        minHeight: '40vh',
+        minHeight: '5vh',
       },
     },
     submitBtn: {

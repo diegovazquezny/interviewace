@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme) =>
         display: 'flex',
         flex: '1',
         flexDirection: 'column',
-        minHeight: '40vh',
+        minHeight: '5vh',
       },
     },
     submitBtn: {
@@ -132,7 +132,17 @@ const Quill = (props) => {
               color="secondary"
               style={{display: userId ? 'intial' : 'none'}}
           >
-            Save
+            Edit
+          </Button>
+          <Button
+              className={classes.submitBtn} 
+              onClick={handleSaveClick}
+              variant="contained"
+              size="small"
+              color="secondary"
+              style={{display: userId ? 'intial' : 'none'}}
+          >
+            Delete
           </Button>
         </div>
       </Paper>

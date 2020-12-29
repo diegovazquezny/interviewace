@@ -142,7 +142,7 @@ const Quill = (props) => {
         readOnly={readOnlyQuill}
         value={value} 
         onChange={setValue}
-        style={{minHeight: '40vh'}}
+        style={{minHeight: '5vh'}}
       />
       <div className={classes.btnWrapper}>
       {
