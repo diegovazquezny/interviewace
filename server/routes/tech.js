@@ -25,12 +25,13 @@ router
   .post('/notes',
     techController.saveNotes,
     (req, res) => {
-      res.status(200).json({ success: res.locals.success })
+      res.status(200).json({ success: res.locals.success, bulletId: res.locals.bulletId })
   }) 
   .delete('/notes',
     techController.deleteNotes,
     (req, res) => {
-      res.status(200).json({ success: res.locals.success })
+      if (res.locals.success === false) res.status(403).send({message: 'Forbidden'});
+      else res.status(200).json({ success: res.locals.success, bulletId: res.locals.bulletId });
   })
   .get('/all-categories', authController.verifyJWT, techController.getAllCategories,
   (req, res) => {
@@ -43,5 +44,9 @@ router
   .post('/public-note', techController.savePublicNote,
   (req, res) => {
     res.status(200).json({ success: res.locals.success })
+  })
+  .put('/notes', techController.editPrivateNote,
+  (req, res) => {
+    res.status(200).json({ success: res.locals.success, bulletId: res.locals.bulletId })
   })
 module.exports = router;

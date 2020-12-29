@@ -111,11 +111,12 @@ module.exports = {
       .then(response => techId = response.rows[0].tech_id)
       .then(response => db.query(bulletPointsQuery, [techName, notes, userId, techCategory]))
       .then(response => {
-        const bullet_id = response.rows[0].bullet_id;
-        return db.query(notesUsersQuery, [bullet_id, userId]);
+        const bulletId = response.rows[0].bullet_id;
+        res.locals.bulletId = bulletId;
+        return db.query(notesUsersQuery, [bulletId, userId]);
       })
       .then(response => {
-        res.locals.success = true
+        res.locals.success = true,
         next();
       })
       .catch(err => {
@@ -124,16 +125,33 @@ module.exports = {
       });
   },
   deleteNotes: (req, res, next) => {
-    const { id } = req.query;
-    const query = `
-      DELETE FROM "public"."bullet_points"
+    const { userId, bulletId } = req.body;
+    const { ssid } = req.cookies;
+    const ssidQuery = `
+      SELECT username FROM users
+      WHERE user_id = $1
+      AND session_id = $2
+    `;
+
+    const deleteQuery = `
+      DELETE FROM notes_users
       WHERE bullet_id = $1
+      AND user_id = $2
     `;
     
-    db.query(query, [id])
+    db.query(ssidQuery, [userId, ssid])
       .then(response => {
-        res.locals.success = true;
-        next();
+        if (!response.rows[0]) {
+          res.locals.success = false;
+          next();
+        }
+      })
+      .then(() => {
+        db.query(deleteQuery, [bulletId, userId])
+          .then(() => {
+            res.locals.success = true;
+            next();
+          })
       })
       .catch(err => {
         console.log('delete query', err);
@@ -199,6 +217,30 @@ module.exports = {
           console.log('ERR -->', err.code);
           next(err);
         }
+      });
+  },
+  editPrivateNote: (req, res, next) => {
+    const { userId, bulletId, notes, noteInfo } = req.body;
+    console.log('user id', userId);
+    console.log('bullet id', bulletId);
+    console.log('notes', notes);
+    console.log('noteInfo', noteInfo);
+
+    const editNoteQuery = `
+      UPDATE bullet_points 
+      SET bullet = $1
+      WHERE bullet_id = $2
+      AND user_id = $3      
+    `;  
+    db.query(editNoteQuery, [notes, bulletId, userId])
+      .then(response => {
+        res.locals.success = true;    
+        res.locals.bulletId = bulletId;    
+        next();
+      })
+      .catch(err => {
+        console.log('ERR -->', err.code);
+        next(err);
       });
   }
 }

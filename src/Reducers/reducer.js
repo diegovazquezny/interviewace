@@ -33,28 +33,26 @@ const reducer = (state = initialState, action) => {
         picture: userData.picture,
         authenticated: true
       };
+
     case types.UPDATE_TECHNOLOGIES:
       return {
         ...state,
         technologies: action.payload
       };
+
     case types.DELETE_NOTE:
-      const { bulletId } = action.payload;
+      const { bulletId, techName } = action.payload;
       const techObj = {...state.technologies};
-      for (let topic in techObj) {
-        for (let i = 0; i < techObj[topic].length; i += 1) {
-          if (bulletId === techObj[topic][i].id) {
-            techObj[topic].splice(i, 1);
-            return {
-              ...state,
-              technologies: techObj
-            }
-          }
+      for (let i in techObj[techName]) {
+        if (techObj[techName][i].id === bulletId) {
+          techObj[techName].splice(i, 1);
         }
       }
       return {
         ...state,
+        technologies: techObj
       };
+
     case types.ALL_CATEGORIES:
       const { categories } = action.payload;
       const categoriesObject = categories.reduce((object, category) => {
@@ -69,11 +67,13 @@ const reducer = (state = initialState, action) => {
         ...state,
         categories: categoriesObject
       };
+
     case types.MAKE_NEW_NOTE:
       return {
         ...state,
         newNote: true
       };
+      
     default:
       return state;
   }

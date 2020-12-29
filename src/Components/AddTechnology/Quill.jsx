@@ -60,34 +60,62 @@ const Quill = (props) => {
   const [savedNote, setSavedNote] = useState(false);
   const [openSuccess, setOpenSuccess] = useState(false);
   const [readOnlyQuill, setReadOnlyQuill] = useState(false);
-  const [quillTheme, setQuillTheme] = useState('snow');
+  const [currentBulletId, setCurrentBulletId] = useState(NaN);
   const classes = useStyles();
   const api_uri = process.env.NODE_ENV !== 'development' 
     ? 'https://interview-ace.herokuapp.com'
     : '';
   
   const handleClick = () => {
-    console.log('sending new note to BE', noteInfo);
-    fetch(api_uri + '/technology/notes', {
-      method: 'POST',
-      headers: {
-        'Content-Type' : 'application/json',
-      },
-      body: JSON.stringify({
-        userId: props.userId,
-        notes: value,
-        noteInfo: noteInfo          
+    // edit bullet id
+    if (currentBulletId) {
+      fetch(api_uri + '/technology/notes', {
+        method: 'PUT',
+        headers: {
+          'Content-Type' : 'application/json',
+        },
+        body: JSON.stringify({
+          userId: props.userId,
+          notes: value,
+          noteInfo: noteInfo,
+          bulletId: currentBulletId            
+        })
       })
-    })
-      .then(res => res.json())
-      .then(data => {
-        // TODO snackbar to show it was saved
-        // switch button to edit
-        setSavedNote(true);
-        setOpenSuccess(true);
-        setReadOnlyQuill(true);
+        .then(res => res.json())
+        .then(data => {
+          // TODO snackbar to show it was saved
+          // switch button to edit
+          setCurrentBulletId(data.bulletId);
+          setSavedNote(true);
+          setOpenSuccess(true);
+          setReadOnlyQuill(true);
+        })
+        .catch(err => console.log(err));
+    } else {
+      fetch(api_uri + '/technology/notes', {
+        method: 'POST',
+        headers: {
+          'Content-Type' : 'application/json',
+        },
+        body: JSON.stringify({
+          userId: props.userId,
+          notes: value,
+          noteInfo: noteInfo,
+          bulletId: currentBulletId            
+        })
       })
-      .catch(err => console.log(err));
+        .then(res => res.json())
+        .then(data => {
+          // TODO snackbar to show it was saved
+          // switch button to edit
+          setCurrentBulletId(data.bulletId);
+          setSavedNote(true);
+          setOpenSuccess(true);
+          setReadOnlyQuill(true);
+        })
+        .catch(err => console.log(err));
+    }
+    
   }
 
   const handleClose = (event, reason) => {
@@ -96,6 +124,12 @@ const Quill = (props) => {
     }
     setOpenSuccess(false);
   };
+
+  const handleEdit = (e) => {
+    setSavedNote(false);
+    setReadOnlyQuill(false);
+    //
+  }
 
   const getInfo = (info) => setNoteInfo(info);
 
@@ -108,7 +142,7 @@ const Quill = (props) => {
         readOnly={readOnlyQuill}
         value={value} 
         onChange={setValue}
-        style={{minHeight: '40vh'}}
+        style={{minHeight: '5vh'}}
       />
       <div className={classes.btnWrapper}>
       {
@@ -125,7 +159,7 @@ const Quill = (props) => {
         : <>
           <Button
             className={classes.submitBtn} 
-            //onClick={handleClick}
+            onClick={handleEdit}
             variant="contained"
             size="small"
             color="secondary"
