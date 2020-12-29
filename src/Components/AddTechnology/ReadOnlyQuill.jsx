@@ -151,7 +151,7 @@ const Quill = ({ userId, value, bulletId, deleteNote, techName }) => {
                 variant="contained"
                 size="small"
                 color="secondary"
-                style={{display: userId ? 'intial' : 'none'}}
+                style={{display: userId ? 'initial' : 'none'}}
             >
               Edit
             </Button>

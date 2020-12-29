@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import * as actions from '../src/actions/actions';
 import Loading from './Components/Loading';
 import Cookies from 'js-cookie';
+import APIURL from './constants/APIURL';
 import {
   HashRouter as Router,
   Route,
@@ -50,11 +51,8 @@ const mapStateToProps = ({
 
 function App({updateUserInfo, userName, picture, email}) {
   const [checkSession, setCheckSession] = useState(false);
-  const api_uri = process.env.NODE_ENV !== 'development' 
-    ? 'https://interview-ace.herokuapp.com'
-    : '';
 
-  fetch(api_uri + '/authentication/session')
+  fetch(APIURL + '/authentication/session')
     .then(res => res.json())
     .then(res => {
       const { user } = res;

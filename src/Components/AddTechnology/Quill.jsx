@@ -6,7 +6,8 @@ import { makeStyles, createStyles } from '@material-ui/core/styles';
 import NewNoteInfoForm from '../AddTechnology/NewNoteInfoForm';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
+import APIURL from '../../constants/APIURL';
 /* TODO
   user needs to enter in tech name and category/tags
 */
@@ -62,61 +63,32 @@ const Quill = (props) => {
   const [readOnlyQuill, setReadOnlyQuill] = useState(false);
   const [currentBulletId, setCurrentBulletId] = useState(NaN);
   const classes = useStyles();
-  const api_uri = process.env.NODE_ENV !== 'development' 
-    ? 'https://interview-ace.herokuapp.com'
-    : '';
-  
+
   const handleClick = () => {
     // edit bullet id
-    if (currentBulletId) {
-      fetch(api_uri + '/technology/notes', {
-        method: 'PUT',
-        headers: {
-          'Content-Type' : 'application/json',
-        },
-        body: JSON.stringify({
-          userId: props.userId,
-          notes: value,
-          noteInfo: noteInfo,
-          bulletId: currentBulletId            
-        })
+    fetch(APIURL + '/technology/notes', {
+      method: currentBulletId ? 'PUT' : 'POST',
+      headers: {
+        'Content-Type' : 'application/json',
+      },
+      body: JSON.stringify({
+        userId: props.userId,
+        notes: value,
+        noteInfo: noteInfo,
+        bulletId: currentBulletId            
       })
-        .then(res => res.json())
-        .then(data => {
-          // TODO snackbar to show it was saved
-          // switch button to edit
-          setCurrentBulletId(data.bulletId);
-          setSavedNote(true);
-          setOpenSuccess(true);
-          setReadOnlyQuill(true);
-        })
-        .catch(err => console.log(err));
-    } else {
-      fetch(api_uri + '/technology/notes', {
-        method: 'POST',
-        headers: {
-          'Content-Type' : 'application/json',
-        },
-        body: JSON.stringify({
-          userId: props.userId,
-          notes: value,
-          noteInfo: noteInfo,
-          bulletId: currentBulletId            
-        })
+    })
+      .then(res => res.json())
+      .then(data => {
+        // TODO snackbar to show it was saved
+        // switch button to edit
+        setCurrentBulletId(data.bulletId);
+        setSavedNote(true);
+        setOpenSuccess(true);
+        setReadOnlyQuill(true);
       })
-        .then(res => res.json())
-        .then(data => {
-          // TODO snackbar to show it was saved
-          // switch button to edit
-          setCurrentBulletId(data.bulletId);
-          setSavedNote(true);
-          setOpenSuccess(true);
-          setReadOnlyQuill(true);
-        })
-        .catch(err => console.log(err));
-    }
-    
-  }
+      .catch(err => console.log(err));  
+  };
 
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
@@ -129,13 +101,21 @@ const Quill = (props) => {
     setSavedNote(false);
     setReadOnlyQuill(false);
     //
-  }
+  };
+
+  const handleNewNote = (e) => {
+    setSavedNote(false);
+    setValue('');
+    setReadOnlyQuill(false);
+    setCurrentBulletId(NaN);
+    // TODO: clear topic name and category
+  };
 
   const getInfo = (info) => setNoteInfo(info);
 
   return (
     <div className={classes.root}>
-      <NewNoteInfoForm getInfo={getInfo}/>
+      <NewNoteInfoForm getInfo={getInfo} topicName={''}/>
       <ReactQuill 
         className={classes.quill} 
         theme='snow'
@@ -168,7 +148,7 @@ const Quill = (props) => {
           </Button>
           <Button
             className={classes.submitBtn} 
-            //onClick={handleClick}
+            onClick={handleNewNote}
             variant="contained"
             size="small"
             color="primary"

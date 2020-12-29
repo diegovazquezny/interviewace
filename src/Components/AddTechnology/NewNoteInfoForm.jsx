@@ -78,33 +78,33 @@ const useStyles = makeStyles((theme) =>
 export default function NewNoteInfoForm({ getInfo }) {
   const classes = useStyles();
   const [techCategory, setTechCategory] = useState('');
-  const [techName, setTechName] = useState('');
+  const [topicName, setTopicName] = useState('');
   const [categories, setCategories] = useState([]);
   const [noteInfo, setNoteInfo] = useState({});
 
   const handleCategoryChange = (event) => {
     setTechCategory(event.target.value);
     setNoteInfo({
-      techName: techName,
+      techName: topicName,
       techCategory: event.target.value  
     });
   };
 
   const handleNameInput = (event) => {
-    setTechName(event.target.value);
+    setTopicName(event.target.value);
     setNoteInfo({
       techName: event.target.value,
       techCategory: techCategory  
     });
   }
 
-  useEffect(()=>{
+  useEffect(()=> {
     setNoteInfo({
-      techName: techName,
+      techName: topicName,
       techCategory: techCategory  
     });
     getInfo(noteInfo);
-  },[techCategory, techName]);
+  },[techCategory, topicName]);
 
   if (categories.length === 0) {
     fetch(APIURL + '/technology/all-categories', {
@@ -136,11 +136,12 @@ export default function NewNoteInfoForm({ getInfo }) {
     <div className={classes.container}>
       {/* Tech Name Form */}
       <FormControl className={classes.margin}>
-        <InputLabel htmlFor="new-note-textbox">Topic Name</InputLabel>
+        <InputLabel focused={false} htmlFor="new-note-textbox">Topic Name</InputLabel>
         <BootstrapInput
-        value={techName}
-        onChange={handleNameInput}
-        id="new-note-textbox" />
+          value={topicName}
+          onChange={handleNameInput}
+          id="new-note-textbox"
+        />
       </FormControl>
       {/* Tech Category Form */}
       <FormControl className={classes.margin}>
