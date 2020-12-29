@@ -25,7 +25,7 @@ router
   .post('/notes',
     techController.saveNotes,
     (req, res) => {
-      res.status(200).json({ success: res.locals.success })
+      res.status(200).json({ success: res.locals.success, bulletId: res.locals.bulletId })
   }) 
   .delete('/notes',
     techController.deleteNotes,
@@ -43,5 +43,9 @@ router
   .post('/public-note', techController.savePublicNote,
   (req, res) => {
     res.status(200).json({ success: res.locals.success })
+  })
+  .put('/notes', techController.editPrivateNote,
+  (req, res) => {
+    res.status(200).json({ success: res.locals.success, bulletId: res.locals.bulletId })
   })
 module.exports = router;
