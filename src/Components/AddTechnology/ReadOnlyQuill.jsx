@@ -14,17 +14,9 @@ function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
-// const useStyles = makeStyles((theme) => ({
-//   root: {
-//     width: '100%',
-//     '& > * + *': {
-//       marginTop: theme.spacing(2),
-//     },
-//   },
-// }));
 
 const useStyles = makeStyles((theme) =>
-  createStyles({
+createStyles({
     root: {
       width: 'auto',
       padding: '0px 20px 0px 20px'
@@ -59,17 +51,21 @@ const useStyles = makeStyles((theme) =>
   }),
 );
 
+const mapDispatchToProps = dispatch => ({
+  deleteNote: (data) => dispatch(actions.deleteNote(data)),
+});
+  
 const mapStateToProps = ({
   reducer: { userId }
 }) => ({ userId });
 
-const Quill = (props) => {
-  const [value, setValue] = useState(props.value);
+const Quill = ({ userId, value, bulletId, deleteNote, techName }) => {
+  const [noteValue, setNoteValue] = useState(value);
   const [readOnlyQuill, setReadOnlyQuill] = useState(true);
   const [quillTheme, setQuillTheme] = useState('bubble');
   const [openWarning, setOpenWarning] = useState(false);
-  const [openSuccess, setOpenSuccess] = useState(false);
-  const { bulletId, userId } = props;
+  const [openDeleteSuccess, setOpenDeleteSuccess] = useState(false);
+  const [openSaveSuccess, setOpenSaveSuccess] = useState(false);
   const classes = useStyles();
   const quillRef = useRef();
 
@@ -77,34 +73,57 @@ const Quill = (props) => {
     if (reason === 'clickaway') {
       return;
     }
-    setOpenSuccess(false);
+    setOpenDeleteSuccess(false);
     setOpenWarning(false);
+    setOpenSaveSuccess(false);
   };
 
   const handleSaveClick = () => {
-    //console.log('post request', bulletId, userId);
-    fetch(APIURL + '/technology/public-note', {
-      method: 'POST',
+    console.log('post request', bulletId, userId, noteValue);
+    fetch(APIURL + '/technology/notes', {
+      method: 'PUT',
       headers: {
-        'Content-Type' : 'application/json'
+        'Content-Type' : 'application/json',
       },
       body: JSON.stringify({
-        userId: props.userId,
-        bulletId          
+        userId: userId,
+        notes: noteValue,
+        bulletId: bulletId            
       })
     })
-    .then(res => res.json())
-    .then(data => {
-      const { success } = data;
-      if (!success) setOpenWarning(true);
-      else setOpenSuccess(true);
-    })
-    .catch(err => console.log(err));
+      .then(res => res.json())
+      .then(() => {
+        setReadOnlyQuill(!readOnlyQuill);
+        setOpenSaveSuccess(true);
+      })
+      .catch(err => console.log(err));
   }
 
-  const handleEditClick = () => {
-    setReadOnlyQuill(!readOnlyQuill);
-  }
+  const handleEditClick = () => setReadOnlyQuill(!readOnlyQuill);
+
+  const handleDelete = () => {
+    if (confirm('Are you sure you want to delete?')) { 
+      fetch(APIURL + '/technology/notes', {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept" : "application/json",
+        },
+        body: JSON.stringify({
+          userId,
+          bulletId
+        }),
+      })
+        .then(res => res.json())
+        .then(data => {
+          //const { success } = data;
+          setOpenDeleteSuccess(true);
+          deleteNote({bulletId, techName});
+          // trigger a rerender with the current notes (not deleted notes)
+        })
+        .catch(err => console.log(err));
+    }       
+  } 
 
   useEffect(() =>{
     if (!readOnlyQuill) setQuillTheme('snow');
@@ -118,32 +137,70 @@ const Quill = (props) => {
           ref={quillRef} 
           className={classes.quill} 
           theme={quillTheme}
-          value={value} 
-          onChange={setValue}
+          value={noteValue} 
+          onChange={setNoteValue}
           readOnly={readOnlyQuill}
           />
         <div className={classes.btnContainer}>
           <Likes/>
-          <Button
+        { readOnlyQuill &&
+          <div>
+            <Button
+                className={classes.submitBtn} 
+                onClick={handleEditClick}
+                variant="contained"
+                size="small"
+                color="secondary"
+                style={{display: userId ? 'intial' : 'none'}}
+            >
+              Edit
+            </Button>
+            <Button
+                className={classes.submitBtn} 
+                onClick={handleDelete}
+                variant="contained"
+                size="small"
+                color="secondary"
+                style={{display: userId ? 'intial' : 'none'}}
+            >
+              Delete
+            </Button>
+          </div>
+        }
+        { !readOnlyQuill && 
+          <div>
+            <Button
+              className={classes.submitBtn} 
+              onClick={handleEditClick}
+              variant="contained"
+              size="small"
+              color="secondary"
+              style={{display: userId ? 'intial' : 'none'}}
+            >
+              Go Back
+            </Button>
+            <Button
               className={classes.submitBtn} 
               onClick={handleSaveClick}
               variant="contained"
               size="small"
               color="secondary"
               style={{display: userId ? 'intial' : 'none'}}
-          >
-            Edit
-          </Button>
-          <Button
+            >
+              Save
+            </Button>
+            <Button
               className={classes.submitBtn} 
-              onClick={handleSaveClick}
+              onClick={handleDelete}
               variant="contained"
               size="small"
               color="secondary"
               style={{display: userId ? 'intial' : 'none'}}
-          >
-            Delete
-          </Button>
+            >
+              Delete
+            </Button>
+          </div>
+        }
         </div>
       </Paper>
       <Snackbar open={openWarning} autoHideDuration={3000} onClose={handleClose}>
@@ -151,13 +208,18 @@ const Quill = (props) => {
           You already saved this note!
         </Alert>
       </Snackbar>
-      <Snackbar open={openSuccess} autoHideDuration={3000} onClose={handleClose}>
+      <Snackbar open={openDeleteSuccess} autoHideDuration={3000} onClose={handleClose}>
         <Alert onClose={handleClose} severity="success">
-          The note is saved!
+          The note is deleted!
+        </Alert>
+      </Snackbar>
+      <Snackbar open={openSaveSuccess} autoHideDuration={3000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="success">
+          The edit is saved!
         </Alert>
       </Snackbar>
     </div>
   );
 }
 
-export default connect(mapStateToProps, null)(Quill);
+export default connect(mapStateToProps, mapDispatchToProps)(Quill);

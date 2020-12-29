@@ -45,3 +45,13 @@ content-type: application/json
    "bulletId" : "28",
    "userId" : "41"
 }
+
+###
+
+DELETE http://localhost:3000/technology/notes
+content-type: application/json
+
+{
+   "bulletId" : "28",
+   "userId" : "41"
+}

@@ -62,6 +62,40 @@ const MainPanel = ({ currentTech, showSavedNotes, technologies, mainPanel, getTe
   const [showUserSavedNotes, setShowUserSavedNotes] = useState(false);
   const [title, setTitle] = useState('');
 
+  const makeSavedNotes = () => {
+    const { techName } = showSavedNotes;
+    console.log('tech arr', technologies[techName]);
+    if (!technologies[techName]) return;
+    const clearSavedNotes = new Promise((resolve, reject) => {
+      resolve(setUserSavedNotesArray([]));
+    });
+    clearSavedNotes.then(() => {
+      const notesArray = technologies[techName].map((tech, i) => {
+        return (
+          <React.Fragment key={`k${i}`}>
+            <ReadOnlyQuill 
+              value={tech.note} 
+              bulletId={tech.id}
+              techName={showSavedNotes.techName}
+              />
+            <hr/>
+          </React.Fragment>
+        );
+      });
+      setTitle(
+        (technologies[techName].length === 0) 
+          ? 'No notes found'
+          : techName
+      );
+      setUserSavedNotesArray(notesArray); 
+      setShowDefault(false);
+      setShowEditor(false);
+      setShowNewNote(false);
+      setShowUserSavedNotes(true);  
+    });    
+  }
+
+
   useEffect(() => {
     if (currentTech) {
       fetch(APIURL + `/technology/all-notes-for-tech?q=${currentTech}`, {
@@ -94,32 +128,11 @@ const MainPanel = ({ currentTech, showSavedNotes, technologies, mainPanel, getTe
       .then(()=> setShowEditor(true))
       .catch(err => console.log(err)); 
     }
-  },[currentTech])
+  },[currentTech, JSON.stringify(technologies)])
 
   useEffect(()=> {
-    const { techName } = showSavedNotes;
-    if (showSavedNotes.display) {
-      const clearSavedNotes = new Promise((resolve, reject) => {
-        resolve(setUserSavedNotesArray([]));
-      });
-      clearSavedNotes.then(() => {
-        const notesArray = technologies[techName].map((tech, i) => {
-          return (
-            <React.Fragment key={`k${i}`}>
-              <ReadOnlyQuill value={tech.note} bulletId={tech.id}/>
-              <hr/>
-            </React.Fragment>
-          );
-        });
-        setTitle(techName);
-        setUserSavedNotesArray(notesArray); 
-        setShowDefault(false);
-        setShowEditor(false);
-        setShowNewNote(false);
-        setShowUserSavedNotes(true);  
-      });
-    }
-  },[showSavedNotes.renders]);
+    if (showSavedNotes.display) makeSavedNotes();
+  },[showSavedNotes.renders, JSON.stringify(technologies)]);
 
   useEffect(() => {
     switch(mainPanel) {
@@ -149,6 +162,8 @@ const MainPanel = ({ currentTech, showSavedNotes, technologies, mainPanel, getTe
         break;
     }
   },[mainPanel]);
+
+
 
   return (
     <div className={classes.root}>

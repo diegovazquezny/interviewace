@@ -125,16 +125,33 @@ module.exports = {
       });
   },
   deleteNotes: (req, res, next) => {
-    const { id } = req.query;
-    const query = `
-      DELETE FROM "public"."bullet_points"
+    const { userId, bulletId } = req.body;
+    const { ssid } = req.cookies;
+    const ssidQuery = `
+      SELECT username FROM users
+      WHERE user_id = $1
+      AND session_id = $2
+    `;
+
+    const deleteQuery = `
+      DELETE FROM notes_users
       WHERE bullet_id = $1
+      AND user_id = $2
     `;
     
-    db.query(query, [id])
+    db.query(ssidQuery, [userId, ssid])
       .then(response => {
-        res.locals.success = true;
-        next();
+        if (!response.rows[0]) {
+          res.locals.success = false;
+          next();
+        }
+      })
+      .then(() => {
+        db.query(deleteQuery, [bulletId, userId])
+          .then(() => {
+            res.locals.success = true;
+            next();
+          })
       })
       .catch(err => {
         console.log('delete query', err);
