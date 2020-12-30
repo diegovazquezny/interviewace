@@ -7,7 +7,8 @@ const config = {
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'bundle.js',
-    publicPath: '/'
+    publicPath: '/',
+    sourceMapFilename: "bundle.js.map"
   },
   module: {
     rules: [
@@ -42,7 +43,7 @@ const config = {
             }
           }
         ]
-      }
+      },
     ]
   },
   resolve: {
@@ -69,6 +70,7 @@ const config = {
       },
     }
   },
+  devtool: "source-map",
   plugins: [
     new HtmlWebPackPlugin({
       template: path.resolve(__dirname, 'index.html'),

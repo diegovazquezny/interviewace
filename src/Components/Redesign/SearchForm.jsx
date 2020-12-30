@@ -111,7 +111,7 @@ const SearchForm = (props) => {
                   ref={textFieldRef}
                   value={input}
                   onChange={e => setInput(e.target.value)}
-                  placeholder={'Search for a technology'}
+                  placeholder={'Search for a note'}
                 />
               )}
             />

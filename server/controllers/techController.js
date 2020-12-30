@@ -6,11 +6,9 @@ module.exports = {
     const query = `
       SELECT bullet_points.bullet, bullet_points.bullet_id, technology.tech_name
       FROM bullet_points
-      INNER JOIN notes_users
-      ON bullet_points.bullet_id = notes_users.bullet_id
-      AND notes_users.user_id = $1
       INNER JOIN technology
       ON bullet_points.tech_id = technology.tech_id
+      AND bullet_points.user_id = $1
       ORDER BY technology.tech_name 
     `;
     db.query(query, [id])
@@ -54,10 +52,13 @@ module.exports = {
       });
   },
   fetchTopics: (req, res, next) => {
-    console.log('search');
     const query = `
-      SELECT tech_name FROM "public"."technology"
-      ORDER BY tech_name 
+      SELECT technology.tech_name
+      FROM bullet_points
+      INNER JOIN technology
+      ON bullet_points.tech_id = technology.tech_id
+      AND bullet_points.user_id = 41
+      ORDER BY bullet_points.bullet
     `;
     db.query(query)
       .then(response => {
@@ -73,6 +74,7 @@ module.exports = {
     console.log(req.body);
     const { notes, userId } = req.body;
     const { techName, techCategory } = req.body.noteInfo;
+    let techId = NaN;
     if (!techName || !techCategory) next();
     const functionQuery = `
       CREATE OR REPLACE FUNCTION newTech (text)
@@ -99,22 +101,16 @@ module.exports = {
       RETURNING bullet_points.bullet_id
     `;
     
-    // TODO: get the bullet_id from the response
-    // write another query to insert the bullet_id and user_id into notes_users
-
-    const notesUsersQuery = `
-      INSERT INTO notes_users (bullet_id, user_id)
-      values($1, $2)
-    `;
-
     db.query(functionQuery)
       .then(response => db.query(runFunctionQuery, [techName]))
-      .then(response => techId = response.rows[0].tech_id)
+      .then(response => {
+        techId = response.rows[0].tech_id;
+      })
       .then(response => db.query(bulletPointsQuery, [techName, notes, userId, techCategory]))
       .then(response => {
         const bulletId = response.rows[0].bullet_id;
         res.locals.bulletId = bulletId;
-        return db.query(notesUsersQuery, [bulletId, userId]);
+        //return db.query(notesUsersQuery, [bulletId, userId]);
       })
       .then(response => {
         res.locals.success = true,
@@ -134,10 +130,9 @@ module.exports = {
       AND session_id = $2
     `;
 
-    const deleteQuery = `
-      DELETE FROM notes_users
+    const deleteQueryBulletPoints = `
+      DELETE FROM bullet_points
       WHERE bullet_id = $1
-      AND user_id = $2
     `;
     
     db.query(ssidQuery, [userId, ssid])
@@ -148,11 +143,12 @@ module.exports = {
         }
       })
       .then(() => {
-        db.query(deleteQuery, [bulletId, userId])
+        db.query(deleteQueryBulletPoints, [bulletId])
           .then(() => {
-            res.locals.success = true;
-            next();
+          res.locals.success = true;
+          next();
           })
+          .catch(err => console.log('del bullet points', err.code))
       })
       .catch(err => {
         console.log('delete query', err);
@@ -198,7 +194,6 @@ module.exports = {
   },
   savePublicNote: (req, res, next) => {
     const { userId, bulletId } = req.body;
-    //console.log('save public note')
     const query = `
       INSERT INTO notes_users (bullet_id, user_id)
       VALUES ($1, $2)
@@ -210,7 +205,6 @@ module.exports = {
         next();
       })
       .catch(err => {
-        //console.log(err.toString())
         if (err.code == 23505) {
           res.locals.success = false;
           next();
