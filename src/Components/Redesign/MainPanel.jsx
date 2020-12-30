@@ -64,7 +64,6 @@ const MainPanel = ({ currentTech, showSavedNotes, technologies, mainPanel, getTe
 
   const makeSavedNotes = () => {
     const { techName } = showSavedNotes;
-    console.log('tech arr', technologies[techName]);
     if (!technologies[techName]) return;
     const clearSavedNotes = new Promise((resolve, reject) => {
       resolve(setUserSavedNotesArray([]));

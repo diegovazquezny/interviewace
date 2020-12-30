@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import { makeStyles, createStyles, withStyles } from '@material-ui/core/styles';
+import { makeStyles, createStyles } from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
 import { Button } from '@material-ui/core';
+import APIURL from '../../constants/APIURL';
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -55,21 +56,16 @@ const SearchForm = ({ handleSearchClick }) => {
   const classes = useStyles();
   const searchClasses = useSearchStyles();
 
-  const api_uri = process.env.NODE_ENV !== 'development' 
-    ? 'https://interview-ace.herokuapp.com'
-    : '';
-
-    
   const handleClickOnSearchTerm = (e, option) => {
     if (option === 'blur') return;
     handleSearchClick(null, e.target.innerText)();
   }
 
   function fetchTech () {
-    fetch(api_uri + '/technology/all-tech')
+    fetch(APIURL + '/technology/all-tech')
       .then(res => res.json())
       .then(data => {
-        console.log('data ->', data);
+        //console.log('data ->', data);
         const { technologies } = data;
         setTechList(technologies);
       })
@@ -77,10 +73,8 @@ const SearchForm = ({ handleSearchClick }) => {
   }
    
   useEffect(() => {
-    if (!didFetch) {
-      fetchTech();
-    }
-  });
+    if (!didFetch) fetchTech();
+  },[]);
 
   useEffect(() => {
     setDidFetch(true);
@@ -93,7 +87,6 @@ const SearchForm = ({ handleSearchClick }) => {
         {
           didFetch &&
             <Autocomplete
-              // onClose={((e,_)=> handleSearchClick(null, e.target.innerText)())}
               onClose={handleClickOnSearchTerm}
               open={input ? true : false}
               openOnFocus={true}

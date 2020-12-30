@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const db = require('../model');
 const authController  = require('../controllers/authController');
 const cookieController = require('../controllers/cookieController');
 const sessionController = require('../controllers/sessionController');
@@ -13,17 +12,14 @@ router
     sessionController.startSession,
     authController.makeJWT,
     (req, res) => {
-      res.status(200).json({ 
-        sessionId: res.locals.ssid, 
-        token: res.locals.token
-      })
+      res.status(200).json({userId: res.locals.id})
     })
   .get('/login',
     authController.oauth,
     sessionController.resumeSession,
     authController.makeJWT,
     (req, res) => {
-      res.status(200).json({ oauth: res.locals.data })
+      res.status(200).json({ oauth: res.locals.data, user: res.locals.user })
     }) 
   .get('/session',
     sessionController.resumeSession,

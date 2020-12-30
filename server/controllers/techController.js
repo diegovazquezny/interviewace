@@ -54,6 +54,7 @@ module.exports = {
       });
   },
   fetchTopics: (req, res, next) => {
+    console.log('search');
     const query = `
       SELECT tech_name FROM "public"."technology"
       ORDER BY tech_name 

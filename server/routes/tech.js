@@ -33,7 +33,7 @@ router
       if (res.locals.success === false) res.status(403).send({message: 'Forbidden'});
       else res.status(200).json({ success: res.locals.success, bulletId: res.locals.bulletId });
   })
-  .get('/all-categories', authController.verifyJWT, techController.getAllCategories,
+  .get('/all-categories', /*authController.verifyJWT,*/ techController.getAllCategories,
   (req, res) => {
     res.status(200).json({ categories: res.locals.categories })
   })

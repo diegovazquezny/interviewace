@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import Study from './Pages/Study';
 import LandingPage from './Pages/LandingPage';
@@ -49,31 +49,34 @@ const mapStateToProps = ({
   reducer: { userName, picture, email }
 }) => ({ userName, picture, email });
 
-function App({updateUserInfo, userName, picture, email}) {
+function App({ updateUserInfo, userName }) {
   const [checkSession, setCheckSession] = useState(false);
 
-  fetch(APIURL + '/authentication/session')
-    .then(res => res.json())
-    .then(res => {
-      const { user } = res;
-      //console.log('user', document.cookie);
-      if (user) {
-        updateUserInfo({
-          type: 'UPDATE_USER_INFO',
-          userData: {
-            firstname: user.firstname,
-            lastname: user.lastname,
-            username: user.username,
-            email: user.email,
-            picture: user.image_url,
-            userId: user.user_id,
-            authenticated: true
+  useEffect(() => {
+    if (!checkSession) {
+      fetch(APIURL + '/authentication/session')
+        .then(res => res.json())
+        .then(res => {
+          const { user } = res;
+          if (user) {
+            updateUserInfo({
+              type: 'UPDATE_USER_INFO',
+              userData: {
+                firstname: user.firstname,
+                lastname: user.lastname,
+                username: user.username,
+                email: user.email,
+                picture: user.image_url,
+                userId: user.user_id,
+                authenticated: true
+              }
+            });
           }
-        });
-      }
-      setCheckSession(true);
-    })
-    .catch(err => console.log(err));
+          setCheckSession(true);
+        })
+        .catch(err => console.log(err));
+    }
+  },[]);
 
   const PrivateRoute = ({ component: Component, ...rest }) => (
     <Route

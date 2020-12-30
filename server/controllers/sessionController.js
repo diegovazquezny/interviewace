@@ -2,20 +2,21 @@ const db = require('../model');
 
 module.exports = {
   startSession: (req, res, next) => {
-    const { id } = res.locals;
+    const { ssid, id } = res.locals;
     const query = `
       UPDATE users 
       SET session_id = $1 
-      WHERE user_id = $1 
-      RETURNING session_id     
+      WHERE user_id = $2 
+      RETURNING *     
     `;
-    db.query(query, [id])
+    db.query(query, [ssid, id])
       .then(response => {
         res.locals.ssid = response.rows[0].session_id;
+        res.locals.user = 
         next()
       })
       .catch(err => {
-        console.log('ERR -->', err);
+        console.log('ERR start session-->', err);
         next(err);
       });
   },
