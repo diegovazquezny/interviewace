@@ -1,17 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { makeStyles, Theme, createStyles, withStyles } from '@material-ui/core/styles';
-import MuiAccordion from '@material-ui/core/Accordion';
-import MuiAccordionSummary from '@material-ui/core/AccordionSummary';
-import MuiAccordionDetails from '@material-ui/core/AccordionDetails';
-import Typography from '@material-ui/core/Typography';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import APIURL from '../../constants/APIURL';
-import SearchCategories from './SearchCategories';
 import * as actions from '../../actions/actions';
 import Loading from '../Loading';
 import SavedNotes from './SavedNotes';
-import FolderOpenIcon from '@material-ui/icons/FolderOpen';
-import PageviewIcon from '@material-ui/icons/Pageview';
 
 const mapStateToProps = ({
   reducer: { categories, email, technologies, userId  }
@@ -25,6 +17,7 @@ function SavedNotesMobile(props) {
 
   const [expanded, setExpanded] = useState(false);
   const [topicsFetched, setTopicsFetched] = useState(false);
+  const [noNotes, setNoNotes] = useState(false);
 
   const handleChange = (panel) => (event, newExpanded) => {
     setExpanded(newExpanded ? panel : false);
@@ -45,6 +38,7 @@ function SavedNotesMobile(props) {
       })
       .then(res => res.json())
       .then(data => { 
+        if (Object.entries(data.technologies).length === 0) setNoNotes(true);
         props.updateTechnologies(data.technologies);
         setTopicsFetched(true);
       })
@@ -62,8 +56,11 @@ function SavedNotesMobile(props) {
         alignItems: 'center', 
         justifyContent:'center', 
         width: '250px',
+        height: '60vh'
       }}>
-        {setTopicsFetched ? <SavedNotes closeSavedPopOver={props.closeSavedPopOver}/> : <Loading/>}
+        {noNotes && <p>You have no saved notes</p>}
+        {!topicsFetched && <Loading/>}
+        {(topicsFetched && !noNotes) && <SavedNotes closeSavedPopOver={props.closeSavedPopOver}/>}
     </div>
   );
 }
