@@ -48,12 +48,15 @@ const BootstrapInput = withStyles((theme) =>
 
 const useStyles = makeStyles((theme) =>
   createStyles({
-    margin: {
-      // margin: theme.spacing(1),
+    categoryDropDown: {
+      marginRight: '5px',
+      marginLeft: '1px',
       flex: '1'
     },
-    categoryForm: {
-      // width: '25px'
+    topicNameInput: {
+      marginLeft: '5px',
+      marginRight: '1px',
+      flex: '1'
     },
     option: {
       width: '85%',
@@ -135,7 +138,7 @@ export default function NewNoteInfoForm({ getInfo }) {
   return (
     <div className={classes.container}>
       {/* Tech Name Form */}
-      <FormControl className={classes.margin}>
+      <FormControl className={classes.topicNameInput}>
         <InputLabel focused={false} htmlFor="new-note-textbox">Topic Name</InputLabel>
         <BootstrapInput
           value={topicName}
@@ -144,7 +147,7 @@ export default function NewNoteInfoForm({ getInfo }) {
         />
       </FormControl>
       {/* Tech Category Form */}
-      <FormControl className={classes.margin}>
+      <FormControl className={classes.categoryDropDown}>
         <InputLabel htmlFor="new-note-select-native">Category</InputLabel>
         <NativeSelect
           className={classes.categoryForm}

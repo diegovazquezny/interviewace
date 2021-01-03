@@ -41,7 +41,7 @@ createStyles({
       },
     },
     submitBtn: {
-      marginRight: '10px',
+      margin: '10px 10px 0 10px',
       marginBottom: '10px'
     },
     topBar: {
@@ -144,65 +144,65 @@ const Quill = ({ userId, value, bulletId, deleteNote, techName }) => {
           readOnly={readOnlyQuill}
           />
         <div className={classes.btnContainer}>
-          <Likes/>
-        { readOnlyQuill &&
-          <div>
-            <Button
+          {/* <Likes/> */}
+          { readOnlyQuill &&
+            <>
+              <Button
+                  className={classes.submitBtn} 
+                  onClick={handleEditClick}
+                  variant="contained"
+                  size="small"
+                  color="secondary"
+                  style={{display: userId ? 'initial' : 'none'}}
+              >
+                Edit
+              </Button>
+              <Button
+                  className={classes.submitBtn} 
+                  onClick={handleDelete}
+                  variant="contained"
+                  size="small"
+                  color="secondary"
+                  style={{display: userId ? 'intial' : 'none'}}
+              >
+                Delete
+              </Button>
+            </>
+          }
+          { !readOnlyQuill && 
+            <>
+              <Button
                 className={classes.submitBtn} 
                 onClick={handleEditClick}
                 variant="contained"
                 size="small"
                 color="secondary"
-                style={{display: userId ? 'initial' : 'none'}}
-            >
-              Edit
-            </Button>
-            <Button
+                style={{display: userId ? 'intial' : 'none'}}
+              >
+                Go Back
+              </Button>
+              <Button
+                className={classes.submitBtn} 
+                onClick={handleSaveClick}
+                variant="contained"
+                size="small"
+                color="secondary"
+                style={{display: userId ? 'intial' : 'none'}}
+              >
+                Save
+              </Button>
+              <Button
                 className={classes.submitBtn} 
                 onClick={handleDelete}
                 variant="contained"
                 size="small"
                 color="secondary"
                 style={{display: userId ? 'intial' : 'none'}}
-            >
-              Delete
-            </Button>
-          </div>
-        }
-        { !readOnlyQuill && 
-          <div>
-            <Button
-              className={classes.submitBtn} 
-              onClick={handleEditClick}
-              variant="contained"
-              size="small"
-              color="secondary"
-              style={{display: userId ? 'intial' : 'none'}}
-            >
-              Go Back
-            </Button>
-            <Button
-              className={classes.submitBtn} 
-              onClick={handleSaveClick}
-              variant="contained"
-              size="small"
-              color="secondary"
-              style={{display: userId ? 'intial' : 'none'}}
-            >
-              Save
-            </Button>
-            <Button
-              className={classes.submitBtn} 
-              onClick={handleDelete}
-              variant="contained"
-              size="small"
-              color="secondary"
-              style={{display: userId ? 'intial' : 'none'}}
-            >
-              Delete
-            </Button>
-          </div>
-        }
+              >
+                Delete
+              </Button>
+            </>
+          }
         </div>
       </Paper>
       <Snackbar open={openWarning} autoHideDuration={3000} onClose={handleClose}>
