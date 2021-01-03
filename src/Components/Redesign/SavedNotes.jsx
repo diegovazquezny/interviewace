@@ -35,8 +35,9 @@ const useStyles = makeStyles((theme) =>
     },
     root: {
       width: '100%',
-      height: '50vh',
-      overflowY: 'scroll',
+      minHeight: '50vh',
+      height: 'auto',
+      overflowY: 'auto',
       overflowX: 'hidden'
     }
   }),
@@ -48,7 +49,6 @@ const SavedNotes = ({ userId, technologies, showSavedNotes, closeSavedPopOver })
   const [showNotes, setShowNotes] = useState(false);
 
   const handleClick = (techName) => (e) =>{
-    //console.log(techName);
     showSavedNotes(techName);
     if (closeSavedPopOver) closeSavedPopOver();  
   } 

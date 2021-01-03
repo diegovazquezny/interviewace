@@ -32,7 +32,9 @@ const useStyles = makeStyles((theme) =>
     btnWrapper: {
       display: 'flex',
       justifyContent: 'center',
-      padding: '0px 20px 0px 20px'
+      padding: '0px 20px 0px 20px',
+      marginTop: '10px' 
+
     },
     quill: {
       [theme.breakpoints.down('sm')]: {

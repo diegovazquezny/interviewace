@@ -12,7 +12,8 @@ const useStyles = makeStyles((theme) =>
     btnWrapper: {
       display: 'flex',
       flexDirection: 'row',
-      justifyContent: 'center' 
+      justifyContent: 'center',
+      marginTop: '10px' 
     },
     title: {
       margin: '20px 0px 10px 0px',

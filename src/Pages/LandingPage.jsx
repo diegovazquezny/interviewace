@@ -60,7 +60,9 @@ const useStyles = makeStyles((theme) =>
     },
     btnWrapper: {
       display: 'flex',
-      justifyContent: 'center'
+      justifyContent: 'center',
+      marginTop: '10px' 
+
     }
   }),
 );

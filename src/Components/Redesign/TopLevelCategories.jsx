@@ -37,16 +37,14 @@ const AccordionSummary = withStyles({
     borderBottom: '1px solid rgba(0, 0, 0, .125)',
     marginBottom: -1,
     minHeight: 56,
-    // width: '250px',
     '&$expanded': {
       minHeight: 56,
     },
   },
-  // width: '250px',
   content: {
     '&$expanded': {
       margin: '12px 0',
-      fontSize: '10px'
+      fontSize: '10px',
     },
   },
   expanded: {},
@@ -54,7 +52,7 @@ const AccordionSummary = withStyles({
 
 const AccordionDetails = withStyles((theme) => ({
   root: {
-    // padding: theme.spacing(2),
+    height: 'auto'
   },
 }))(MuiAccordionDetails);
 
@@ -143,7 +141,7 @@ function Categories(props) {
         </Accordion>
         </div>
         <div>
-        <Accordion style={bottomAccordionStyle} square expanded={expanded === `panel2`} onChange={handleChange(`panel2`)}>
+        {/* <Accordion style={bottomAccordionStyle} square expanded={expanded === `panel2`} onChange={handleChange(`panel2`)}>
           <AccordionSummary 
             aria-controls="panel2d-content" 
             id={`panel2d-header`}
@@ -156,7 +154,7 @@ function Categories(props) {
           <AccordionDetails>
             <SearchCategories/>
           </AccordionDetails>
-        </Accordion>
+        </Accordion> */}
         </div>
     </div>
   );

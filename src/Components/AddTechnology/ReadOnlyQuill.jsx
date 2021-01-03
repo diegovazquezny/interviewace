@@ -24,7 +24,9 @@ createStyles({
     btnWrapper: {
       display: 'flex',
       justifyContent: 'center',
-      padding: '0px 20px 0px 20px'
+      padding: '0px 20px 0px 20px',
+      marginTop: '10px' 
+
     },
     btnContainer: {
       display: 'flex',

@@ -11,28 +11,24 @@ const useStyles = makeStyles((theme) =>
     root: {
       display: 'flex',
       [theme.breakpoints.down('md')]: {
-        // height: 'calc(100vh - 70px - 56px)',
         height: 'fit-content',
         overFlow: 'scroll',
         width: '100vw'
       },
-      // [theme.breakpoints.up('md')]: {
-      //   minHeight: 'calc(100vh - 70px - 56px)',
-      //   width: '100vw'
-      // },
-      // [theme.breakpoints.up('lg')]: {
-      //   height: 'calc(100vh - 70px)',
-      // },
       [theme.breakpoints.up('md')]: {
         height: 'calc(100vh - 70px)',
         display: 'flex',
-        width: '100vw'
+        width: '100vw',
       }, 
     },
     notesContainer: {
       display: 'flex',
       flexDirection: 'column',
       width: '100%',
+      [theme.breakpoints.down('md')]: {
+        height: 'calc(100vh - 70px - 56px)'
+      },
+      overflowY: 'auto'
     },
     titleWrapper: {
       display: 'flex',
@@ -168,7 +164,7 @@ const MainPanel = ({ currentTech, showSavedNotes, technologies, mainPanel, getTe
     <div className={classes.root}>
       { showDefault &&
           <div className={classes.titleWrapper}>
-            <h1>Search for Notes or Create Your Own</h1>
+            <h1>Search for Notes or Write a New One</h1>
             <MobileDefaultPage getTechName={getTechName}/>
           </div> 
       }
