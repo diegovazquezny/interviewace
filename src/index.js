@@ -13,6 +13,7 @@ const app = document.getElementById("app");
 fetch(APIURL + '/authentication/login')
 .then(res => res.json())
 .then(res => {
+  console.log('res from BE', res);
   const { domain } = res.oauth;
   const { clientId } = res.oauth;
   ReactDOM.render(

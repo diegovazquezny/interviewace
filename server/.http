@@ -9,39 +9,5 @@ content-type: application/json
 }
 
 ###
-
-GET http://localhost:3000/technology/all-notes-for-tech?tech=React
+GET https://tech-notes-app.herokuapp.com/authentication/login
 content-type: application/json
-
-###
-
-GET http://localhost:3000/test
-
-###
-
-GET http://localhost:3000/secret
-authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiaGVsbG9vbyIsImlhdCI6MTYwNzQ2MzMzNywiZXhwIjoxNjA3NDY2OTM3fQ.V9LIbweoG7GKxiN1Kh-GbVBoQ_DJzYR0dFtpDS2xY60
-
-###
-
-GET https://interview-ace.herokuapp.com/technology/notes?id=5
-content-type: application/json
-accept: application/json
-access-control-allow-origin: *
-
-###
-
-GET http://localhost:3000/technology/technology-from-category?id=8
-content-type: application/json
-accept: application/json
-access-control-allow-origin: *
-
-###
-
-POST http://localhost:3000/technology/public-note
-content-type: application/json
-
-{
-   "bulletId" : "28",
-   "userId" : "41"
-}
