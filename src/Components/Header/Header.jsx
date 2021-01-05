@@ -6,6 +6,7 @@ import LoggedIn from './LoggedIn';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import * as actions from '../../actions/actions';
+import APIURL from '../../constants/APIURL';
 
 const mapDispatchToProps = dispatch => ({
   updateUserInfo: (data) => dispatch(actions.updateUserInfo(data)),
@@ -51,11 +52,9 @@ const Header = (props) => {
   if (props.authenticated) isAuthenticated = true;
   const [isUserAuth, setIsUserAuth] = useState(false);
   const classes = useStyles();
-  const api_uri = process.env.NODE_ENV !== 'development' 
-    ? 'https://interview-ace.herokuapp.com'
-    : '';
+
   if (isAuthenticated && !isUserAuth && !props.authenticated) {
-    fetch(api_uri + '/authentication/login', {
+    fetch(APIURL + '/authentication/login', {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

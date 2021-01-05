@@ -1,5 +1,5 @@
 const APIURL = process.env.NODE_ENV !== 'development' 
-  ? 'https://interview-ace.herokuapp.com'
+  ? 'https://tech-notes-app.herokuapp.com/'
   : '';
 
 export default APIURL;

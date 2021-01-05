@@ -4,6 +4,7 @@ import parse from 'html-react-parser';
 import { Button } from '@material-ui/core';
 import { connect } from 'react-redux';
 import * as actions from '../../actions/actions';
+import APIURL from '../../constants/APIURL';
 
 const mapStateToProps = ({
   reducer: { technologies }
@@ -34,15 +35,11 @@ const useStyles = makeStyles((theme) =>
 const TopicInfo = (props) => {
   const textWrapper = useRef();
   const [rerender, setRerender] = useState(true);
-  const [num, setNum] = useState(1);
-  const api_uri = process.env.NODE_ENV !== 'development' 
-  ? 'https://interview-ace.herokuapp.com'
-  : '';
 
   const handleDelete = (id) => {
     return () => {
       if (confirm('Are you sure you want to delete?')) {        
-        fetch(api_uri + '/technology/notes?id=' + id, {
+        fetch(APIURL + '/technology/notes?id=' + id, {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",

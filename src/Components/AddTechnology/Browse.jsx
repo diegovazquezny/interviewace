@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import SearchForm from '../AddTechnology/SearchForm';
 import SearchFieldError from '../AddTechnology/SearchFieldError'; 
 import ReadOnlyQuill from '../AddTechnology/ReadOnlyQuill';
+import APIURL from '../../constants/APIURL';
 
 const mapStateToProps = ({
   reducer: { userId, technologies }
@@ -30,7 +31,6 @@ const useStyles = makeStyles((theme) =>
   }),
 );
 
-
 const Browse = (props) => {
   const classes = useStyles();
   const [currentTech, setCurrentTech] = useState('');
@@ -38,12 +38,7 @@ const Browse = (props) => {
   const [showEditor, setShowEditor] = useState(false);
   let [notesHTML, setNotesHTML] = useState([]);
 
-  const api_uri = process.env.NODE_ENV !== 'development' 
-    ? 'https://interview-ace.herokuapp.com'
-    : '';
-
   const generateNotes = (array) => {
-    //console.log(array);
     return array.map((note, i) => {
       return (
         <React.Fragment key={`k${i}`}>
@@ -67,8 +62,7 @@ const Browse = (props) => {
   }
 
   useEffect(() => {
-    //console.log(currentTech);
-    fetch(api_uri + `/technology/all-notes-for-tech?tech=${currentTech}`)
+    fetch(APIURL + `/technology/all-notes-for-tech?tech=${currentTech}`)
     .then(res => res.json())
     .then(data => {
       setNotesHTML(generateNotes(data.technologies));

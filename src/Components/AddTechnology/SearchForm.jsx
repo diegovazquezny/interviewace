@@ -3,6 +3,7 @@ import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 import { Button } from '@material-ui/core';
+import APIURL from '../../constants/APIURL';
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -28,12 +29,9 @@ const SearchForm = (props) => {
   const [input, setInput] = useState('');
   const textFieldRef = useRef();
   const classes = useStyles();
-  const api_uri = process.env.NODE_ENV !== 'development' 
-    ? 'https://interview-ace.herokuapp.com'
-    : '';
 
   function fetchTech () {
-    fetch(api_uri + '/technology/all-tech')
+    fetch(APIURL + '/technology/all-tech')
       .then(res => res.json())
       .then(data => {
         const { technologies } = data;

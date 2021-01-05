@@ -4,6 +4,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import { makeStyles, createStyles, withStyles } from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
 import { Button } from '@material-ui/core';
+import APIURL from '../../constants/APIURL';
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -68,12 +69,8 @@ const SearchForm = (props) => {
   const classes = useStyles();
   const searchClasses = useSearchStyles();
 
-  const api_uri = process.env.NODE_ENV !== 'development' 
-    ? 'https://interview-ace.herokuapp.com'
-    : '';
-
   function fetchTech () {
-    fetch(api_uri + '/technology/all-tech')
+    fetch(APIURL + '/technology/all-tech')
       .then(res => res.json())
       .then(data => {
         const { technologies } = data;
