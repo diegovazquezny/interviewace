@@ -1,17 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { makeStyles, Theme, createStyles, withStyles } from '@material-ui/core/styles';
+import { makeStyles, createStyles, withStyles } from '@material-ui/core/styles';
 import MuiAccordion from '@material-ui/core/Accordion';
 import MuiAccordionSummary from '@material-ui/core/AccordionSummary';
 import MuiAccordionDetails from '@material-ui/core/AccordionDetails';
 import Typography from '@material-ui/core/Typography';
 import { connect } from 'react-redux';
 import APIURL from '../../constants/APIURL';
-import SearchCategories from './SearchCategories';
 import * as actions from '../../actions/actions';
 import Loading from '../Loading';
 import SavedNotes from '../Redesign/SavedNotes';
 import FolderOpenIcon from '@material-ui/icons/FolderOpen';
-import PageviewIcon from '@material-ui/icons/Pageview';
 
 const Accordion = withStyles({
   root: {
@@ -22,9 +20,6 @@ const Accordion = withStyles({
     },
     '&:before': {
       display: 'none',
-    },
-    '&$expanded': {
-      // margin: 'auto',
     },
     width: '95%',
   },
@@ -62,12 +57,6 @@ const topAccordionStyle = {
   backgroundColor: '#ececec'
 }
 
-const bottomAccordionStyle = {
-  width: '250px', 
-  borderRadius: '0px 0px 4px 4px', 
-  backgroundColor: '#ececec'
-}
-
 const useStyles = makeStyles((theme) =>
   createStyles({
     root: {
@@ -83,7 +72,6 @@ const useStyles = makeStyles((theme) =>
   }),
 );
 
-
 const mapStateToProps = ({
   reducer: { categories, email, technologies, userId  }
 }) => ({ categories, email, technologies, userId });
@@ -92,10 +80,11 @@ const mapDispatchToProps = dispatch => ({
   updateTechnologies: (data) => dispatch(actions.updateTechnologies(data))
 });
 
-function Categories(props) {
+function Categories({userId, technologies, updateTechnologies}) {
   const classes = useStyles();
   const [expanded, setExpanded] = useState(false);
   const [topicsFetched, setTopicsFetched] = useState(false);
+  const [refresh, setRefresh] = useState(false);
 
   const handleChange = (panel) => (event, newExpanded) => {
     setExpanded(newExpanded ? panel : false);
@@ -103,7 +92,7 @@ function Categories(props) {
 
   const getNotes = () => {
     if (!topicsFetched) {
-      fetch(APIURL + `/technology/notes?id=${props.userId}`, {
+      fetch(APIURL + `/technology/notes?id=${userId}`, {
         method: 'GET',
         headers: {
           "Content-Type": "application/json",
@@ -114,17 +103,22 @@ function Categories(props) {
       })
       .then(res => res.json())
       .then(data => { 
-        props.updateTechnologies(data.technologies);
+        updateTechnologies(data.technologies);
         setTopicsFetched(true);
       })
       .catch(err => console.log(err));
     }
   }
 
+  useEffect(() => {
+    updateTechnologies(technologies);
+    setRefresh(state => !state);
+  },[JSON.stringify(technologies)]);
+
   return (
     <div className={classes.root}>
       <div>
-      <Accordion style={topAccordionStyle} square expanded={expanded === `panel1`} onChange={handleChange(`panel1`)}>
+        <Accordion style={topAccordionStyle} square expanded={expanded === `panel1`} onChange={handleChange(`panel1`)}>
           <AccordionSummary 
             aria-controls="panel1d-content" 
             id={`panel1d-header`} 
@@ -139,23 +133,7 @@ function Categories(props) {
             {setTopicsFetched ? <SavedNotes/> : <Loading/>}
           </AccordionDetails>
         </Accordion>
-        </div>
-        <div>
-        {/* <Accordion style={bottomAccordionStyle} square expanded={expanded === `panel2`} onChange={handleChange(`panel2`)}>
-          <AccordionSummary 
-            aria-controls="panel2d-content" 
-            id={`panel2d-header`}
-          >
-             <div style={{display:'flex', width:'75%'}}>
-              <PageviewIcon style={{marginRight: '5px'}}/>
-              <Typography>{'Browse all notes'}</Typography>
-            </div>
-          </AccordionSummary>
-          <AccordionDetails>
-            <SearchCategories/>
-          </AccordionDetails>
-        </Accordion> */}
-        </div>
+      </div>
     </div>
   );
 }

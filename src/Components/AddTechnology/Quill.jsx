@@ -57,6 +57,10 @@ const mapStateToProps = ({
   reducer: { userId }
 }) => ({ userId });
 
+const mapDispatchToProps = dispatch => ({
+  updateTechnologies: (data) => dispatch(actions.updateTechnologies(data))  
+});
+
 const Quill = (props) => {
   const [value, setValue] = useState('');
   const [noteInfo, setNoteInfo] = useState({});
@@ -67,7 +71,6 @@ const Quill = (props) => {
   const classes = useStyles();
 
   const handleClick = () => {
-    // edit bullet id
     fetch(APIURL + '/technology/notes', {
       method: currentBulletId ? 'PUT' : 'POST',
       headers: {
@@ -82,12 +85,11 @@ const Quill = (props) => {
     })
       .then(res => res.json())
       .then(data => {
-        // TODO snackbar to show it was saved
-        // switch button to edit
         setCurrentBulletId(data.bulletId);
         setSavedNote(true);
         setOpenSuccess(true);
         setReadOnlyQuill(true);
+        // TODO: update state using updateTechnologies action
       })
       .catch(err => console.log(err));  
   };
@@ -102,7 +104,6 @@ const Quill = (props) => {
   const handleEdit = (e) => {
     setSavedNote(false);
     setReadOnlyQuill(false);
-    //
   };
 
   const handleNewNote = (e) => {
@@ -110,7 +111,6 @@ const Quill = (props) => {
     setValue('');
     setReadOnlyQuill(false);
     setCurrentBulletId(NaN);
-    // TODO: clear topic name and category
   };
 
   const getInfo = (info) => setNoteInfo(info);
@@ -168,4 +168,4 @@ const Quill = (props) => {
   );
 }
 
-export default connect(mapStateToProps, null)(Quill);
+export default connect(mapStateToProps, mapDispatchToProps)(Quill);
