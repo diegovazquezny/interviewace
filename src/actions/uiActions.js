@@ -1,4 +1,4 @@
-import { types } from '../Reducers/uiReducer';
+import { types } from '../reducers/uiReducer';
 
 export const showSavedNotes = (data) => ({
   type: types.SHOW_SAVED_NOTES,

@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { makeStyles, createStyles, withStyles } from '@material-ui/core/styles';
 import MuiAccordion from '@material-ui/core/Accordion';
 import MuiAccordionSummary from '@material-ui/core/AccordionSummary';
 import MuiAccordionDetails from '@material-ui/core/AccordionDetails';
 import Typography from '@material-ui/core/Typography';
 import { connect } from 'react-redux';
-import APIURL from '../../constants/APIURL';
 import * as actions from '../../actions/actions';
 import Loading from '../Loading';
 import SavedNotes from '../Redesign/SavedNotes';
@@ -77,43 +76,24 @@ const mapStateToProps = ({
 }) => ({ categories, email, technologies, userId });
 
 const mapDispatchToProps = dispatch => ({
-  updateTechnologies: (data) => dispatch(actions.updateTechnologies(data))
+  getNotes: (userId) => dispatch(actions.getNotes(userId))
 });
 
-function Categories({userId, technologies, updateTechnologies}) {
+function Categories({userId, getNotes}) {
   const classes = useStyles();
   const [expanded, setExpanded] = useState(false);
   const [topicsFetched, setTopicsFetched] = useState(false);
-  const [refresh, setRefresh] = useState(false);
 
   const handleChange = (panel) => (event, newExpanded) => {
     setExpanded(newExpanded ? panel : false);
   };
 
-  const getNotes = () => {
+  const handleGetNotes = () => {
     if (!topicsFetched) {
-      fetch(APIURL + `/technology/notes?id=${userId}`, {
-        method: 'GET',
-        headers: {
-          "Content-Type": "application/json",
-          "Accept" : "application/json",
-          "Access-Control-Allow-Origin" : "*"
-        },
-        mode: "cors"
-      })
-      .then(res => res.json())
-      .then(data => { 
-        updateTechnologies(data.technologies);
-        setTopicsFetched(true);
-      })
-      .catch(err => console.log(err));
+      getNotes(userId);
+      setTopicsFetched(true);
     }
   }
-
-  useEffect(() => {
-    updateTechnologies(technologies);
-    setRefresh(state => !state);
-  },[JSON.stringify(technologies)]);
 
   return (
     <div className={classes.root}>
@@ -122,7 +102,7 @@ function Categories({userId, technologies, updateTechnologies}) {
           <AccordionSummary 
             aria-controls="panel1d-content" 
             id={`panel1d-header`} 
-            onClick={getNotes}
+            onClick={handleGetNotes}
           >
             <div style={{display:'flex', width:'75%'}}>
               <FolderOpenIcon style={{marginRight: '5px'}}/>

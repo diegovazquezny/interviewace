@@ -5,15 +5,13 @@ import Paper from '@material-ui/core/Paper';
 import APIURL from '../../constants/APIURL';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 import Snackbar from '@material-ui/core/Snackbar';
-import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
+import MuiAlert from '@material-ui/lab/Alert';
 import { connect } from 'react-redux';
 import * as actions from '../../actions/actions';
-import Likes from '../Redesign/Likes';
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
-
 
 const useStyles = makeStyles((theme) =>
 createStyles({
@@ -55,13 +53,14 @@ createStyles({
 
 const mapDispatchToProps = dispatch => ({
   deleteNote: (data) => dispatch(actions.deleteNote(data)),
+  getNotes: (userId) => dispatch(actions.getNotes(userId))
 });
   
 const mapStateToProps = ({
   reducer: { userId }
 }) => ({ userId });
 
-const Quill = ({ userId, value, bulletId, deleteNote, techName }) => {
+const Quill = ({ userId, value, bulletId, deleteNote, techName, getNotes }) => {
   const [noteValue, setNoteValue] = useState(value);
   const [readOnlyQuill, setReadOnlyQuill] = useState(true);
   const [quillTheme, setQuillTheme] = useState('bubble');
@@ -71,7 +70,7 @@ const Quill = ({ userId, value, bulletId, deleteNote, techName }) => {
   const classes = useStyles();
   const quillRef = useRef();
 
-  const handleClose = (event, reason) => {
+  const handleClose = (_, reason) => {
     if (reason === 'clickaway') {
       return;
     }
@@ -118,10 +117,9 @@ const Quill = ({ userId, value, bulletId, deleteNote, techName }) => {
       })
         .then(res => res.json())
         .then(data => {
-          //const { success } = data;
           setOpenDeleteSuccess(true);
           deleteNote({bulletId, techName});
-          // trigger a rerender with the current notes (not deleted notes)
+          getNotes(userId);
         })
         .catch(err => console.log(err));
     }       
@@ -144,7 +142,6 @@ const Quill = ({ userId, value, bulletId, deleteNote, techName }) => {
           readOnly={readOnlyQuill}
           />
         <div className={classes.btnContainer}>
-          {/* <Likes/> */}
           { readOnlyQuill &&
             <>
               <Button

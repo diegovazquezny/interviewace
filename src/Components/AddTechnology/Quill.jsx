@@ -5,12 +5,11 @@ import 'react-quill/dist/quill.snow.css';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 import NewNoteInfoForm from '../AddTechnology/NewNoteInfoForm';
 import Snackbar from '@material-ui/core/Snackbar';
-import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
+import MuiAlert from '@material-ui/lab/Alert';
 import { connect } from 'react-redux';
 import APIURL from '../../constants/APIURL';
-/* TODO
-  user needs to enter in tech name and category/tags
-*/
+import * as actions from '../../actions/actions';
+
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
@@ -58,10 +57,10 @@ const mapStateToProps = ({
 }) => ({ userId });
 
 const mapDispatchToProps = dispatch => ({
-  updateTechnologies: (data) => dispatch(actions.updateTechnologies(data))  
+  getNotes: (userId) => dispatch(actions.getNotes(userId))  
 });
 
-const Quill = (props) => {
+const Quill = ({ userId, getNotes }) => {
   const [value, setValue] = useState('');
   const [noteInfo, setNoteInfo] = useState({});
   const [savedNote, setSavedNote] = useState(false);
@@ -77,7 +76,7 @@ const Quill = (props) => {
         'Content-Type' : 'application/json',
       },
       body: JSON.stringify({
-        userId: props.userId,
+        userId: userId,
         notes: value,
         noteInfo: noteInfo,
         bulletId: currentBulletId            
@@ -89,7 +88,7 @@ const Quill = (props) => {
         setSavedNote(true);
         setOpenSuccess(true);
         setReadOnlyQuill(true);
-        // TODO: update state using updateTechnologies action
+        getNotes(userId);
       })
       .catch(err => console.log(err));  
   };

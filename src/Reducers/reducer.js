@@ -73,7 +73,7 @@ const reducer = (state = initialState, action) => {
         ...state,
         newNote: true
       };
-      
+    
     default:
       return state;
   }
