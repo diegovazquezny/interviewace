@@ -34,7 +34,7 @@ const config = {
         use: 'file-loader'
       },
       {
-        test: /\.(png|jpg)$/,
+        test: /\.(png|jpg|gif)$/,
         use: [
           {
             loader: 'url-loader',
