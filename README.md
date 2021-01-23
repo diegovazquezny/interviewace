@@ -1,6 +1,6 @@
 # Tech Notes
-Tech Notes stores your notes in a fast and easy to use interface 
-[Tech Notes](https://tech-notes-app.herokuapp.com/)
+[Tech Notes](https://tech-notes-app.herokuapp.com/) stores your notes in a fast and easy to use interface 
+
 
 ## Installing / Getting started
 ```shell
